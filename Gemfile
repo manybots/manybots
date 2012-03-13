@@ -41,8 +41,5 @@ gem 'dynamic_form', :git => 'https://github.com/rails/dynamic_form.git'
 gem 'manybots-gmail', :git => 'git://github.com/manybots/manybots-gmail.git'
 gem 'gmail', :git => 'git://github.com/webcracy/gmail.git'
 
-gem 'manybots-github', :git => 'git://github.com/manybots/manybots-github.git'
-gem 'octokit', '1.0.0', :git => 'git://github.com/webcracy/octokit.git'
-
-gem 'manybots-googlecalendar', '0.0.1', :path => '/Users/alex/code/manybots/dev/manybots-googlecalendar'
-gem 'google-api-client', :require => 'google/api_client'
+# gem 'manybots-github', :git => 'git://github.com/manybots/manybots-github.git'
+# gem 'octokit', '1.0.0', :git => 'git://github.com/webcracy/octokit.git'
