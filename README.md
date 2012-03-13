@@ -85,7 +85,7 @@ You'll be able to see with whom, when and how much you communicate via email. Ad
 
 ## Adding Apps to Manybots (observers, visualizations, agents, etc.)
 
-Go to the App Catalogue page on the Wiki and use the instructions for each one. It's very easy if you're familiar with Ruby on Rails.
+Go to the [App Catalogue](https://github.com/manybots/manybots/wiki/Applications-Catalogue) page on the Wiki and use the instructions for each one. It's very easy if you're familiar with Ruby on Rails.
 
 ## Creating Apps (observers, visualizations, agents, etc.)
 
@@ -97,7 +97,7 @@ Rails developers will find it easy to create observers and agents: create them a
 
 Any app can use OAuth and the web API to add activities, notifications and predictions to Manybots.
 
-To learn more, check out the Creating Apps page on the Wiki.
+To learn more, check out the [Creating Apps](https://github.com/manybots/manybots/wiki/Creating-Apps) page on the Wiki.
 
 ## Tech Overview and warnings
 
