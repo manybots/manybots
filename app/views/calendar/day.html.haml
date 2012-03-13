@@ -1,0 +1,61 @@
+%section.main-content
+  %article.box
+    .box-content
+      .page_header
+        .altviews
+          %span.calendar.icon 
+            %a.show.calendar{:href => '/calendar'} Calendar
+        %h1.page-title= l @start_date.to_date, :format => :long
+
+      .clearfix
+        %p
+        
+        %p{style: 'font-size:1.8em;font-weight:bold;'} 
+          - if @start_date.to_date < Date.today
+            %span< What
+            - if params[:what].nil? or params[:what] == 'activities'
+              %span.highlight<
+                you did
+            - else
+              ~ link_to 'you did', "/calendar/day/#{params[:year]}/#{params[:month]}/#{params[:day]}/activities"
+            %span<>,
+            - if params[:what] == 'notifications'
+              &nbsp;
+              %span.highlight<> were told
+            - else
+              %span<>
+                &nbsp;
+                = link_to 'were told', "/calendar/day/#{params[:year]}/#{params[:month]}/#{params[:day]}/notifications"
+            %span<>, and
+            - if params[:what] == 'predictions'
+              &nbsp;
+              %span.highlight<> had predicted
+            - else
+              %span
+                = link_to 'had predicted', "/calendar/day/#{params[:year]}/#{params[:month]}/#{params[:day]}/predictions"
+          -else
+            %span What
+            %span.highlight you have predicted
+            
+            
+  
+  - if @items.first.methods.include? :aggregations
+    .box
+      .box-content
+        %ul{style: 'padding:0;margin: 0;'}
+        
+          - @items.collect(&:aggregations).flatten.group_by{|a| a}.sort.each do |group, aggregations|
+            - if group.name.present?
+              %li{style: "display:inline;margin: 10px; padding:10px;font-size:#{10 + aggregations.size}px;"}
+                = link_to "#{group.name}", aggregation_path(group.id)
+              
+        
+#target.main-content
+  = render :partial => 'notifications/notification'
+
+:javascript 
+  $(function() {
+    var target = $('#template');
+    target.hide();
+    Notification.listAll("/calendar/day/#{params[:year]}/#{params[:month]}/#{params[:day]}/#{params[:what] || 'activities'}", target);
+  });

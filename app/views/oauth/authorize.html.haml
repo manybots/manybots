@@ -1,0 +1,30 @@
+.box.clearfix
+  .box-content
+    %h2 Authorize access to your account
+
+    %p
+
+    %img{:width => 80, :height => 80, :src=> @token.client_application.app_icon_url, :style => 'float: left;margin-right: 20px;'}
+
+    %p
+      Would you like to authorize
+      %strong= link_to @token.client_application.name,@token.client_application.url
+      (
+      = link_to @token.client_application.url,@token.client_application.url
+      ) to access your account?
+
+    %p.quiet 
+      You'll be authorizing access to your name, email and avatar
+      %br
+      Make sure you read and agree to the 
+      = (@token.client_application.name) 
+      Terms of Service and Privacy Policy.
+  
+    = form_tag authorize_url do
+      = hidden_field_tag "oauth_token", @token.token
+      - if params[:oauth_callback]
+        = hidden_field_tag "oauth_callback", params[:oauth_callback]
+
+      = hidden_field_tag 'authorize', '1'
+      %p.button.save
+        = submit_tag 'Authorize'

@@ -1,0 +1,97 @@
+<section class="main-content">
+  <article class="box">
+    <div class="box-content">      
+      <h1 class="page-title"><%= @aggregation.name %> <span class="meta"><%= @aggregation.type_string %></span></h1>
+      
+      <p style="font-size:30px;"><%= @aggregation.total %> elements</p>
+    </div>
+  </article>
+  
+  <article class="box">
+    <header>
+      <ul class="inner-tab-nav clearfix">
+        <li class="current-tab">
+          <h3><%= link_to "Activities (#{@count})", '#activities', :rel => '#activities' %></h3>
+        </li>
+        <li>
+          <h3><%= link_to "Notifications (#{@notifications_count})", '#notifications', :rel => '#notifications' %></h3>
+        </li>
+        <li>
+          <h3><%= link_to "Predictions (#{@predictions_count})", '#predictions', :rel => '#predictions' %></h3>
+        </li>
+      </ul>
+      
+    </header>
+    <div class="box-content"> 
+        
+        <div id="activities">
+          <%= render :partial => 'activities/activities' %>
+          <%= will_paginate @activities %>
+        </div>
+        
+        <div id="notifications">
+          <%= render :partial => 'notifications/notification' %>
+        </div>
+        
+        <div id="predictions">
+          <%= render :partial => 'predictions/prediction' %>
+        </div>
+        
+        
+    </div>
+  </article>
+</section>
+
+<aside class="sec-content">
+  <article class="box">
+    <div class="box-content">
+      <h4>Related</h4>
+      <%- @aggregates.group_by(&:type_string).sort.each do |group, aggregates| -%>
+        <h4><%= group.capitalize %></h4>
+        <ul>
+          <%- aggregates.each do |a| -%>
+            <li><%= link_to a.name, bundle_aggregation_path(params[:id] + '&' +a.id.to_s) %></li>
+          <%- end -%>
+        </ul>
+        
+      <%- end if @aggregates.any? -%>
+    </div>
+  </article>
+  
+  <article class="box">
+    <div class="box-content">
+      <h4>Manage</h4>
+      <p><%= link_to 'Delete all related activities', @aggregation, :method => :delete, :confirm => "Are you sure? All activities related to #{@aggregation.name} will be deleted. There is no undo possible!" %></p>
+    </div>
+  </article>
+</aside>
+
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    var target = $('#template');
+    target.hide();
+    Notification.wrapper = $('#notifications');
+    Notification.listAll('<%= notifications_aggregation_path(@aggregation) %>', target);
+    
+    var target = $('#prediction-template');
+    target.hide();
+    Prediction.wrapper = $('#predictions');
+    Prediction.listAll('<%= predictions_aggregation_path(@aggregation) %>', target);
+    
+    $('#notifications').hide();
+    $('#predictions').hide();
+    $('ul.inner-tab-nav li a').click(function() {
+      var $link = $(this);
+      var $li = $link.parent().parent();
+      $('ul.inner-tab-nav li').removeClass('current-tab');
+      $li.addClass('current-tab');
+      $('#activities').hide();
+      $('#notifications').hide();
+      $('#predictions').hide();
+      $($link.attr('rel')).show();
+      return false;
+    });
+  });
+  
+</script>
+

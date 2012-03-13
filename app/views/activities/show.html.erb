@@ -1,0 +1,65 @@
+<section class="main-content">
+  <div class="box">
+    <div class="box-content">
+      <%= render @activity%>
+    </div>
+  </div>
+  
+  <%- if @activity.target.object_type == 'place' or @activity.object.object_type == 'place' -%>
+    <div class="box">
+      <div class="box-content">
+        <% geo = YAML::load(@activity.payload)[:target][:position] %>
+        <%= image_tag("http://maps.googleapis.com/maps/api/staticmap?center=#{CGI.escape geo}&zoom=14&size=400x200&sensor=false&markers=color:red#{CGI.escape "|label=P|#{geo}"}") %>
+      </div>
+    </div>
+  <%- end -%>
+  
+  
+  <div class="box">
+    <div class="box-content">
+      <h3>Summary</h3>
+      <p><%= @activity.summary  %></p>
+      <h3>Details</h3>
+      <dl>
+        <dt>Actor</dt>
+        <dd>
+          <%= link_to @activity.actor.url_id do -%>
+            <%= @activity.actor.title.present? ? @activity.actor.title : @activity.actor.url_id  -%>
+          <%- end -%>
+        </dd>
+        <dt>Verb</dt>
+        <dd>
+          <%= link_to @activity.verb do -%>
+            <%= @activity.verb_title %>
+          <%- end -%>
+        </dd>
+        <dt>Object</dt>
+        <dd>
+          <%= link_to @activity.object.url_id do -%>
+            <%= @activity.object.title || @activity.object.url_id -%>
+          <%- end -%>
+        </dd>
+        <%- if @activity.target.present? -%>
+          <dt>Target</dt>
+          <dd>
+            <%= link_to @activity.target.url_id do -%>
+              <%= @activity.target.title || @activity.target.url_id -%>
+            <%- end -%>
+          </dd>
+        <%- end -%>
+        <dt>Posted at</dt>
+        <dd><%= @activity.posted_time %></dd>
+      </dl>
+      
+    </div>
+  </div>
+    
+</section>
+
+<aside class="sec-content">
+
+  <%= link_to 'Edit', edit_activity_path(@activity), :class => "awesome yellow small", :method => :get %>
+  <%= link_to 'Destroy', activity_path(@activity), :method => :delete, :confirm => "Are you sure you want to destroy this activity?", :class => "awesome red small" %>
+  
+  <%= link_to 'Back', activities_path %>  
+</aside>

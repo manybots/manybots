@@ -1,0 +1,16 @@
+==============
+
+Oh, Glorious Day! 
+
+You have installed Manybots.
+
+Now what?
+
+- Run `bundle exec rake db:migrate` to get your db up to speed
+- Run `foreman start` to start the server and queues
+- Browse to 'http://localhost:5000' and get started by creating your user account
+
+You can find help on the Manybots Dev mailing list.
+https://www.manybots.com/developers
+
+==============

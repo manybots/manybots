@@ -1,0 +1,13 @@
+.main-content
+  .box
+    .box-content
+      %h2 Register a new application
+
+      = form_for :client_application, :url => { :action => :create }, :html => {:class => 'hform largeform clearfix'} do |f|
+        = render :partial => "form", :locals => { :f => f }
+        
+        %p.button.save
+          = submit_tag "Register"
+
+  =link_to 'Cancel', apps_path
+  

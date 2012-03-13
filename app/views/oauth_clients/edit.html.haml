@@ -1,0 +1,14 @@
+.main-content
+  .box
+    .box-content
+      %h2 Edit your application
+      = form_for @client_application, :url => oauth_client_path(@client_application.id), :method => :put, :html => {:class => 'hform largeform clearfix'} do |f|
+        = render :partial => "form", :locals => { :f => f }
+
+        %p.button.save
+          = submit_tag "Update"
+#resources
+  %p
+    =link_to 'Cancel', app_path(@client_application)
+  %p
+    =link_to 'Delete this application', oauth_client_path(@client_application), :method => :delete, :class => '', :confirm => "Are you sure you want to delete this application? There is no undo."

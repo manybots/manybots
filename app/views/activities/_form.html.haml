@@ -1,0 +1,149 @@
+= form_for @activity, :html => {:class => 'hform largeform sticky '} do |f|
+  = f.error_messages
+
+  = f.fields_for :actor, @activity.actor || @activity.build_actor do |actor|
+    %fieldset
+      %legend Actor
+      %p
+        = actor.label :url_id, "Id", :class => "hint"
+        %span.hint.quiet An URL (documentation)
+        - if controller.action_name == 'new'
+          = actor.text_field :url_id, :value => "http://manybots.com/activities"
+        - else
+          = actor.text_field :url_id
+
+      %p
+        = actor.label :title
+        %span.hint.quiet 
+          A String (documentation)
+        - if controller.action_name == 'new'
+          = actor.text_field :title, :value => "Alex Solleiro"
+        - else
+          = actor.text_field :title
+  
+  %fieldset
+    %legend Verb
+    %p
+      = f.label :verb
+      %span.hint.quiet (documentation)
+      = f.collection_select :verb, Verb.for_user(current_user.id), :url_id, :name
+      %span.activity.add.element
+        %a{:href => "/verbs/new", :class => 'activity add verb'} Create a Verb
+
+  = f.fields_for :object, @activity.object || @activity.build_object do |object|
+    %fieldset 
+      %legend Object
+      %p
+        = object.label :url_id, "Id"
+        %span.hint.quiet An URL (documentation)
+        = object.text_field :url_id
+
+      %p
+        = object.label :object_type
+        %span.hint.quiet (documentation)
+        = object.collection_select :object_type, ObjectType.for_user(current_user.id), :url_id, :name
+        %span.activity.add.element
+          %a{:href => "/object_types/new", :class => 'activity add object_type', :rel => 'object'} Create an Object Type
+
+      %p
+        = object.label :title
+        %span.hint.quiet A String (documentation)
+        = object.text_field :title
+
+  = f.fields_for :target, @activity.target || @activity.build_target do |target|
+    %fieldset 
+      %legend Target
+      %p
+        = target.label :url_id, "Id"
+        %span.hint.quiet An URL (documentation)
+        = target.text_field :url_id
+
+      %p
+        = target.label :object_type
+        %span.hint.quiet (documentation)
+        = target.collection_select :object_type, ObjectType.for_user(current_user.id), :url_id, :name
+        %span.activity.add.element
+          %a{:href => "/object_types/new", :class => 'activity add object_type', :rel => 'target'} Create an Object Type
+
+      %p
+        = target.label :title
+        %span.hint.quiet A String (documentation)
+        = target.text_field :title
+      
+      - unless target.object.new_record?
+        %p.checkbox
+          = target.label :_destroy, 'Delete' 
+          = target.check_box :_destroy
+
+  %fieldset
+    %legend Activity
+
+    %p
+      = f.label :title
+      %span.hint.quiet HTML (documentation)
+      = f.text_field :title
+
+    %p
+      = f.label :summary
+      %span.hint.quiet HTML (documentation)
+      = f.text_area :summary
+      
+    %p
+      = f.label :tag_list, "Tags"
+      %span.hint.quiet Comma separated
+      = f.text_field :tag_list
+
+    %p
+      = f.label :posted_time
+      %span.hint.quiet (documentation)
+      = f.datetime_select :posted_time, {}, :class => "compact"
+  
+  %fieldset 
+    %legend Generator
+    %p
+      =f.label :generator_url
+      %span.hint.quiet 
+        An URL (documentation)
+      - if controller.action_name == 'new'
+        = f.text_field :generator_url, :value => ManybotsServer.url
+      - else
+        = f.text_field :generator_url
+    %p
+      =f.label :generator_title
+      %span.hint.quiet 
+        A String (documentation)
+      - if controller.action_name == 'new'
+        = f.text_field :generator_title, :value => ManybotsServer.server_name
+      - else
+        = f.text_field :generator_title
+        
+  %fieldset 
+    %legend Service provider
+    %p
+      =f.label :service_provider_uri
+      %span.hint.quiet 
+        An URL (documentation)
+      - if controller.action_name == 'new'
+        = f.text_field :service_provider_uri, :value => ManybotsServer.url
+      - else
+        = f.text_field :service_provider_uri
+    %p
+      =f.label :service_provider_name
+      %span.hint.quiet 
+        A String (documentation)
+      - if controller.action_name == 'new'  
+        = f.text_field :service_provider_name, :value => (ManybotsServer.server_name if controller.action_name == 'new')
+      - else
+        = f.text_field :service_provider_name
+    %p
+      =f.label :service_provider_icon
+      %span.hint.quiet 
+        An URL (documentation)
+      - if controller.action_name == 'new'
+        = f.text_field :service_provider_icon, :value => ("/favicon.png" if controller.action_name == 'new')
+      - else
+        = f.text_field :service_provider_icon
+
+  - unless controller.action_name == 'show'
+    %p
+      = f.submit

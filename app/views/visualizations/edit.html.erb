@@ -1,0 +1,9 @@
+<div class="main-content">
+  <div class="box">
+    <div class="box-content">
+      <h1>Manage visualization</h1>
+      <%= render :partial => 'form' %>
+      <p><%= link_to 'Delete visualization', visualization_path(@visualization), :method => :delete, :confirm => 'Are you sure? There is no undo.' %></p>
+    </div> 
+  </div>
+</div>

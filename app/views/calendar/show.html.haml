@@ -1,0 +1,49 @@
+%section.main-content
+  %article.box
+    .box-content
+      .page_header
+        .altviews
+          %span.calendar.icon 
+            %a.show.calendar{:href => '/activities/calendar'} Calendar (click to toggle)
+        %h1.page-title= params[:id].capitalize
+
+      .clearfix
+        %p
+        
+        %p{style: 'font-size:1.8em;font-weight:bold;'} 
+          What&nbsp;
+          - if params[:id] == 'today'
+            %span.highlight> you did
+            ,&nbsp;
+            %span{style: 'text-decoration:underline;'}>should know
+            , and
+            %span{style: 'text-decoration:underline;'}<will do
+          - elsif params[:id] == 'yesterday'
+            %span.highlight> you did
+            ,&nbsp;
+            %span{style: 'text-decoration:underline;'}>were told
+            , and
+            %span{style: 'text-decoration:underline;'}<had predicted
+          - elsif params[:id] == 'tomorrow'
+            %span.highlight> you might do
+  
+  - if @items.first.methods.include? :aggregations
+    .box
+      .box-content
+        %ul{style: 'padding:0;margin: 0;'}
+        
+          - @items.collect(&:aggregations).flatten.group_by{|a| a}.sort.each do |group, aggregations|
+            - if group.name.present?
+              %li{style: "display:inline;margin: 10px; padding:10px;font-size:#{10 + aggregations.size}px;"}
+                = link_to "#{group.name}", aggregation_path(group.id)
+              
+        
+#target.main-content
+  = render :partial => 'notifications/notification'
+
+:javascript 
+  $(function() {
+    var target = $('#template');
+    target.hide();
+    Notification.listAll('/calendar/#{params[:id]}', target);
+  });

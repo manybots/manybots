@@ -1,0 +1,12 @@
+.main-content
+  
+  = render :partial => 'notifications/notification'
+  
+  .box
+    .box-content
+      #notification-place-wrapper
+    
+:javascript
+  $(function() {
+    Notification.show('/predictions/#{@prediction.id}', $('#template'), Notification.drawExotic);    
+  });

@@ -1,0 +1,10 @@
+.main-content.clearfix
+
+  = render :partial => 'notification'
+    
+:javascript 
+  $(function() {
+    var target = $('#template');
+    target.hide();
+    Notification.listAll('/notifications', target);
+  });

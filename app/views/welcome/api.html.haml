@@ -1,0 +1,206 @@
+%style
+  h1, h2, h3, h4, h5 { position: relative;}
+  h1, h2, h3, h4, h5 { margin: 10px 0; }
+  a.toc-top-link {
+  position: absolute;
+  width: 30px;
+  padding: 1px;
+  margin: 0 0 .7em 10px;
+  top: 0;
+  font-size: 10px;
+  text-align: center;
+  }
+  #toc {
+  width: 100px;
+  overflow:hidden;
+  }
+  ol { list-style: upper-alpha;}
+  ol ol { list-style: decimal;}
+  ol ol ol { list-style: lower-roman;}
+  ol ol ol ol { list-style: lower-alpha;}
+  .to-the-left {
+  float: left;
+  }
+
+.sec-content.to-the-left
+  .box
+    .box-content
+      %h4 Manybots API
+      %ol#toc
+
+.main-content{:style => 'margin-left: 20px'}
+  .box
+    #api_doc.box-content
+
+      %h1 Manybots Server API doc
+
+      %h2 Overview
+
+      %p Manybots' API allows developers to post and read activities from users' accounts. 
+
+      %p The API uses <a href="http://oauth.net/" title="OAuth">OAuth</a> for authentication and deals with activities in the <a href="http://activitystrea.ms" title="Activity Streams">Activity Streams</a> 1.0 JSON format. In fact it only consumes and returns data in the JSON format.
+
+      %p The applications you develop can be used to post activities into a user's stream, to read a user's stream, or to do both. For example, you could develop an application that tracks a user's activity in a specific Task Management application and posts them to Manybots, or create an application that fetches all the tasks on users' stream, coming from any application, and gives an overview of all tasks on all projects, on all apps.
+      
+      %h3 Using Activity Streams
+      
+      %p You opened this page in your browser. If you wanted to share that activity with the world, how would you describe it programatically?
+      
+      %p Activity Streams provides an answer. To make it simple:
+      %ul
+        %li You: the actor
+        %li open: the verb
+        %li this page: the object
+        %li your browser: the target
+      
+      %p Or when you publish a post on your blog:
+      %ul
+        %li You: the actor
+        %li post: the verb
+        %li article: the object
+        %li blog: the target
+        
+      %p The actor, verb, object and target have standardized values and properties. Manybots uses this format to allow users and developers to create and read all kinds of different activities in a unified way.
+      
+      %p This way, all developers have to do is make normal POST and GET requests of JSON objects that describe any activity.
+      
+      %p You can learn the specifics in the <a href="#activities">Activities</a> section of this documentation.
+      
+      %h3 Guides, examples and libraries
+      
+      %p Well, there isn't much yet. But there's enough to get started -- maybe you'll be able to share your experience, we'll be happy to link to your page.
+      %ul
+        %li <a href="/developers/rails" title="Getting started with Ruby on Rails 3.1, Devise and Omniauth">Ruby on Rails example and getting started guide</a> -- uses Rails 3.1, Devise and Omniauth
+        %li Ruby - Sinatra and Warden example
+
+      %h2 API Methods
+
+      %h3 OAuth Authentication
+
+      %p Before you start talking to the Manybots API, you need to register your application in order to obtain your app's OAuth tokens. 
+
+      %p You can start by <a href="/apps">registering your application</a>. You'll need to be logged in.
+
+      %p For the application developer, Manybots's OAuth flow works just like Twitter's, so you should be able to find a bunch of tutorials and code out there to help you get started with OAuth in your favorite language.
+
+      %p Since Manybots allows "streaming" authentication from other Identity Providers though, Manybots users that are not already logged in when your app requests them to authenticate are likely to experience a streamed authentication flow within the Manybots authentication flow. Identities flowing. Pretty cool, huh?
+
+      %h3 User profile
+
+      %p When the user is authenticated, the first thing you'll probably want to do is grab their profile information from the Manybots Server in order to setup an account for them in your application.
+
+      %p All you have to do is make a GET request to the "/me.json" endpoint. A JSON object containing the user profile information will be returned and you'll use that data to identify the user, personalize their experience with your application, and probably to provide user information when creating Activities.
+
+      %p.important You should treat the user's ID as provided by Manybots as the user's identifier on your app (at least with regards to Manybots), since all other attributes can change.
+
+      %h5 Endpoint
+
+      %p Make an authenticated GET request to <pre><code>/me.json</code></pre>
+      %p Content-type: application/json
+   
+      %h5 Request format
+
+      %p 
+        %em No parameters are needed
+
+      %h5 Response format
+    
+      <script src="https://gist.github.com/1385401.js?file=user_profile_example.js"></script>
+
+      /=# render :partial => 'welcome/api/user_profile'
+  
+      %h3 Activities
+
+      %p Activities are the heart of Manybots. They are meant to be <a href="http://activitystrea.ms/specs/json/1.0/" title="JSON Activity Streams 1.0"> Activity Streams 1.0 compliant</a>.
+
+      %p As a result, any kind of human or machine generated activity can be represented solidly in Manybots and linked back directly to the original objects of the activity, as long as they're accessible from the Web. Up to you to find the best ways to capture activities from your and other people's life.
+
+      %p With simple POST and GET requests and some JSON parsing you'll be generating and analyzing activities in no time.
+  
+      %h4 Creating activities
+    
+      %p To create an activity in Manybots Server, you first build an activity object in your app and then post it to Manybots on behalf of a User.
+    
+      %p The activity object you send to Manybots will be passed back to if it was correctly saved, and the very same object will be passed to all apps that consume the activities feed of your users.
+    
+      %p Manybots doesn't provide an ID other than the ones you provide - you are responsible for the information you pass on to Manybots.
+    
+      %p The only exception to this behavior is the use of the very helpful Auto Title feature, also explained in this document.
+
+      %h5 Endpoint 
+
+      %p Make an authenticated POST request to <pre><code>/activities.json</code></pre>
+      %p Content-type: application/json
+
+      %h5 Request format
+      
+      <script src="https://gist.github.com/1385401.js?file=activity_post_example.js"></script>
+      /#=raw(render :partial => 'welcome/api/activity_post_example')
+    
+      %h5 Response format
+
+      %p Returns the same object. 
+
+      %h4 Reading all activities
+
+      %h5 Endpoint
+
+      %p Make an authenticated GET request to /activities.json
+
+      %h5 Request format
+
+      %em No parameters allowed at this point.
+
+      %h5 Response format
+      
+      <script src="https://gist.github.com/1385401.js?file=activity_get_example.js"></script>
+      /#= raw(render :partial => 'welcome/api/activities_get_example')
+    
+      %h4 Auto Title feature
+    
+      %p One of the fundamental jobs of Activity Streams is to provide easy ways to generate the sentence that is displayed to viewers from a formatted object. In case the service dealing with an activity can't figure out how to parse it, they may use the "title" attribute as the sentence to display.
+    
+      %p In order to avoid over-engineering a parser and to try and simplify things for developers, Manybots Server provides a feature called Auto Title that combines both options.
+    
+      %h5 What it does
+    
+      %p Auto Title allows developers to write their "title" fields like this
+      %pre
+        %code
+          ACTOR added an OBJECT to TARGET
+      %p Manybots Server will automatically replace these upcase strings with the information contained in the activity object.
+      %p If the activity has no target, you can ommit the keyword TARGET. ACTOR and OBJECT are mandatory.
+    
+      %p So, when posting activities, you can use the Auto Title to easily write up the sentence that will be displayed to the viewer. 
+    
+      %p The activity will be saved with the replaced values. The keyword structure is not saved nor passed on to other apps.
+    
+      %h5 How to use it
+    
+      %p First, when posting the activity's title attribute must have a value that complies with the structure explained above.
+    
+      %p Then you only need add the following attribute to the activity object:
+      %pre
+        %code
+          { ..., "auto_title": true, ... }
+    
+  
+      %h3 Error Handling
+      %p Errors can be: 
+      %ul
+        %li 401 Unauthorized: The OAuth tokens may have been revoked by the user or you're not authenticating properly
+        %li 422 Unprocessable entity: Your request is malformed. Field errors are returned within the response object.
+        %li 406 Not acceptable: The Content-type or URL you're using to make the request isn't valid.
+        %li 500 Internal server error: The Manybots Server has an error. If this should happen, please notify support.
+      
+        
+%script
+  $("#toc").tableOfContents(
+  $("#api_doc"),      // Scoped to div#wrapper
+  {
+  startLevel: 2,    // H2 and up
+  depth:      5,    // H2 through H6,
+  topLinks:   true, // Add "Top" Links to Each Header
+  }
+  );
+  

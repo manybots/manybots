@@ -1,0 +1,179 @@
+.box
+  .box-content
+    =image_tag 'rails.png', :align => 'left', :style => 'padding-right: 20px'
+    
+    %h2 Manybots API - Getting started with Ruby on Rails 3.1, Devise and Omniauth
+    
+    
+    %p In this guide, we'll walk you through the creation of a Rails app that can authenticate a user using OAuth, post an activity and display an activity using Manybots. You should be done in 15 minutes.
+    
+    %p The first step is to register your application with Manybots. This simple process is free and is required to obtain the OAuth credentials your app will use to authenticate the users.
+    
+    %p Then, we'll get into the code and build your first Manybots application step by step.
+    
+    %h3 Step 1 - Register your application
+    
+    %p Go to the <a href="/oauth_clients/new" title="New app registration">App Registration page</a> and fill out the form taking note of the following:
+    
+    %ul
+      %li You can use "http://localhost:3000" as your app's url while in development. 
+      %li Don't check the box that requests to make your application public just yet :)
+    
+    %p After you hit Register, you'll be taken to the app management page, where you'll see a preview of how the app shows up in the listings and the OAuth details.
+    
+    %p Leave this page open in a tab somewhere, we'll come back to it for some copy-pasting action. You can proceed to step 2.
+    
+    %h3 Step 2 - Setup the Rails application
+    
+    %p As we said, your application will be able to authenticate a user on Manybots using OAuth- for that, we'll use Omniauth with Devise, a great combination for your app as they're a collection of Warden strategies and helpers. They're also easy to use.
+    
+    %p The app functionality will be pretty basic: login, post an activity, display the activity returned by Manybots.
+    
+    %h4 2.1 - Creating the app and setting up the gems
+    
+    %p Let's start with the creation of rails project. From now on, we'll assume that you have <a href="http://rubyonrails.com">Ruby on Rails</a> 3.1.0 or above installed and ready to run.
+    
+    %pre
+      %code.shell
+        rails new manybots_app
+    
+    %p Then:
+    
+    %pre
+      %code.shell
+        cd manybots_app
+    
+    %pre
+      %code.shell
+        rm public/index.html
+    
+    %p Now you should have created the Rails app and entered its directory. Now we'll proceed to installing and configuring Devise and your User model
+    
+    %p Edit your Gemfile to include the following gems:
+    
+    %pre
+      %code.shell 
+        gem 'devise'
+        gem 'omniauth', '>= 1.0.0'
+        gem 'omniauth-manybots', :git =>'https://github.com/NikoRoberts/omniauth-manybots.git'
+
+    %p Then run bundle install to install them
+    
+    %pre
+      %code.shell
+        bundle install
+    
+    %p And now run the Devise generators
+    
+    %pre
+      %code.shell 
+        rails g devise:install
+        rails g devise User
+        
+    %p 
+    
+    %h4 2.2 Configuring Devise
+    
+    %p We've just told rails to generate the devise install and to configure the basics for authenticating the User model. We're going to heavily edit Devise's default configuration to make your application Manybots only. 
+    
+    %p If you want to add Manybots authentication to an existing Devise install, you should just consider Manybots as another Omniauth provider.
+    
+    %p Devise created a migration file, which you can edit to resemble the following:
+    
+    <script src="https://gist.github.com/1336993.js?file=devise_create_users_migration.rb"></script>
+      
+    %p Once you've saved your changes to the migration file, run it:
+    
+    %pre
+      %code.shell bundle exec rake db:migrate
+    
+    %p Now that the User model is created and the database is ready, we're going to dive into the application. 
+    
+    %h3 Step 3 - The authentication flow
+    
+    %p So, we want a user to come to the app and, if she's not logged in, ask her to login with Manybots. When she clicks the link to login with Manybots, we'll do the OAuth dance. Once the dance is finished, we'll log her in and greet her.
+    
+    %p We'll need a login page, the controller to handle the OAuth dance, an authentication method for the user, and a page to redirect them to. And routes to handle it all.
+    
+    %p Let's start with the OAuth dance. We'll stick as close as we can to standard Omniauth, so it should be easy for you to spot the differences between this Manybots centric implementation and a multi-provider usage.
+    
+    %p Create a Controller to handle the OAuth callback. We'll also use it to write our own login/logout actions.
+    
+    %pre
+      %code.shell
+        rails g controller users/omniauth_callbacks
+    
+    %p Then, make it look like this:
+    
+    <script src="https://gist.github.com/1336993.js?file=omniauth_callbacks_controller.rb"></script>
+    
+    %p Now, create let's create the view that will ask the user to login with Manybots
+    
+    <script src="https://gist.github.com/1336993.js?file=login.html.erb"></script>
+    
+    %p Where is this headed? Well, we need the routes. But we also need the page where our user will be redirected after login. Let's create a Dashboard controller, and we'll make everything happen within it.
+    
+    %pre
+      %code.shell
+        rails g controller Dashboard
+    
+    %p Now, let's add an index view to it
+    
+    <script src="https://gist.github.com/1336993.js?file=index.html.erb"></script>
+    
+    %p This implies that we'll use Devise's helpers to access the current user, and that we'll be creating an action that will handle posting the activity to Manybots.
+    
+    %p So let's set up the routes for all this.
+    
+    <script src="https://gist.github.com/1336993.js?file=routes.rb"></script>
+    
+    %p Then let's edit the Dashboard controller to look like this
+    
+    <script src="https://gist.github.com/1336993.js?file=dashboard_controller.rb"></script>
+    
+    %p Note how we use methods on the current_user object and use the Manybots module to create the Feed::Item.new_test_activity. We'll add the code to make that possible right now.
+    
+    %p We start with the User model in models/user.rb
+    
+    <script src="https://gist.github.com/1336993.js?file=user.rb"></script>
+    
+    %p Note how we handle the authentication with OmniAuth and the fields we created with the Devise migration. Also note how we comment most of devise configuration and only use :omniauthable. Finally, note that we include Manybots::User.
+    
+    %p To wrap up, you'll need to add the Manybots Rails initializer, which is a mix of configuration and helpers.
+
+    %h3 Step 4 - The Manybots Rails initializer
+    
+    %p There's no Manybots gem for the moment, so bear with us as this is not the prettiest thing you'll see. 
+    
+    %p It works pretty well however and provides a simple one-stop configuration of Manybots OAuth and API helpers.
+    
+    %p Simply paste this into an initializer file (it's rather long, here's a <a href="https://gist.github.com/raw/1336993/18cb155703ce9f0fd590d8277b99937a2d8a4487/manybots_rails_initializer.rb">direct link to the raw version</a>)
+    
+    <script src="https://gist.github.com/1336993.js?file=manybots_rails_initializer.rb"></script>
+    
+    %p Phew! 
+  
+    %p Now go back to your App's management page on the Manybots website and copy-paste your OAuth credentials into that file, at the appropriate place at the top.
+  
+    %h3 You're done
+  
+    %p
+  
+    %pre
+      %code.shell
+        rails server
+  
+    %p Go to http://localhost:3000. Your app should be up and running, and should be able to login to Manybots and post a test activity.
+    
+    %p Take a look at the code, it should have everything you need to integrate these same tools with your own ideas.
+  
+    %h2 Getting help
+  
+    %p The manybots-dev mailing list is the best place to get help, discuss API development and exchange feedback and ideas among developers and the Manybots team. Go to manybots-dev mailing list
+    
+    = render :partial => 'welcome/google_group.html.erb'
+    
+  
+    %h2 Doing more
+  
+    %p A tutorial on how to read activities is coming soon. You can take a look at the other resources available in the <a href="/developers">developers page</a>.

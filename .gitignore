@@ -1,0 +1,7 @@
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/**/*
+.sass-cache/
+config/initializers/secret_token.rb
+config/initializers/devise.rb

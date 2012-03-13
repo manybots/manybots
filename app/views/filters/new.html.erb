@@ -1,0 +1,151 @@
+<!--Load the AJAX API-->
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+
+<section class="">
+  <article class="box">
+    <div class="box-content">      
+      <h1 class="page-title">Analytics</h1>
+      <hr>
+      <%- if params[:filter] -%>
+        <div class="filters">
+          <h4>Selected filter properties</h4>
+          <p>Unselect the dates and properties by clicking them.</p>
+          <p>&nbsp;</p>
+          <p>
+            <%- params[:filter].each do |filtro, valor| -%>
+              <span class="name">
+                <%- if not ['tags', 'start_date', 'end_date'].include? filtro.to_s -%>
+                  <%= filtro.to_s.capitalize.singularize %>
+                  <a href="<%= analytics_path(params_trick(filtro, valor, params))%>" class="<%= active_param?(filtro, valor, params) %>">
+                    <%- unless filtro.to_s == 'actors' or filtro.to_s == "target_values" -%>
+                      <%= name_only(valor).upcase %>
+                    <%- else -%>
+                      <%= valor.to_s %>
+                    <%- end -%>
+                  </a>
+                <%- elsif filtro.to_s == "tags" -%>
+                  <%= filtro.to_s.capitalize %>
+                  <%- valor.split(',').each do |tag| -%>
+                    <a href="<%= analytics_path(params_trick(filtro, valor, params))%>" class="<%= active_param?(filtro, valor,params) %>">
+                      <%= tag %>
+                    </a>
+                  <%- end -%>
+                <%- else -%>
+                  <%= filtro.to_s.capitalize %>
+                  <a href="<%= analytics_path(params_trick(filtro, valor, params))%>" class="<%= active_param?(filtro, valor,params) %>">
+                    <%= valor.to_a.collect {|pair| pair.last }.join('/') %>
+                  </a>                  
+                <%- end -%>
+              </span>
+            <%- end -%>
+          </p>
+          <br/>
+          <a href="/analytics" class="">Clear all filters</a>
+        </div>
+      <%- else -%>
+      <p>Select dates and properties by clicking them.</p>
+      <%- end -%>
+      
+      
+      <h4>
+      
+      <%= form_tag(analytics_path(params_trick('start_date', @start_date, params)), :method => :get) do %>  
+        From <%= select_date @start_date, :start_year => @oldest.to_date.year, :end_year => Date.today.year, :prefix => 'filter[start_date]' %>
+        
+        <div class="hide">
+          <%= select_date @finish_date, :start_year => @oldest.to_date.year, :end_year => @latest.to_date.year, :prefix => 'filter[end_date]' %> 
+          <%- if params[:filter].present? -%>
+            <%- if params[:filter][:verbs].present? -%>
+              <%= hidden_field_tag 'filter[verbs]', params[:filter][:verbs]%>
+            <%- end -%>
+            <%- if params[:filter][:objects].present? -%>
+            <%= hidden_field_tag 'filter[objects]', params[:filter][:objects] %>
+            <%- end -%>
+            <%- if params[:filter][:target_values].present? -%>
+              <%= hidden_field_tag 'filter[target_values]', params[:filter][:target_values] %>
+            <%- end -%>
+          <%- end -%>
+        </div>
+        
+        <%= submit_tag "Change" %>
+      <% end %>
+      
+      <%= form_tag(analytics_path(params_trick('end_date', @finish_date, params)), :method => :get) do %>
+        <div class="hide">
+          <%= select_date @start_date, :start_year => @oldest.to_date.year, :end_year => @latest.to_date.year, :prefix => 'filter[start_date]' %>
+          <%- if params[:filter].present? -%>
+            <%- if params[:filter][:verbs].present? -%>
+              <%= hidden_field_tag 'filter[verbs]', params[:filter][:verbs]%>
+            <%- end -%>
+            <%- if params[:filter][:objects].present? -%>
+            <%= hidden_field_tag 'filter[objects]', params[:filter][:objects] %>
+            <%- end -%>
+            <%- if params[:filter][:target_values].present? -%>
+              <%= hidden_field_tag 'filter[target_values]', params[:filter][:target_values] %>
+            <%- end -%>
+          <%- end -%>
+        </div>
+        
+        Until <%= select_date @finish_date, :start_year => @oldest.to_date.year, :end_year => @latest.to_date.year, :prefix => 'filter[end_date]' %> 
+        <%= submit_tag "Change" %>
+      <% end %>
+      </h4>
+      <p><strong style="font-size:2em"><%= @activities.length %></strong> activities </h2>
+
+
+      <% unless @activities.empty? %>        
+        
+        <% current_period =  "Found activities from #{l @activities.sort_by(&:posted_time).first.posted_time.to_date, :format => :long} until #{l @activities.sort_by(&:posted_time).last.posted_time.to_date, :format => :long}" %>
+      
+        <!-- The monthly activities chart   -->
+        <div id="chart_div"></div>
+        
+        <%= render :partial => 'property_explorer' %>
+              
+      <% else %>
+        <p>No activities for this period</p>
+      <% end %>
+    </div>
+  </article>
+</section>
+
+
+
+<%- unless @activities.empty? -%>
+  <script type="text/javascript">
+    google.load('visualization', '1', {'packages':['corechart']});
+    google.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Date');
+      data.addColumn('number', 'Activities');
+      <%- benchmark 'Generating Chart' do %>
+        data.addRows(<%= monthly_activity_chart(@activities)  %>);
+      <%- end -%>
+
+      var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+      chart.draw(data, {width: 750, height: 340, title: '<%= current_period  %>',
+        hAxis: {title: 'Date'}, legend: 'none'
+      });
+      google.visualization.events.addListener(chart, 'select', selectHandler);
+      
+      function selectHandler(e) {
+        var selection = chart.getSelection();
+        var date = '';
+        for (var i = 0; i < selection.length; i++) {
+          var item = selection[i];
+          if (item.row != null && item.column != null) {
+             date = data.getFormattedValue(item.row, 0);
+          }
+        }
+        var year = date.split('-')[0];
+        var month = date.split('-')[1];
+        var day = date.split('-')[2];
+        window.location = '/calendar/day/' + year + '/'+month+'/'+day + window.location.search;
+      }
+      
+    }
+    
+  </script>
+<%- end -%>

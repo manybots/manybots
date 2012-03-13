@@ -1,0 +1,20 @@
+development:
+  server_name: Manybots
+  host: localhost:5000
+  url: http://localhost:5000
+  schema_url: http://localhost:5000/schema
+  remote_language_parsing: true
+
+test:
+  server_name: Manybots
+  host: test.host
+  url: http://test.host
+  schema_url: http://test.host/schema
+  remote_language_parsing: true
+
+production:
+  server_name: Manybots
+  host: localhost:5000
+  url: http://localhost:5000
+  schema_url: http://localhost:5000/schema
+  remote_language_parsing: true

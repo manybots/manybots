@@ -1,0 +1,39 @@
+<h1>Listing activities</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Url</th>
+    <th>Verb</th>
+    <th>Title</th>
+    <th>Summary</th>
+    <th>Lang</th>
+    <th>Posted time</th>
+    <th>Permalink</th>
+    <th>Is public</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @activities.each do |activity| %>
+  <tr>
+    <td><%= activity.user_id %></td>
+    <td><%= activity.url_id %></td>
+    <td><%= activity.verb %></td>
+    <td><%= activity.title %></td>
+    <td><%= activity.summary %></td>
+    <td><%= activity.lang %></td>
+    <td><%= activity.posted_time %></td>
+    <td><%= activity.permalink %></td>
+    <td><%= activity.is_public %></td>
+    <td><%= link_to 'Show', activity %></td>
+    <td><%= link_to 'Edit', edit_activity_path(activity) %></td>
+    <td><%= link_to 'Destroy', activity, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Activity', new_activity_path %>

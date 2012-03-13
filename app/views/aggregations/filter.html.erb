@@ -1,0 +1,26 @@
+<section class="main-content">
+  <article class="box">
+    <div class="box-content">      
+      <h1 class="page-title"><%= @type_string.capitalize %> (<%= @aggregations.count %>)</h1>
+      
+      <p style="font-size:30px;"><%= @aggregations.sum(:total) %> activities</p>
+    </div>
+  </article>
+  
+  <article class="box">
+    <div class="box-content">
+      <ol>
+        <%- for aggregation in @aggregations -%>
+          <%- if @type_string == 'apps' -%>
+            <li class="clearfix" style="height: 40px; margin: 5px 0;">
+              <%= image_tag aggregation.avatar_url, :align => 'left', :width => '32', :style => 'margin: 5px' if aggregation.avatar_url %> 
+              <%= link_to aggregation.name, aggregation %> (<%= aggregation.total %>)
+            </li>
+          <%- else -%>
+            <li><%= link_to aggregation.name, aggregation %> (<%= aggregation.total %>)</li>
+          <%- end -%>
+        <%- end -%>
+      </ol>
+    </div>
+  </article>
+</section>

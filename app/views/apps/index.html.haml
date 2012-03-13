@@ -1,0 +1,24 @@
+%section{:class => current_user ? 'main-content' : ''}
+  -unless current_user
+    %h2.special-title{:style=>'text-align:center'} Apps for your digital lifestyle
+  
+    %p{:style=>'text-align:center'} 
+      %span.highlight A growing collection of apps and hacks that put you at the center of your digital life.
+  
+  %center#apps.clearfix{:style=>'margin-bottom: 20px;'}
+    .apps
+      -for app in @apps.reverse
+        = render :partial => 'app', :locals => {:app => app, :the_cycle => cycle('', '')}
+      - if @client_applications
+        - (@client_applications - @apps).each do |client|
+          = render :partial => 'app', :locals => {:app => client, :the_cycle => cycle('', '')}      
+      - reset_cycle
+  
+  #developer-link
+    %center
+      %h3{:style => 'margin-bottom: 10px'} DEVELOPERS
+      %p{:style => 'font-size: 1.3em;'}
+        %a{:href=>'/oauth_clients/new', :title => 'Register your apps'} Register a new app
+        |
+        %a{:href=>'/api', :title => 'API documentation'} Read the API docs
+    %p &nbsp;

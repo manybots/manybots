@@ -1,0 +1,57 @@
+%center
+
+  %h2 Track your activities. And use them.
+  
+  %p
+    %span.highlight Manybots enables you to see into, and build upon, your daily life. 
+  
+  %p It allows you to capture, explore and analyze all your activities. Get to know more facts about yourself, make better decisions for your life.
+  
+  %p This short film explores some of the things that may arise if you start collecting your activities. It might help you figure out whether you're ready for this.
+  
+  <iframe id="youtube-player" width="640" height="385" src="" frameborder="0" allowfullscreen></iframe>  
+  .clear
+
+  %br
+
+  %h2 Features
+
+  %h3 Visualize your activities
+  
+  %p With lists, calendars and any other means developers come up with, see all your activities in context and don't miss a detail.
+
+  %h3 Tag, Mix and Match
+  
+  %p Use tags and properties to associate activities and created focused visualization of different aspects of your life.
+
+  %h3 A cloud of applications
+  
+  %p Applications are what you use to actually _do_ things, or capture the things you've done. Browse the app catalogue to find applications that fit your lifestyle and start tracking everything you want. 
+  
+  - unless current_user
+    %p= link_to "Get started now »", login_path, :class=> 'awesome large green'
+    
+  %h3 Order your custom apps
+
+  %p Looking for tools to make your life easier? Take a look at what the Bot Shop has to offer.
+
+  - unless current_user
+    %p= link_to "Bot Shop »", botshop_path, :class=> 'awesome large blue'
+
+  %h3 Develop your own apps
+
+  %p Conquer the frontier! Easily create applications to capture and visualize activities for yourself, and even with other people by publishing your apps on the catalogue. Hmmm... Easily as in "if you're a developer (or have access to one)".
+  
+  %p= link_to "Info for developers »", developers_path, :class=> 'awesome large magenta'
+  
+      
+:javascript 
+  $(document).ready(function() {
+    $('iframe#youtube-player').attr('src', 'http://www.youtube.com/embed/DdULQHKNjeU');
+  });
+
+
+  
+
+  <%= render 'aside' %>
+

@@ -1,0 +1,63 @@
+.main-content
+  .box
+    .box-content
+    
+      %h1= @client_application.name
+    
+      %p
+        Publication status:
+        %strong.highlight= (@client_application.is_public? ? "Public" : "Private")
+      
+      %h3 Display preview
+      
+      .box-content.apps.clearfix
+        = render :partial => 'apps/app', :locals => {:app => @client_application, :the_cycle => cycle('', '')}  
+      
+      %h3 Application URLs
+
+      %ul
+        %li 
+          Application: 
+          = @client_application.url
+        %li 
+          Callback: 
+          = @client_application.callback_url
+        %li 
+          Support:
+          =@client_application.support_url
+  
+
+      %h3 
+        OAuth details for 
+        =@client_application.name
+      %p
+        %strong Consumer Key:
+        %code=@client_application.key
+      %p
+        %strong Consumer Secret:
+        %code=@client_application.secret 
+
+      %p
+        %strong Request Token URL
+        %code
+          ="http#{'s' if request.ssl?}://#{request.host_with_port}#{@client_application.oauth_server.request_token_path}"
+
+      %p
+        %strong Access Token URL
+        %code
+          ="http#{'s' if request.ssl?}://#{request.host_with_port}#{@client_application.oauth_server.access_token_path}"
+
+      %p
+        %strong Authorize URL
+        %code
+          ="http#{'s' if request.ssl?}://#{request.host_with_port}#{@client_application.oauth_server.authorize_path}"
+
+      %p
+        We support hmac-sha1 (recommended) as well as plain text in ssl mode.
+
+%aside.sec-content
+
+  %p
+    = link_to 'Edit this app', edit_oauth_client_path(@client_application), :class => 'awesome'
+  %p
+    = link_to 'Back to all apps', oauth_clients_path

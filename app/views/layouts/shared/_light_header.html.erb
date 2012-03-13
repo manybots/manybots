@@ -1,0 +1,57 @@
+<header id="brand"> 
+	<div class="container"> 
+  	<hgroup> 
+  		<a href="/" title="Manybots"> 
+			  <h1>Manybots</h1> 
+			</a> 
+		</hgroup>
+		<div id="system-messages"> 
+		  <% if flash[:notice].present? -%>
+			  <div class="success"> 
+				  <p><%= flash[:notice] %></p>
+			  </div>
+			<% elsif flash[:alert].present? -%>
+  		  <div class="error">
+  		    <%- flash[:alert]= "Could not log you in. Maybe you signed-up using a different account that uses the same email address?" if flash[:alert] == 'rpx_invalid'  -%>
+  		    <p><%= flash[:alert] %></p>
+  		  </div>
+  		<% end -%>
+        <script type="text/javascript" charset="utf-8">
+				  $(document).ready(function() {
+  				  <%- if flash[:notice].present? -%> 
+			        showMessage('success', '<%= escape_javascript flash[:notice].to_s %>');
+			      <%- elsif flash[:alert].present? -%>
+			        showMessage('error', '<%= escape_javascript flash[:alert].to_s %>');
+			      <%- end -%>
+				  });
+			  </script>
+		</div><!-- system-messages -->
+		<div id="header" class="clearfix">
+      <%= render :partial => 'layouts/omnisearch' %>
+      <nav role="meta navigation" class="meta-nav"> 
+    		<ul> 
+    		  <li class="mn-item <%= current_tab?(:contacts)%>">
+    			  <a href="/help" title="Help">Help</a>
+    			</li>
+    		  <% if current_user -%>
+      			<li class="mn-item dropdown <%= current_tab?(:registrations)%>"> 
+      				<a href="/account" title="<%= current_user.name %>" class="dropdown-icon dropdown-button">
+      				  <span><%= current_user.name %></span>
+      				</a> 
+
+      				<ul class="dropdown-options hide"> 
+      					<li><a href="/account" title="Account">Account</a></li> 
+      					<li><a href="/logout" title="Logout">Logout</a></li> 
+      				</ul> 
+
+    			  </li> 
+    			<% else -%>
+      			<li class="mn-item <%= current_tab?(:controller => :sessions, :action => :new)%>">
+      			  <a href="/login" title="Login">Login</a>
+      			</li>
+    			<% end -%>
+    		</ul> 
+     	</nav><!-- meta-nav -->
+		</div>
+	</div> 
+</header>

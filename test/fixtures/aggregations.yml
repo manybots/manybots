@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user_id: 1
+  name: MyString
+  type_string: MyString
+  total: 1
+  object_type: MyString
+  avatar_url: MyString
+  path: MyString
+
+two:
+  user_id: 1
+  name: MyString
+  type_string: MyString
+  total: 1
+  object_type: MyString
+  avatar_url: MyString
+  path: MyString

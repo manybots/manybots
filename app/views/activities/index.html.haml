@@ -1,0 +1,55 @@
+%section.main-content
+  %article.box
+    .box-content
+      .page_header
+        .altviews
+          %span.calendar.icon 
+            %a.show.calendar{:href => '/activities/calendar'} Calendar (click to toggle)
+        %h1.page-title History
+      
+      %hr
+      %p#loading.hide  Loading, can take a few seconds...
+      
+      
+      - if params[:filter]
+        .filters
+          %p 
+            %strong Active filters
+            - params[:filter].each do |filtro, valor|
+              %span.name
+                - unless filtro.to_s == 'tags'
+                  = filtro.to_s.capitalize.singularize
+                  %a{:href => activities_path(params_trick(filtro, valor, params)), :class => active_param?(filtro, valor, params)}
+                    - if filtro.to_s == 'actors'
+                      = User.find_by_id(valor.split('/').last.upcase).name
+                    - else 
+                      = valor.split('/').last.upcase
+                - else 
+                  = filtro.to_s.capitalize
+                  - valor.split(',').each do |tag|
+                    %a{:href => activities_path(params_trick(filtro, tag, params)), :class => active_param?(filtro, tag, params)}
+                      = tag
+                    &nbsp;  
+                  
+            <br/><a href="/activities" class="">Clear all</a>
+                
+  
+      #activities
+        = render :partial => 'activities'
+      
+  
+      = will_paginate @activities
+      
+%aside.sec-content.main
+  %article.box
+    .box-content
+      = render partial: 'bots_box'
+    
+
+
+%aside.sec-content.for-calendar.hide
+  %article.box
+    .box-content
+      %h4 Calendar
+  
+#calendar

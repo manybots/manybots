@@ -1,0 +1,120 @@
+#simple_form
+  = form_for @activity, :html => {:class => 'hform largeform sticky '} do |f|
+    = f.error_messages
+  
+    = f.fields_for :actor, @activity.actor || @activity.build_actor do |actor|
+      = actor.hidden_field :url_id, :value => ManybotsServer.url + '/users/' + current_user.id.to_s
+      = actor.hidden_field :title, :value => current_user.name
+    
+    = f.hidden_field :generator_url, :value => ManybotsServer.url
+    = f.hidden_field :generator_title, :value => ManybotsServer.server_name
+    
+    %h3 Write up the activity in a Sentence
+  
+    %p.activity.sentence
+      = f.label :title
+      = f.text_field :title, :value => "ACTOR did something with OBJECT in TARGET", :style => "width: 300px;"
+      .quiet.inner_fieldset
+        Write up the sentence that sums up your activity.
+        %br
+        ACTOR, OBJECT and TARGET will be replaced automatically.
+        %br Delete TARGET if you don't have one
+    .clear
+      
+    %p
+      = f.label :summary
+      %span.hint.quiet HTML allowed
+      = f.text_area :summary, :rows => 5
+
+    %p
+      = f.label :posted_time, 'Activity time'
+      %span.hint.quiet When the activity happened
+      = f.datetime_select :posted_time, {}, :class => "compact"
+    
+    %p
+      = f.label :tag_list, "Tags"
+      %span.hint.quiet Comma separated
+      = f.text_field :tag_list
+    
+    %h3 Select a Verb for your activity
+  
+    %p
+      = f.label :verb
+      = f.collection_select :verb, Verb.for_user(current_user.id), :url_id, :name
+      %span.activity.add.element
+        %a{:href => "/verbs/new", :class => 'activity add verb'} Create a Verb
+      %span.hint.quiet ex: POST
+  
+  
+    %h3 Describe the Object of your activity 
+  
+    = f.fields_for :object, @activity.object || @activity.build_object do |object|
+      %p
+        = object.label :object_type
+        %span.hint.quiet ex: ARTICLE
+        = object.collection_select :object_type, ObjectType.for_user(current_user.id), :url_id, :name
+        %span.activity.add.element
+          %a{:href => "/object_types/new", :class => 'activity add object_type', :rel => 'object'} Create an Object Type
+
+      %p
+        = object.label :title
+        %span.hint.quiet ex: A New Hope
+        = object.text_field :title
+      
+      %p
+        = object.label :url_id, "URL"
+        %span.hint.quiet ex: http://blogs.me/posts/789
+        = object.text_field :url_id
+  
+  
+  
+    %h3 Optionally, describe the Target of your activity
+  
+    = f.fields_for :target, @activity.target || @activity.build_target do |target|
+      %p
+        = target.label :object_type
+        %span.hint.quiet ex: BOOKMARK
+        = target.collection_select :object_type, ObjectType.for_user(current_user.id), :url_id, :name
+        %span.activity.add.element
+          %a{:href => "/object_types/new", :class => 'activity add object_type', :rel => 'target'} Create an Object Type
+
+      %p
+        = target.label :title
+        %span.hint.quiet ex: Best of 2010
+        = target.text_field :title
+      
+      %p
+        = target.label :url_id, "URL"
+        %span.hint.quiet ex: http://bestof.com/2010
+        = target.text_field :url_id
+  
+  
+    %h3 Describe in what Service Provider it happened
+  
+    %p
+      =f.label :service_provider_name, "Name"
+      %span.hint.quiet ex: Me Blogs
+      = f.text_field :service_provider_name
+    %p
+      =f.label :service_provider_uri, "URL"
+      %span.hint.quiet ex: http://blogs.me
+      = f.text_field :service_provider_uri
+    %p
+      =f.label :service_provider_icon, "Icon "
+      %span.hint.quiet ex: http://blogs.me/favicon.png
+      = f.text_field :service_provider_icon  
+  
+    
+    %h3 Preview and save  
+  
+    #preview
+  
+    %p
+      %button#preview_new_activity.awesome.magenta{:type=>"submit"} Preview
+      (if the Preview is error free, you'll be able to save the activity)
+    %p.save{:style => 'display:none;'}
+      Ready?<br/>
+      = f.submit 'Create activity', :class => 'awesome green'
+    
+
+    

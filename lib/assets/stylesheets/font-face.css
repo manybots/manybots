@@ -1,0 +1,48 @@
+@font-face {
+	font-family: 'PerspectiveSansRegular';
+	src: url('persans-webfont.eot');
+	src: local('☺'), url('persans-webfont.woff') format('woff'), url('persans-webfont.ttf') format('truetype'), url('persans-webfont.svg#webfont0CEC85KT') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'PerspectiveSansItalic';
+	src: url('persansi-webfont.eot');
+	src: local('☺'), url('persansi-webfont.woff') format('woff'), url('persansi-webfont.ttf') format('truetype'), url('persansi-webfont.svg#webfontaFvzI35c') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'PerspectiveSansBold';
+	src: url('persansb-webfont.eot');
+	src: local('☺'), url('persansb-webfont.woff') format('woff'), url('persansb-webfont.ttf') format('truetype'), url('persansb-webfont.svg#webfontTMPUkPvp') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'PerspectiveSansBoldItalic';
+	src: url('persanbi-webfont.eot');
+	src: local('☺'), url('persanbi-webfont.woff') format('woff'), url('persanbi-webfont.ttf') format('truetype'), url('persanbi-webfont.svg#webfontEcNVT9By') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'PerspectiveSansBlackRegular';
+	src: url('persanbk-webfont.eot');
+	src: local('☺'), url('persanbk-webfont.woff') format('woff'), url('persanbk-webfont.ttf') format('truetype'), url('persanbk-webfont.svg#webfont6byvlNDX') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'PerspectiveSansBlackItalic';
+	src: url('persabki-webfont.eot');
+	src: local('☺'), url('persabki-webfont.woff') format('woff'), url('persabki-webfont.ttf') format('truetype'), url('persabki-webfont.svg#webfontndZlGGP7') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+

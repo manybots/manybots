@@ -1,0 +1,30 @@
+%article.box.standard-list-item{:class => (the_cycle.present? ? the_cycle : ''), :style => current_user ? 'margin-right: 0;' : ''}
+  .box-content{:style => 'text-align: left;'}
+    %img{:width => 80, :height => 80, :src=> app.app_icon_url}
+    %h4= link_to truncate(app.name, :length => 20), app.url, :title => app.name
+    -if app.is_public?
+      By
+      = app.developer_name
+    -else 
+      %strong.highlight 
+        PRIVATE APP
+    %br
+    = app.category
+    \/
+    = app.app_type
+    %br
+    -if current_user
+      =pluralize app.user_count, 'Manybots user'
+    %br
+    %br
+    %p{:style => 'margin-top:3px;height:55px;'}
+      %strong= app.description.present? ? app.description : 'No description entered.'
+    %br
+    .buttons.clearfix
+      - if @tokens and @tokens.collect(&:client_application_id).include?(app.id)
+        %p{:style => 'float:left; height: 30px !important; padding-top: 5px;'}
+          = link_to "Revoke access", app_path(app), :method => :delete, :confirm => "Are you sure?", :class => 'awesome small red'
+      %p.button.medium.save.right= link_to "Go to app »", app.url, :class => 'go-to-app'
+    - if current_user and @client_applications
+      - if @client_applications.include? app
+        %center{:style=>'margin-top:4px'}= link_to "Manage app", oauth_client_path(app)

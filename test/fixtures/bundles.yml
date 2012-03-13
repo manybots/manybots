@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user_id: 1
+  name: MyString
+  description: MyText
+  slug: MyString
+
+two:
+  user_id: 1
+  name: MyString
+  description: MyText
+  slug: MyString

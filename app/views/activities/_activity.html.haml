@@ -1,0 +1,40 @@
+  
+= content_tag_for :div, activity, :class => 'wrapper' do
+  
+  .activity.avatar
+    =link_to image_tag(gravatar_url_for(activity.user.email), :width => "40"), activity
+
+  .activity.content
+    .activity.title
+      - title = raw(activity.title)
+      = raw title
+    .activity.footer
+      %span.activity.generator
+        on
+        - unless activity.service_provider_icon.blank?
+          %img{:align => "top", :src=> activity.service_provider_icon, :width => "16px", :height => "16px"}
+        = link_to(activity.service_provider_name, activity.service_provider_uri)
+        via
+        = link_to(activity.generator_title, activity.generator_url) + ','
+      %span.activity.when= link_to "#{time_ago_in_words activity.posted_time} ago", activity, :title => activity.posted_time
+    
+    .activity.object
+      
+      %a{:href => activities_path(params_trick(:verbs, activity.verb, params)), :class => active_param?(:verbs, activity.verb, params)}
+        %abbr{:title => activity.verb}= activity.verb_title
+      
+      %a{:href => activities_path(params_trick(:objects, activity.object.object_type, params)), :class => active_param?(:objects, activity.object.object_type, params)}
+        %abbr{:title => activity.object.object_type }= activity.object.object_type.split('/').last.upcase
+      
+      - if activity.target.present?
+        %a{:href => activities_path(params_trick(:targets, activity.target.object_type, params)), :class => active_param?(:targets, activity.target.object_type, params)}
+          %abbr{:title => activity.target.object_type}= activity.target.object_type.split('/').last.upcase
+          
+    .activity.tags
+      - params[:tags] = [] if params[:tags].nil?
+      - for tag in activity.tags
+        %span.activity.tag
+          = link_to tag.name, activities_path(params_trick(:tags, tag.name, params)), :class => active_param?(:tags, tag.name, params)
+      
+      
+.clear

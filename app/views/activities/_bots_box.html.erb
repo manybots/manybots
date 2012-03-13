@@ -1,0 +1,14 @@
+<h4>Bots</h4>
+
+<ul class="clearfix" style="padding:0; margin:0;">
+  <%- unless @apps.empty? -%>
+    <%- @apps.each do |app| -%>
+      <li style="display:inline; margin: 0 4px 0 0;" >
+        <a href="<%=app.url%>" title="<%= app.name %>" class="go-to-app"><%= image_tag app.app_icon_url, :class => 'app_icon small', :width => 32, :height => 32 -%></a>
+      </li>
+    <%- end  -%>
+  <%- else -%>
+    <p>Browse the catalogue and find apps that you can use to start gathering your activities.</p>
+  <%- end -%>
+</ul>
+<p style="text-align:right;"><a href="/apps">More bots...</a></p>

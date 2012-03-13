@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+actor:
+  activity_id: 1
+  type: Actor
+  url_id: http://example.com/actor/1
+  title: Test Actor
+  posted_time: 2010-10-09 19:12:19
+  object_type: person
+
+obj:
+  activity_id: 1
+  type: Obj
+  url_id: http://example.com/actor/1
+  title: Test Script
+  posted_time: 2010-10-09 19:12:19
+  object_type: script

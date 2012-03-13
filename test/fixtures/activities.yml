@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user_id: 1
+  url_id: "http://example.com/activities/1"
+  verb: 'test'
+  title: 'A sample test'
+  summary: 'Blah blah'
+  lang: 'en'
+  posted_time: 2011-10-09 19:07:13
+  permalink: "http://example.com/activities/1"
+  is_public: false  
+
+two:
+  user_id: 1
+  url_id: "http://example.com/activities/2"
+  verb: 'test'
+  title: 'A sample test'
+  summary: 'Blah blah'
+  lang: 'en'
+  posted_time: 2011-10-09 19:07:13
+  permalink: "http://example.com/activities/2"
+  is_public: false

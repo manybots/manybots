@@ -1,0 +1,9 @@
+<div class="box">
+  <div class="box-content">
+    <p><%= @visualization.name %>, by <%= link_to @visualization.developer_name, @visualization.developer_url %></p>
+  </div>
+</div>
+
+<iframe src="<%= @visualization.url %>" style="width:100%; height: 800px;">
+  
+</iframe>

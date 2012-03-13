@@ -1,0 +1,30 @@
+.manybots-item {
+  width: 100%;
+  clear:both;
+}
+
+.manybots-item .avatar {
+  clear:both;
+  float:left;
+  width: 40px;
+  margin-right: 10px;
+}
+
+.manybots-item .activity {
+  float:left;
+  width: 400px;
+}
+
+.manybots-item .activity .via{
+  margin: 5px 0;
+}
+
+.tags {
+	background: #f1f0ef !important;
+	border: none !important;
+	padding: 1px 7px !important;
+	color: black !important ;
+	text-shadow: none !important;
+	-moz-border-radius: 2px; 
+	border-radius: 2px;
+}

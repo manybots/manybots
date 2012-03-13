@@ -1,0 +1,44 @@
+= error_messages_for @visualization
+
+= form_for @visualization, :url => @visualization.new_record? ? visualizations_path : visualization_path(@visualization), :html => {:class => 'hform largeform clearfix'} do |f|
+
+  %p.field
+    %label{:for=>"client_application_name"} Visualization Name*
+    = f.text_field :name 
+
+  %p.select
+    %label{:for=>"client_application_category"} Category
+    = f.select :category, ClientApplication::CATEGORIES
+
+  = f.hidden_field :app_type, :value => 'Visualization'
+
+  %p.field
+    %label{:for=>"client_application_description"} Description*
+    = f.text_area :description, :rows => 4
+  
+  %p.field
+    %label{:for=>"client_application_url"} Visualization URL*
+    = f.text_field :url
+    
+  %p.field.clearfix
+    %label{:for=>"screenshot"} 
+      Screenshot URL*
+      %br
+      %span.meta Size: 512x240
+    = f.text_field :screenshot
+  
+    
+  %h3 Developer info
+
+  %p.field  
+    %label{:for=>"client_application_developer_name"} Developer name*
+    = f.text_field :developer_name, :value => (f.object.try(:developer_name) || current_user.name)
+
+  %p.field  
+    %label{:for=>"client_application_developer_url"} Developer URL*
+    = f.text_field :developer_url
+  
+
+  %p.button.save
+    = f.submit 'Save'
+

@@ -1,0 +1,64 @@
+<div class="main-content">
+  <div class="box">
+    <div class="box-content">
+      <h1>Account management</h1>
+      <p></p>
+      <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => 'hform largeform sticky' }) do |f| %>
+        <%= devise_error_messages! %>
+        
+        <p>
+          <%= f.label :avatar_url, 'Your avatar' %>
+          <span class="hint quiet">Change it at <br>
+          <a href="http://gravatar.com">Gravatar.com</a></span>
+          <img src="<%= gravatar_url_for(resource.email)%>" align="middle"/>
+        </p>
+        
+
+        <p>
+          <%= f.label :name %>
+          <span class="hint quiet">Required</span>
+          <%= f.text_field :name %>
+        </p>
+
+        <p>
+          <%= f.label :email %>
+          <span class="hint quiet">Required</span>
+          <%= f.text_field :email %>
+        </p>
+
+
+        <p class="button save"><%= f.submit "Update" %></p>
+      <% end %>
+      <p><%= link_to 'Change password', account_password_path %></p>
+    </div>
+  </div>
+</div>
+
+<aside class="sec-content">
+  
+  <div class="box">
+    <div class="box-content">
+      <h3>Your API Token</h3>
+      <p><strong>
+      <%- if resource.authentication_token.nil? -%>
+        <%- resource.reset_authentication_token! -%>
+        <%= resource.authentication_token %>
+      <%- else -%>
+        <%= resource.authentication_token %>
+      <%- end -%>
+      </strong>
+      </p>
+      <p>(Intended for your personal use only, do not share with other apps)</p>
+
+      <p><%= link_to 'Reset your API token', reset_api_token_path  %>
+      
+    </div>
+  </div>
+  
+  <div class="box">
+    <div class="box-content">
+      <h3>Delete your account</h3>
+      <p><%= link_to "Delete your account and all your data", registration_path(resource_name), :confirm => "Are you sure? You will delete your account and all your data. There is no undo!", :method => :delete %>.</p>
+    </div>
+  </div>  
+</aside>

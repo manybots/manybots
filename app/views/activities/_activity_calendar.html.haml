@@ -1,0 +1,17 @@
+= content_tag_for :div, activity, :class => 'wrapper' do
+  .activity.avatar
+    =link_to image_tag(gravatar_url_for(activity.user.email)), "/activities/#{activity.id}"
+
+  .activity.content
+    .activity.title
+      - title = raw(activity.title)
+      = raw title #truncate(title, :length => 200)
+    .activity.footer
+      %span.activity.generator
+        on
+        - unless activity.service_provider_icon.blank?
+          %img{:align => "top", :src=> activity.service_provider_icon, :width => "32px", :height => "32px"}
+        = link_to(activity.service_provider_name, activity.service_provider_uri)
+        via
+        = link_to(activity.generator_title, activity.generator_url) + ','
+      %span.activity.when= link_to "#{time_ago_in_words activity.posted_time} ago", "/activities/#{activity.id}"

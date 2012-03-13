@@ -1,0 +1,41 @@
+%h2 Example application
+
+Manybots is about capturing and visualizing activities, so this is what your app could do: "capture" an user's activities in the wild and post them to Manybots, help users visualize and analyze activities fetched from Manybots, or both.
+
+The idea is to make it easy for people to have *all* their activities structured in a way that allows them, and you the developers, to mix and analyze them even though they come from a potentially infinite number of apps. This should enable people to gain significant insights into their lives.
+
+Manybots has an HTTP API, allowing it to communicate over the Web with applications written in any language.
+
+%h3 An example?
+
+Say that you operate a project management application. On your app, users can create and update projects, milestones and tasks; the activities are, for example, "John created Project X", or "John completed task 'Say hello to my little friend'".
+
+So whenever John does something on your project management app, your app can send that information to Manybots.
+
+Now say that you don't operate a project management app, but you use one. Since that application has an API and you want to capture your activities on that application and send them to Manybots, you can still create your own app that polls the project management application's API and sends the information to Manybots, translated to the format Manybots can read.
+
+%strong Checkout the "Creating a Manybots application" guide
+
+%h3 Types of applications
+
+%h4 Compatible applications
+
+Applications that exist independently of Manybots but can communicate with it are called "Compatible applications". 
+
+%h4 Observers
+
+Apps that exist only to observe external applications and import information into Manybots, are called "Observers". 
+
+%h4 Visualizers
+
+Applications that focus on reading activities from Manybots and analyzing them are called "Visualizers".
+
+%h4 Hybrids
+
+Apps that do a bit of everything.
+
+%h3 Application Directory and Privacy
+
+Manybots has an application directory that makes it easy for users to access and manage applications.
+
+Applications you create for Manybots can be published on the application directory and shared with others, or not: it can be accessible only via its URL or you can even make it private. You are also free to charge users to use your app. It only needs to comply with the Manybots Terms of Service.

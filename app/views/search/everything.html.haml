@@ -1,0 +1,14 @@
+%h1.page-title Search results
+
+.main-content.clearfix
+  
+
+  = render :partial => 'notifications/notification'
+    
+:javascript 
+  $(function() {
+    $('#omnisearch').val('#{@query}');
+    var target = $('#template');
+    target.hide();
+    Notification.listAll('/search/everything/#{CGI.escape @query}', target);
+  });

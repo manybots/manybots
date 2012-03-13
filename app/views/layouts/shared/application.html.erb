@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+    <%= @page_title ? "#{@page_title} - " : ''  %>
+    <%= ManybotsServer.server_name %>
+  </title>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <%= stylesheet_link_tag('application') %>
+    
+  <%= javascript_include_tag 'application' %>
+  
+  <%= csrf_meta_tag %>
+</head>
+<body>
+  
+  <%= render :partial => 'layouts/shared/light_header' %>
+
+  <div id="page">
+    <%- if current_user -%>
+      <%= render :partial => 'layouts/shared/app_menu' %>
+
+      <div id="body" style="width: 800px; float:left; display:block;">
+        <div id="app-box">
+          <%= yield :app_box %>
+        </div>
+        
+        <div id="canvas-app">
+          <%= yield %>
+        </div>
+          
+      </div>
+    <%- else -%>
+      <div id="body">
+        <%= yield %>
+      </div>
+    <%- end -%>
+    
+    <div class="clear"></div>
+    <div id="footer">
+      <ul class="tabs">
+        <li><a href="/" title="Home">Home</a></li>
+        <li><a href="https://www.manybots.com" title="Manybots.com">Manybots.com</a></li>
+        <li><a href="http://blog.manybots.com" title="Blog">Manybots Blog</a></li>
+        <li><a href="http://twitter.com/manybots" title="Manybots on Twitter">Manybots on Twitter</a></li>
+        <li><a href="http://facebook.com/manybots" title="Manybots on Facebook">Manybots on Facebook</a></li>
+      </ul>
+      <p class="quiet">(c) Copyright 2010-2012 Manybots IT, Lda.</p>
+    </div>
+  
+  </div>
+  
+  <!-- <script type="text/javascript" charset="utf-8">
+    var newWindow = '';
+    $(function() {
+      $.get('/notifications.json', function(data) {
+        var notifications = data.data.items;
+        for (var i = notifications.length - 1; i >= 0; i--){
+          $.notty({
+            content: notifications[i].title,
+            img: notifications[i].actor.image.url,
+            // timeout: 5000,
+            showTime: false
+          });
+        };
+      });
+    });
+  </script>
+
+  <script type="text/javascript" src="/javascripts/jquery.notty.js"></script> -->
+</body>
+</html>

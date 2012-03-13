@@ -1,0 +1,55 @@
+%section.main-content
+  %article.box
+    .box-content
+      .page_header
+        .altviews
+          %span.calendar.icon 
+            %a.show.calendar{:href => '/calendar'} Calendar
+        %h1.page-title Today
+
+      .clearfix
+        %p
+        
+        %p{style: 'font-size:1.8em;font-weight:bold;'} 
+          %span< What
+          - if params[:what].nil? or params[:what] == 'activities'
+            %span.highlight<
+              you did
+          - else
+            ~ link_to 'you did', '/calendar/today'
+          %span<>,
+          - if params[:what] == 'notifications'
+            &nbsp;
+            %span.highlight<> should know
+          - else
+            %span<>
+              &nbsp;
+              = link_to 'should know', '/calendar/today/notifications'
+          %span<>, and
+          - if params[:what] == 'predictions'
+            &nbsp;
+            %span.highlight<> predicted
+          - else
+            %span
+              = link_to 'predicted', '/calendar/today/predictions'
+  
+  - if @items.first.methods.include? :aggregations
+    .box
+      .box-content
+        %ul{style: 'padding:0;margin: 0;'}
+        
+          - @items.collect(&:aggregations).flatten.group_by{|a| a}.sort.each do |group, aggregations|
+            - if group.name.present?
+              %li{style: "display:inline;margin: 10px; padding:10px;font-size:#{10 + aggregations.size}px;"}
+                = link_to "#{group.name}", aggregation_path(group.id)
+              
+        
+#target.main-content
+  = render :partial => 'notifications/notification'
+
+:javascript 
+  $(function() {
+    var target = $('#template');
+    target.hide();
+    Notification.listAll('/calendar/today/#{params[:what] || 'activities'}', target);
+  });

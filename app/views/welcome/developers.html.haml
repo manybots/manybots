@@ -1,0 +1,107 @@
+%center
+  %h2.special-title Create and integrate your own apps
+  %p 
+    %span.highlight And publish them on the catalogue if you want
+%p
+.main-content
+  .box
+    .box-content
+            
+      %h2 It's easy to get started
+      
+      .techs.clearfix
+        .clearfix
+          .tech-img
+            =image_tag 'icons/oauth_icon.png', :width => '80px', :height => '80px', :alt => 'OAuth icon'
+          .tech-txt
+            %h4 OAuth
+            
+            %p Use <a href="http://oauth.net" title="OAuth Website">OAuth</a> to authorize your application's requests and authenticate users. 
+            
+            %p 
+        .clearfix
+          .tech-img
+            =image_tag 'icons/as-grad-64x64.png', :width => '64px', :height => '64px', :alt => 'Activity Streams icon'
+          .tech-txt
+            %h4 Activity Streams
+            %p Use <a href="http://activitystrea.ms" title="Activity Streams Website">Activity Streams</a> to publish and read activities. 
+      
+      %center{:style=>"margin-top: 20px;"}
+        %p.button.medium.save.sign-up{:style=>'width: 280px;'}
+          %a{:href=>"/oauth_clients/new"} Register you app now!
+        %p{:style=>"margin-top: -10px;"} It's painless and risk-free. Check out the <a href="/api" title="Manybots API documentation"> API documentation</a>.
+
+      %h2 Integrate your private or commercial app
+
+      %p &nbsp;
+
+      %h3 Hack, hack, hack
+
+      %p Pull in the information that you have on other apps. Build a device that reports your activities. Bring it all to one place where you can do even more.
+
+      %p Do it for yourself, share your app privately, or request to publish the app on the catalogue.
+
+      %h3 Integrate existing apps
+
+      %p You have a great app that solves your user's problems. You want to give them more control over their information and you want to attract more customers. 
+
+      %p Integrating with Manybots is as easy as integrating with any big platform out there. 
+      
+      
+      %h2 Different types of applications  
+      %p &nbsp;
+
+      %h3 Activity observers
+  
+      %p 
+        Use the Manybots API to store activities that you capture with your own apps, or from other apps' APIs. 
+      %p   
+        It's easy to register your observer and start saving activities. You can also decide whether you'll share your app with other Manybots users on the catalogue. The Manybots API relies on standard web technologies such as REST, OAuth and Activity Streams. 
+
+      %p
+        =link_to "Register your own apps", new_oauth_client_path
+      %p   
+        =link_to "Check out the documentation", api_path 
+
+      %h3 Agents
+  
+      %p Use agents to read your activities and build upon the power of well formed data: visualizations, alert systems, integrations, federators, or any type of workflow.
+  
+      %p Read from the OAuth-protected REST JSON endpoint easily using the Manybots API. You can choose whether to publish your agent on the catalogue, and have other Manybots users use it, or keep it to yourself.
+  
+      %p
+        =link_to "Register your apps", new_oauth_client_path
+      %p   
+        =link_to "Check out the documentation", api_path 
+  
+  
+      %h3 Use as a login method
+  
+      %p You can also simply use the Manybots API to authenticate users on your website or application.
+  
+      %p
+        =link_to "Register your apps", new_oauth_client_path
+  
+      %p
+        =link_to "Check out the documentation", api_path 
+  
+      %h3 Open Source Server
+
+      %p Built with <a href="http://rubyonrails.org" title="Ruby on Rails">Ruby on Rails 3</a>, the server is a combination of open tools, formats and practices. You can find the code and the community on the <a href="http://github.com/webcracy/manybots" title="Manybots Server">Github page</a>.
+
+.sec-content
+  =link_to "API documentation »", api_path, :class => "awesome large magenta"
+  
+  .box
+    .box-content.clearfix
+      %h4 Step by step guides
+      =image_tag 'rails.png', :align => 'left', :style => 'padding: 0 20px 20px 0'
+      %p
+        = link_to 'Ruby on Rails Manybots Guide', '/developers/rails'
+        %br
+        %span.quiet
+          Your first app in 15 minutes.
+  .box
+    .box-content
+      %h4 Help and Discussion
+      =render :partial => 'google_group'

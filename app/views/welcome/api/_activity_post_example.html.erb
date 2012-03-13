@@ -1,0 +1,69 @@
+<pre>
+  <code>
+    { 
+      /* API VERSION, required*/
+      "version": "1.0", 
+      /* Activity object */
+      "activity": {
+        /* Activity properties*/
+        "published": "2010-07-21T13:28:00+00:00",
+        "url": "http://example.com/activities/1-example-slug",
+        "id": "http://example.com/activities/1",
+        "title": "<%= "<a href='http://twitter.com/als'>@als</a> favorited a Status on <a href='http://twitter.com/'>Twitter</a>." %>",
+        "summary": "<%= "<a href='http://twitter.com/umairh/status/18997088768'>umairh: The great contradiction at the heart of the global economy? Growth is about having more. But real prosperity is about needing less.</a>"%>",
+        "content": "<%= "<a href='http://twitter.com/umairh/status/18997088768'>umairh: The great contradiction at the heart of the global economy? Growth is about having more. But real prosperity is about needing less.</a>"%>",
+        /* Actor */
+        "actor": {
+          "displayName": "Alex Solleiro",
+          "id": "http://twitter.com/als"
+        },
+        /* Verb */
+        "verb": "favorite",
+        /* Tags */
+        "tags": ['tag 1','tag 2','tag 3'],          
+        /* Object */
+        "object": {
+          "id": "http://twitter.com/umairh/status/18997088768",
+          "url": "http://twitter.com/umairh/status/18997088768",
+          "objectType": "status",
+          "displayName": "umairh: The great contradiction at the heart of the global economy? Growth is about having more. But real prosperity is about needing less."
+        },
+        /* Target - optional */
+        "target": {
+          "id": "http://twitter.com/als/favorites",
+          "url": "http://twitter.com/als/favorites",
+          "objectType": "playlist"
+          "displayName": "Alex Solleiro's favorite Tweets"
+        },
+        /* Icon and Generator */
+        /* Icon: ideally a 32 x 32 png; other sizes won't look as intended */
+        "icon": {
+          "url": "http://www.bestsite.com/icon.png",
+          "width": 32,
+          "height": 32
+        }, 
+        /* Your site's info as associated with the activities */
+        "generator" : {
+    		  "displayName" : "Your site"
+    		  "url" : "http://www.yoursite.com",
+    		  "image": {
+    		    "url": "http://www.yoursite.com/icon.png",
+    		    "width": 32,
+    		    "height": 32
+    		  }
+        },          
+        /* Service Provider */
+        "provider": {
+          "displayName": "Twitter",
+          "url": "http://twitter.com",
+          "image": {
+            "url": "http://twitter.com/favicon.png",
+            width: 32,
+            height: 32
+          }
+        }
+      }
+    }
+  </code>
+</pre>
+    

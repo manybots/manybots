@@ -1,0 +1,45 @@
+<section class="main-content">
+  <article class="box">
+    <div class="box-content">      
+      <h1 class="page-title">
+        <%= raw @aggregations.collect {|aggregation| -%>
+          <%- link_to aggregation.name, aggregation -%>
+        <%- }.to_a.to_sentence -%>
+        <span class="meta">
+          <%= @aggregations.collect(&:type_string).collect{|ts| pluralize(1, ts)}.to_sentence %>
+        </span>
+      </h1>
+      
+      <p style="font-size:30px;"><%= @count %> activities</p>
+    </div>
+  </article>
+  
+  <article class="box">
+    <div class="box-content">      
+      <h3>Activities</h3>
+      <%= render :partial => 'activities/activities' %>
+      
+      <%= will_paginate @activities %>
+    </div>
+  </article>
+</section>
+
+<aside class="sec-content">
+  <article class="box">
+    <div class="box-content">
+      <p>Related collections</p>
+        
+        <%- @aggregates.group_by(&:type_string).each do |group, aggregates| -%>
+          <h4><%= group.capitalize %></h4>
+          <ul>
+            <%- aggregates.each do |a| -%>
+              <li><%= link_to a.name, bundle_aggregation_path(params[:id] + '&' +a.id.to_s) %></li>
+            <%- end -%>
+          </ul>
+          
+        <%- end if @aggregates.any? -%>
+      </ul>
+    </div>
+  </article>
+</aside>
+

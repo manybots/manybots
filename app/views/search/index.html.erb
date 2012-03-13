@@ -1,0 +1,46 @@
+<%- if @results.any? -%>
+  <%- for group in @results.group_by(&:type_string).to_a -%>
+    <%- if group.last.any? -%>
+      <dl id="omnisearch-results-<%= group.first %>">
+        <dt><%= group.first.capitalize %></dt>
+        <dd>
+          <ul>
+            <%- for result in group.last -%>
+              <li class="<%= group.first %> omnisearch-result clearfix" rel="<%= group.first == 'Bundle' ? params[:q]: result.name %>">
+                <%- if group.first == 'apps'  -%>
+                  <%= image_tag result.avatar_url %>
+                  <%= link_to result.name, result %>
+                <%- elsif group.first == 'Bundle' -%>
+                  <%= link_to result.name, bundle_aggregation_path(result.to_param) %>
+                <%- else -%>
+                  <%= link_to result.name, result %>
+                <%- end -%>
+              </li>
+            <%- end -%>
+          </ul>
+        </dd>
+      </dl>
+    <%- end -%>
+  <%- end -%>
+<%- end -%>
+
+<%- if @search_date -%>
+  <dl id="omnisearch-results-date">
+    <dt>Date</dt>
+    <dd>
+      <li class="date omnisearch-result clearfix" rel="<%= params[:q] %>">
+        <%= link_to @search_date.name, @search_date.path %>
+      </li>
+    </dd>
+  </dl>
+<%- end -%>
+
+<dl id="omnisearch-results-more">
+  <dt>All results</dt>
+  <dd>
+    <li class="more omnisearch-result clearfix" rel="<%= params[:q] %>">
+      <%= link_to "All results  ➞", "/search/everything/#{CGI.escape params[:q]}" %>
+    </li>
+  </dd>
+</dl>
+

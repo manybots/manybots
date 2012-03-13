@@ -1,0 +1,77 @@
+=error_messages_for :client_application
+
+
+%h3 Private application
+
+%p Your application will be private and will not appear on the catalogue to other users. 
+
+%p Get in touch with us through the Contacts page, we'll be happy to work with you to get it published.
+
+%h3 Application info
+
+%p.field
+  %label{:for=>"client_application_name"} Application Name*
+  = f.text_field :name 
+%p.field  
+  %label{:for=>"app_icon_url"} Application Icon URL*
+  = f.text_field :app_icon_url
+
+%p.select
+  %label{:for=>"client_application_category"} Category
+  = f.select :category, ClientApplication::CATEGORIES
+
+%p.select
+  %label{:for=>"client_application_category"} Application type
+  = f.select :app_type, ClientApplication::APP_TYPES
+  
+%p.field
+  %label{:for=>"client_application_description"} Description*
+  = f.text_area :description, :rows => 4
+  
+  
+%h3 Application settings
+
+%p.field
+  %label{:for=>"client_application_url"} Main Application URL*
+  = f.text_field :url 
+
+%p.field.clearfix
+  %label{:for=>"client_application_callback_url"} 
+    OAuth Callback URL*
+    %span.meta Leave blank if your app is an HTML 5 visualization
+  = f.text_field :callback_url 
+  
+%p.field
+  %label{:for=>"client_application_support_url"} Support URL
+  = f.text_field :support_url 
+
+%h3 Developer info
+
+%p.field  
+  %label{:for=>"client_application_developer_name"} Developer name*
+  = f.text_field :developer_name, :value => (f.object.try(:developer_name) || current_user.name)
+  
+%p.field  
+  %label{:for=>"client_application_developer_url"} Developer URL*
+  = f.text_field :developer_url
+
+-#%h3 Publish this application?
+-#%p.checkbox
+-# f.check_box :is_public
+-#%label{:for=>"client_application_is_public"} Publish this application and make it available in the application catalogue for all users
+  
+%h3 What kind of integration does the application offer?
+
+%p.checkbox
+  = f.check_box :offers_login
+  %label{:for=>"client_application_offers_login"} Users can login to your application using their Manybots Account
+  
+%p.checkbox
+  = f.check_box :offers_exports
+  %label{:for=>"client_application_offers_exports"} Users can post their activities on your app to their Manybots Account
+
+%p.checkbox
+  = f.check_box :offers_reading
+  %label{:for=>"client_application_offers_reading"} Users can visualize activities from their Manybots Account
+  
+
