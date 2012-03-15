@@ -25,7 +25,7 @@ Developers can easily:
 
 Manybots is a Ruby on Rails application.
 
-Before you install for the first time, please read the Tech Overview and Warnings section of this document. It includes important information, such as the requirements for installing and running Manybots on your system. 
+Before you install for the first time, **please read the Tech Overview and Warnings section** of this document. It includes important information, such as the requirements for installing and running Manybots on your system. 
 
 1. Get started by cloning the repo.
 
