@@ -46,3 +46,6 @@ gem 'gmail', :git => 'git://github.com/webcracy/gmail.git'
 
 # gem 'manybots-github', :git => 'git://github.com/manybots/manybots-github.git'
 # gem 'octokit', '1.0.0', :git => 'git://github.com/webcracy/octokit.git'
+
+gem 'execjs'
+gem 'therubyracer'
