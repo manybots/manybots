@@ -43,6 +43,8 @@ $ redis-server /usr/local/etc/redis.conf
 ```
 Use ctrl+d to detach the Redis server process.
 
+Check out the [Redis Quickstart guide](http://redis.io/topics/quickstart) for more info.
+
 3. Install Manybots stuff
 
 Now go into the 'manybots' directory and install stuff:
