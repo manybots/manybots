@@ -1,5 +1,5 @@
 ManybotsLocal::Application.routes.draw do
-    
+  
   match "/dashboard/day/:year/:month/:day", :to => "dashboard#day", :as => 'day'
   
   match "/collection/:id", :to => 'aggregations#filter', :as => 'collection'
@@ -111,14 +111,6 @@ ManybotsLocal::Application.routes.draw do
   match '/oauth/revoke',     :to => 'oauth#revoke',     :as => :revoke
 
   match '/oauth',               :to => 'oauth#index',         :as => :oauth
-
-  devise_for :users do
-    get "/login" => "devise/sessions#new"
-    get "/logout" => "devise/sessions#destroy"
-    get "/account" => "devise/registrations#edit"
-    get "/account/password" => "dashboard#password"
-    post "/account/update_password" => "dashboard#update_password"
-  end
   
   root :to => "welcome#index"
   

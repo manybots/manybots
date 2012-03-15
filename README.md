@@ -25,7 +25,7 @@ Developers can easily:
 
 Manybots is a Ruby on Rails application.
 
-Before you install for the first time, please read the Tech Overview and Warnings section of this document. It includes important information, such as the requirements for installing and running Manybots on your system.
+Before you install for the first time, please read the Tech Overview and Warnings section of this document. It includes important information, such as the requirements for installing and running Manybots on your system. 
 
 1. Get started by cloning the repo.
 
@@ -75,7 +75,7 @@ Then point your browser to
 
 'http://localhost:5000'
 
-Create your account and get started! 
+Create your account and get started!
 
 ## Using Manybots
 
@@ -103,11 +103,11 @@ To learn more, check out the [Creating Apps](https://github.com/manybots/manybot
 
 ## Tech Overview and warnings
 
-Manybots is based on Ruby on Rails. At this very early stage of release, please have Ruby 1.9.2+ working on your system before you get started. To install Manybots, check out the Installation section of this document.
+Manybots is based on Ruby on Rails. At this very early stage of release, please have Ruby 1.9.2+ and working installation of Ruby on Rails 3.2.2 on your system before you get started. To install Manybots, check out the Installation section of this document.
 
 Tech Overview:
 
-- Ruby on Rails 3.2.1
+- Ruby on Rails 3.2.2
 - sqlite3 database in development, expects postgres in production (this might change rapidly)
 - Redis database for workers (Resque gem used to manage workers)
 - API request data formatted in Activity Streams (JSON)

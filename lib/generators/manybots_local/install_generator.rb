@@ -15,9 +15,29 @@ module ManybotsLocal
         template "secret_token.rb.tt", "config/initializers/secret_token.rb"
       end
       
+      desc 'Add Devise route'
+      def add_devise_route
+        route devise_route_data        
+      end
+      
+      
       # def show_readme
       #   readme "README" if behavior == :invoke
       # end
+      
+      private 
+        
+        def devise_route_data
+<<RUBY
+devise_for :users do
+    get "/login" => "devise/sessions#new"
+    get "/logout" => "devise/sessions#destroy"
+    get "/account" => "devise/registrations#edit"
+    get "/account/password" => "dashboard#password"
+    post "/account/update_password" => "dashboard#update_password"
+  end
+RUBY
+        end
       
     end
   end

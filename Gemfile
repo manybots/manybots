@@ -1,7 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.1'
-gem 'rack-ssl', :require => 'rack/ssl'
+gem 'rails', '3.2.2'
 gem 'thin'
 
 group :development, :test do
@@ -16,9 +15,13 @@ end
 # in production environments by default.
 group :assets do
   gem 'sass-rails', "  ~> 3.2.3"
-  gem 'coffee-rails', "~> 3.2.1"
+  gem 'coffee-rails', "~> 3.2.1"  
+  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
+  # gem 'therubyracer'
   gem 'uglifier', '>= 1.0.3'
 end
+
+# Manybots dependencies
 gem 'jquery-rails'
 gem 'resque', :require => "resque/server", :git => "http://github.com/webcracy/resque.git"
 gem 'resque-scheduler', ">= 2.0.0.e"
