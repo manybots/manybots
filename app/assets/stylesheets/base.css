@@ -1,0 +1,24 @@
+
+.message {
+	color:#444;
+	font-size:14px;
+	width:800px;
+	margin:24px auto 0 auto;
+}
+
+.controls { 
+  clear:both;
+  margin:0 32px 0 32px;
+}
+
+.controls table {
+	width:100%;
+	border-collapse:collapse;
+}
+
+.controls table td {
+	border:1px dotted #666;
+	background-color:#F3F3F3;color:#444;
+	padding:4px;
+	font-size:11px;
+}
