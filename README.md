@@ -47,16 +47,28 @@ Check out the [Redis Quickstart guide](http://redis.io/topics/quickstart) for mo
 
 3. Install Manybots stuff
 
-Now go into the 'manybots' directory and install stuff:
+Now go into the 'manybots' directory.
 
 ```
 $ cd manybots
+```
+
+Linux users, or users wanting to specify a JS runtime, might need to edit the Gemfile file and uncomment (or alter) the following line:
+```
+ # gem 'therubyracer'
+```
+Checkout this [section of the Rails Guide](http://guides.rubyonrails.org/getting_started.html#starting-up-the-web-server) for more information.
+
+
+Then install the basic Manybots stuff:
+
+```
 $ bundle install
 $ rails generate manybots_local:install
 $ bundle exec rake db:migrate
 ```
 
-Now let's install your first observer, and you're ready to run.
+Now let's install your first observer, and you'll be ready to run.
 
 ```
 $ rails generate manybots_gmail:install
@@ -65,7 +77,7 @@ $ bundle exec rake db:migrate
 
 ## Running Manybots
 
-Start the server and workers with
+Start the server and workers with:
 
 ```
 $ foreman start
