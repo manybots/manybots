@@ -1,5 +1,7 @@
 ManybotsLocal::Application.routes.draw do
-  
+    
+  mount ManybotsGmail::Engine => "/manybots-gmail"
+
   match "/dashboard/day/:year/:month/:day", :to => "dashboard#day", :as => 'day'
   
   match "/collection/:id", :to => 'aggregations#filter', :as => 'collection'

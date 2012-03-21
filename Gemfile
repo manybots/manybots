@@ -19,6 +19,7 @@ group :assets do
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer'
   gem 'uglifier', '>= 1.0.3'
+  gem 'twitter-bootstrap-rails'
 end
 
 # Manybots dependencies
@@ -44,8 +45,10 @@ gem 'dynamic_form', :git => 'https://github.com/rails/dynamic_form.git'
 gem 'manybots-gmail', :git => 'git://github.com/manybots/manybots-gmail.git'
 gem 'gmail', :git => 'git://github.com/webcracy/gmail.git'
 
-# gem 'manybots-github', :git => 'git://github.com/manybots/manybots-github.git'
-# gem 'octokit', '1.0.0', :git => 'git://github.com/webcracy/octokit.git'
+ gem 'manybots-github', :git => 'git://github.com/manybots/manybots-github.git'
+ gem 'octokit', '1.0.0', :git => 'git://github.com/webcracy/octokit.git'
 
 gem 'execjs'
 gem 'therubyracer'
+
+

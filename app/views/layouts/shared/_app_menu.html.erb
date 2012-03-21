@@ -1,21 +1,9 @@
 <div id="app-menu" class="clearfix" style="width: 150px; float:left; display:block; margin-right: 10px;">
-  <h3>Menu</h3>
-  <ul class="app-nav">
-    <li><a href="/dashboard" class="<%= current_tab?(:dashboard)%>">Dashboard</a></li>
-    <li><a href="/notifications" class="<%= current_tab?(:notifications)%>">Notifications</a></li>
-    <li><a href="/activities" class="<%= current_tab?(:activities)%>">Activities</a></li>
-    <li><a href="/analytics" class="<%= current_tab?(:filters)%>">Analytics</a></li>
-    <li class="last"><a href="/apps" class="<%= current_tab?([:apps, :oauth_clients])%>">Applications</a></li>
-    <li class="last"><a href="/visualizations" class="<%= current_tab?(:visualizations)%>">Visualizations</a></li>
-  </ul>
-  <p></p>
   
-  <p><h3>Collections</h3></p>
-    <ul class="app-nav">
-      <li><%= link_to 'People', main_app.collection_path('people'), :class => current_tab?(:aggregations, 'people') %></li>
-      <li><%= link_to 'Apps', main_app.collection_path('apps'), :class => current_tab?(:aggregations, 'apps') %></li>
-      <li><%= link_to 'Verbs', main_app.collection_path('verbs'), :class => current_tab?(:aggregations, 'verbs') %></li>
-      <li><%= link_to 'Objects', main_app.collection_path('objects'), :class => current_tab?(:aggregations, 'objects') %></li>
-      <li><%= link_to 'Targets', main_app.collection_path('targets'), :class => current_tab?(:aggregations, 'targets') %></li>
-    </ul>
+  <ul class="app-nav">
+    <li><a href="/analytics" class="<%= current_tab?(:filters)%>">Analytics</a></li>
+    <li class="last"><a href="/visualizations" class="<%= current_tab?(:visualizations)%>">Visualizations</a></li>
+    <li class="last"><a href="/apps" class="<%= current_tab?([:apps, :oauth_clients])%>">Applications</a></li>
+  </ul>
+  
 </div>
