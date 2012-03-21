@@ -13,7 +13,6 @@
   <link rel="shortcut icon" href="/favicon.ico" />
   
   <%= stylesheet_link_tag "application", :media => "all" %>
-  <%= render :partial => 'layouts/timeglider_css' %>
   <%= csrf_meta_tags %>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
@@ -28,16 +27,15 @@
   <div class="container-fluid">
 
     <div class="row">
-    <%- if signed_in?(:user) -%>
-      <div class="span2">
+    <%- if user_signed_in? -%>
+      <div class="span2 division">
         <%= render :partial => 'layouts/app_menu' %>
       </div><!-- sidebar span Logged In -->
-      <div class="span10">
-        <%= render :partial => 'layouts/timeglider' %>
+      <div class="span10 division">
         <%= yield %>
       </div><!-- body span Logged In -->
     <%- else -%>
-      <div class="span12">
+      <div class="span12 division">
         <%= yield %>
       </div><!-- body span Marketing -->
     <%- end -%>
@@ -55,7 +53,7 @@
     </ul>
     </div>
     <div class="row">
-      <p class="quiet span12 center">(c) Copyright 2010-2012 Manybots IT, Lda.</p>
+      <p class="quiet span10 offset2 center" style="text-align: center;">(c) Copyright 2010-2012 Manybots IT, Lda.</p>
     </div>
   </div>
 </div><!-- /container -->
@@ -80,6 +78,5 @@
   <script type="text/javascript" src="/javascripts/jquery.notty.js"></script> -->
   
   <%= javascript_include_tag 'application' %>
-  <%= render :partial => 'layouts/timeglider_js' %>
 </body>
 </html>

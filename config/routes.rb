@@ -1,5 +1,14 @@
 ManybotsLocal::Application.routes.draw do
     
+  devise_for :users do
+    get "/login" => "devise/sessions#new"
+    get "/logout" => "devise/sessions#destroy"
+    get "/account" => "devise/registrations#edit"
+    get "/account/password" => "dashboard#password"
+    post "/account/update_password" => "dashboard#update_password"
+  end
+
+
   mount ManybotsGmail::Engine => "/manybots-gmail"
 
   match "/dashboard/day/:year/:month/:day", :to => "dashboard#day", :as => 'day'

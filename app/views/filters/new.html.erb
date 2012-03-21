@@ -7,91 +7,46 @@
     <div class="box-content">      
       <h1 class="page-title">Analytics</h1>
       <hr>
-      <%- if params[:filter] -%>
         <div class="filters">
-          <h4>Selected filter properties</h4>
-          <p>Unselect the dates and properties by clicking them.</p>
+          <h4>Search properties</h4>
+          <em>Unselect the dates and properties by clicking them.</em>
           <p>&nbsp;</p>
           <p>
-            <%- params[:filter].each do |filtro, valor| -%>
-              <span class="name">
-                <%- if not ['tags', 'start_date', 'end_date'].include? filtro.to_s -%>
-                  <%= filtro.to_s.capitalize.singularize %>
-                  <a href="<%= analytics_path(params_trick(filtro, valor, params))%>" class="<%= active_param?(filtro, valor, params) %>">
+            <div class="date-group">
+             <input type="text" title="Start Date" class="label label-warning datepicker mb-date" value="<%= @start_date.strftime("%Y/%m/%d") %>"/>
+            to
+             <input type="text" title="End Date" class="label label-warning datepicker mb-date" value="<%= @finish_date.strftime("%Y/%m/%d") %>"/>
+            </div>
+            
+            <%- if params[:filter] -%>
+            <%- params[:filter].each do |filtro, valor| -%>            
+                <%- if not ['tags','start_date', 'end_date'].include? filtro.to_s -%>
+                  <a href="<%= analytics_path(params_trick(filtro, valor, params))%>" class="filter-label label label-info <%= active_param?(filtro, valor, params) %>">
                     <%- unless filtro.to_s == 'actors' or filtro.to_s == "target_values" -%>
-                      <%= name_only(valor).upcase %>
+                      <%= name_only(valor) %>
                     <%- else -%>
                       <%= valor.to_s %>
                     <%- end -%>
                   </a>
                 <%- elsif filtro.to_s == "tags" -%>
-                  <%= filtro.to_s.capitalize %>
                   <%- valor.split(',').each do |tag| -%>
-                    <a href="<%= analytics_path(params_trick(filtro, valor, params))%>" class="<%= active_param?(filtro, valor,params) %>">
-                      <%= tag %>
+                    <a href="<%= analytics_path(params_trick(filtro, valor, params))%>" class="filter-label label label-info <%= active_param?(filtro, valor,params) %>">
+                      <%= tag.to_s %>
                     </a>
-                  <%- end -%>
-                <%- else -%>
-                  <%= filtro.to_s.capitalize %>
-                  <a href="<%= analytics_path(params_trick(filtro, valor, params))%>" class="<%= active_param?(filtro, valor,params) %>">
-                    <%= valor.to_a.collect {|pair| pair.last }.join('/') %>
-                  </a>                  
-                <%- end -%>
-              </span>
+                  <%- end -%>              
+                <%- end -%>                
             <%- end -%>
+          <%- end -%>
+          <div><span class="btn filter-add">Add +</span></div>
           </p>
           <br/>
           <a href="/analytics" class="">Clear all filters</a>
+          <p>&nbsp;</p>
         </div>
-      <%- else -%>
-      <p>Select dates and properties by clicking them.</p>
-      <%- end -%>
       
+    
       
-      <h4>
-      
-      <%= form_tag(analytics_path(params_trick('start_date', @start_date, params)), :method => :get) do %>  
-        From <%= select_date @start_date, :start_year => @oldest.to_date.year, :end_year => Date.today.year, :prefix => 'filter[start_date]' %>
-        
-        <div class="hide">
-          <%= select_date @finish_date, :start_year => @oldest.to_date.year, :end_year => @latest.to_date.year, :prefix => 'filter[end_date]' %> 
-          <%- if params[:filter].present? -%>
-            <%- if params[:filter][:verbs].present? -%>
-              <%= hidden_field_tag 'filter[verbs]', params[:filter][:verbs]%>
-            <%- end -%>
-            <%- if params[:filter][:objects].present? -%>
-            <%= hidden_field_tag 'filter[objects]', params[:filter][:objects] %>
-            <%- end -%>
-            <%- if params[:filter][:target_values].present? -%>
-              <%= hidden_field_tag 'filter[target_values]', params[:filter][:target_values] %>
-            <%- end -%>
-          <%- end -%>
-        </div>
-        
-        <%= submit_tag "Change" %>
-      <% end %>
-      
-      <%= form_tag(analytics_path(params_trick('end_date', @finish_date, params)), :method => :get) do %>
-        <div class="hide">
-          <%= select_date @start_date, :start_year => @oldest.to_date.year, :end_year => @latest.to_date.year, :prefix => 'filter[start_date]' %>
-          <%- if params[:filter].present? -%>
-            <%- if params[:filter][:verbs].present? -%>
-              <%= hidden_field_tag 'filter[verbs]', params[:filter][:verbs]%>
-            <%- end -%>
-            <%- if params[:filter][:objects].present? -%>
-            <%= hidden_field_tag 'filter[objects]', params[:filter][:objects] %>
-            <%- end -%>
-            <%- if params[:filter][:target_values].present? -%>
-              <%= hidden_field_tag 'filter[target_values]', params[:filter][:target_values] %>
-            <%- end -%>
-          <%- end -%>
-        </div>
-        
-        Until <%= select_date @finish_date, :start_year => @oldest.to_date.year, :end_year => @latest.to_date.year, :prefix => 'filter[end_date]' %> 
-        <%= submit_tag "Change" %>
-      <% end %>
-      </h4>
-      <p><strong style="font-size:2em"><%= @activities.length %></strong> activities </h2>
+      <p><strong style="font-size:2em"><%= @activities.length %></strong> activities matches search </p>
 
 
       <% unless @activities.empty? %>        
@@ -99,7 +54,7 @@
         <% current_period =  "Found activities from #{l @activities.sort_by(&:posted_time).first.posted_time.to_date, :format => :long} until #{l @activities.sort_by(&:posted_time).last.posted_time.to_date, :format => :long}" %>
       
         <!-- The monthly activities chart   -->
-        <div id="chart_div"></div>
+        <div id="chart_div" style="height:344px;width:780px"></div>
         
         <%= render :partial => 'property_explorer' %>
               

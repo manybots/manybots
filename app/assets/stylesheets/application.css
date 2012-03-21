@@ -5,8 +5,6 @@
 *= require fullcalendar
 *= require_self
 *= require bootstrap_and_overrides
+*= require bootstrap-datepicker
 *= require manybots.omnisearch
-*= require base
-*= require aristo/jquery-ui-1.8.5.custom
-*= require timeglider/Timeglider
 */
