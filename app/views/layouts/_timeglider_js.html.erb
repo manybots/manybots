@@ -1,0 +1,26 @@
+ <script type='text/javascript'>
+
+	$(function () { 
+		
+		var tg1 = $("#placement").timeline({
+				"min_zoom":5, 
+				"max_zoom":100, 
+				"show_centerline":true,
+				"data_source":"assets/flickr.json",
+				"show_footer":true,
+				"display_zoom_level":true
+				
+		});
+		
+		
+		$("#scrolldown").bind("click", function() {
+			$(".timeglider-timeline-event").animate({top:"+=100"})
+		})
+		
+		$("#scrollup").bind("click", function() {
+			$(".timeglider-timeline-event").animate({top:"-=100"})
+		})
+		
+    }); // end document-ready
+	
+</script>
