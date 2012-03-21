@@ -2,6 +2,7 @@
 //= require jquery-ui
 //= require jquery_ujs
 //= require twitter/bootstrap
+//= require bootstrap-datepicker
 //= require jquery.colorbox
 //= require jquery.qtip-1.0.0-rc3.min
 //= require jquery.tableofcontents.min
@@ -13,10 +14,13 @@
 //= require general
 //= require_self
 //= require manybots.omnisearch
-//= require timeglider-0.1.3.min
 
 
 $(document).ready(function() {
+
+  $('.datepicker').datepicker({  /* datepickers */
+    format: "yyyy/mm/dd"
+  });
 
 	$('a.go-to-app').click(function() {
 		$(this).attr('target', '_blank');
