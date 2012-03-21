@@ -1,13 +1,4 @@
 GIT
-  remote: git://github.com/manybots/manybots-github.git
-  revision: 77694ef44e49fa87fad097497ed86702a723b9da
-  specs:
-    manybots-github (0.0.1)
-      oauth2
-      octokit
-      rails (~> 3.2.1)
-
-GIT
   remote: git://github.com/manybots/manybots-gmail.git
   revision: 390c80c54e866019adc51bea6404af40a7b40612
   specs:
@@ -25,17 +16,6 @@ GIT
       gmail_xoauth (>= 0.3.0)
       mail (>= 2.2.1)
       mime (>= 0.1)
-
-GIT
-  remote: git://github.com/webcracy/octokit.git
-  revision: 23a177cc9a9c4820315217c496e7948c89033c60
-  specs:
-    octokit (1.0.0)
-      addressable (~> 2.2)
-      faraday (~> 0.7)
-      faraday_middleware (~> 0.8)
-      hashie (~> 1.2)
-      multi_json (~> 1.0)
 
 GIT
   remote: http://github.com/webcracy/oauth-plugin.git
@@ -122,12 +102,9 @@ GEM
       addressable (~> 2.2)
       multipart-post (~> 1.1)
       rack (~> 1.1)
-    faraday_middleware (0.8.5)
-      faraday (>= 0.7.4, < 0.9)
     gmail_xoauth (0.3.0)
       oauth (>= 0.3.6)
     haml (3.1.4)
-    hashie (1.2.0)
     hike (1.2.1)
     i18n (0.6.0)
     journey (1.0.3)
@@ -142,7 +119,7 @@ GEM
       actionpack (>= 3.1)
       less (~> 2.0.7)
     libv8 (3.3.10.4)
-    mail (2.4.3)
+    mail (2.4.4)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -212,6 +189,8 @@ GEM
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
     sqlite3 (1.3.5)
+    therubyracer (0.9.10)
+      libv8 (~> 3.3.10)
     thin (1.3.1)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
@@ -245,15 +224,12 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   devise (= 1.5.3)
   dynamic_form!
-  execjs
   gmail!
   haml
   jquery-rails
-  manybots-github!
   manybots-gmail!
   oauth
   oauth-plugin!
-  octokit (= 1.0.0)!
   pg
   rails (= 3.2.2)
   resque!
@@ -262,6 +238,7 @@ DEPENDENCIES
   sanitize
   sass-rails (~> 3.2.3)
   sqlite3
+  therubyracer
   thin
   twitter-bootstrap-rails
   uglifier (>= 1.0.3)
