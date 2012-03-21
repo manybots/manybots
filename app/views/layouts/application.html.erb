@@ -13,22 +13,21 @@
   <link rel="shortcut icon" href="/favicon.ico" />
   
   <%= stylesheet_link_tag "application", :media => "all" %>
-  <%= render :partial => 'layouts/timeglider_css' %>
   <%= csrf_meta_tags %>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
 </head>
 <body>
-  <%- unless current_user -%>
-    <%= render :partial => 'layouts/classic_header' %>
-  <%- else -%>
+  <%- if signed_in?(:user) %>
     <%= render :partial => 'layouts/light_header' %>
+  <%- else -%>
+    <%= render :partial => 'layouts/classic_header' %>
   <%- end -%>
       
   <div class="container-fluid">
 
     <div class="row">
-    <%- if current_user -%>
+    <%- if signed_in?(:user) -%>
       <div class="span2">
         <%= render :partial => 'layouts/app_menu' %>
       </div><!-- sidebar span Logged In -->
@@ -80,6 +79,5 @@
   <script type="text/javascript" src="/javascripts/jquery.notty.js"></script> -->
   
   <%= javascript_include_tag 'application' %>
-  <%= render :partial => 'layouts/timeglider_js' %>
 </body>
 </html>
