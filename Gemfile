@@ -17,7 +17,7 @@ group :assets do
   gem 'sass-rails', "  ~> 3.2.3"
   gem 'coffee-rails', "~> 3.2.1"  
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer'
+  gem 'therubyracer'
   gem 'uglifier', '>= 1.0.3'
   gem 'twitter-bootstrap-rails'
 end
@@ -45,10 +45,5 @@ gem 'dynamic_form', :git => 'https://github.com/rails/dynamic_form.git'
 gem 'manybots-gmail', :git => 'git://github.com/manybots/manybots-gmail.git'
 gem 'gmail', :git => 'git://github.com/webcracy/gmail.git'
 
- gem 'manybots-github', :git => 'git://github.com/manybots/manybots-github.git'
- gem 'octokit', '1.0.0', :git => 'git://github.com/webcracy/octokit.git'
-
-gem 'execjs'
-gem 'therubyracer'
-
-
+# gem 'manybots-github', :git => 'git://github.com/manybots/manybots-github.git'
+# gem 'octokit', '1.0.0', :git => 'git://github.com/webcracy/octokit.git'
