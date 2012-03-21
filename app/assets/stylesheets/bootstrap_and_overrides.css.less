@@ -1,0 +1,63 @@
+@import "twitter/bootstrap/bootstrap";
+body{padding-top: 70px;}
+@import "twitter/bootstrap/responsive";
+
+// Set the correct sprite paths
+@iconSpritePath: asset-path('twitter/bootstrap/glyphicons-halflings.png');
+@iconWhiteSpritePath: asset-path('twitter/bootstrap/glyphicons-halflings-white.png');
+
+// Your custom LESS stylesheets goes here
+//
+// Since bootstrap was imported above you have access to its mixins which
+// you may use and inherit here
+//
+// If you'd like to override bootstrap's own variables, you can do so here as well
+// See http://twitter.github.com/bootstrap/less.html for their names and documentation
+//
+// Example:
+// @linkColor: #ff0000;
+
+.graylinks a, .graylinks a:hover, .graylinks a:visited {
+  color: gray;
+}
+
+@navbarBackground: #F1F0EF;
+@navbarBackgroundHighlight: #FFFFFF;
+@navbarLinkColor: #1A4F68;
+@navbarLinkColorHover: #017F8B;
+@navbarText: #666;
+
+.navbar .brand {
+text-rendering: optimizeLegibility;
+line-height: 30px;
+font-size: 32px !important;
+font-family: 'PerspectiveSansBold' !important;
+color: #1A4F68 !important;
+text-shadow: 0px 1px 0px white;
+padding: 15px 60px 15px 20px;
+}
+.navbar .caret {
+border-top: 4px solid black !important;
+}
+.dropdown.open .dropdown-toggle {
+color: #1A4F68 !important;
+}
+.navbar-search {
+float:none;
+}
+.navbar .nav {
+float:right;
+}
+.navbar .nav > li > a {
+padding: 7px 15px;
+}
+.search-query {border-radius: 7px;}
+ul {
+list-style: none;
+}
+.dropdown-menu {
+min-width: initial;
+}
+.app-nav {
+margin-top: 32px;
+}
