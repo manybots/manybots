@@ -18,6 +18,14 @@
 
 $(document).ready(function() {
 
+  
+  
+  
+  $(".filter-add").click(function() {
+    $(".filter-modal").modal({ backdrop: true, closeOnEscape: true });
+  });
+  
+  
   $('.datepicker').datepicker({  /* datepickers */
     format: "yyyy/mm/dd"
   });

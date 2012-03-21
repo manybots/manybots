@@ -11,13 +11,11 @@
           <h4>Search properties</h4>
           <em>Unselect the dates and properties by clicking them.</em>
           <p>&nbsp;</p>
-          <p>
-            <div class="date-group">
+          <div class="date-group">
              <input type="text" title="Start Date" class="label label-warning datepicker mb-date" value="<%= @start_date.strftime("%Y/%m/%d") %>"/>
             to
              <input type="text" title="End Date" class="label label-warning datepicker mb-date" value="<%= @finish_date.strftime("%Y/%m/%d") %>"/>
-            </div>
-            
+          </div>
             <%- if params[:filter] -%>
             <%- params[:filter].each do |filtro, valor| -%>            
                 <%- if not ['tags','start_date', 'end_date'].include? filtro.to_s -%>
@@ -37,14 +35,47 @@
                 <%- end -%>                
             <%- end -%>
           <%- end -%>
+          
+          <div id="myModal" class="filter-modal modal hide fade" style="display: none; ">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal">×</a>
+              <h3>Modal Heading</h3>
+            </div>
+            <div class="modal-body">
+              <h4>Text in a modal</h4>
+              <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem.</p>
+
+              <h4>Popover in a modal</h4>
+              <p>This <a href="#" class="btn popover-test" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title">button</a> should trigger a popover on hover.</p>
+
+              <h4>Tooltips in a modal</h4>
+              <p><a href="#" class="tooltip-test" data-original-title="Tooltip">This link</a> and <a href="#" class="tooltip-test" data-original-title="Tooltip">that link</a> should have tooltips on hover.</p>
+
+              <hr>
+
+              <h4>Overflowing text to show optional scrollbar</h4>
+              <p>We set a fixed <code>max-height</code> on the <code>.modal-body</code>. Watch it overflow with all this extra lorem ipsum text we've included.</p>
+              <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+              <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+              <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+              <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn" data-dismiss="modal">Close</a>
+              <a href="#" class="btn btn-primary">Save changes</a>
+            </div>
+          </div>
+
+
           <div><span class="btn filter-add">Add +</span></div>
-          </p>
-          <br/>
+          <p>&nbsp;</p>
           <a href="/analytics" class="">Clear all filters</a>
           <p>&nbsp;</p>
         </div>
       
-    
+
       
       <p><strong style="font-size:2em"><%= @activities.length %></strong> activities matches search </p>
 
@@ -56,7 +87,6 @@
         <!-- The monthly activities chart   -->
         <div id="chart_div" style="height:344px;width:780px"></div>
         
-        <%= render :partial => 'property_explorer' %>
               
       <% else %>
         <p>No activities for this period</p>
