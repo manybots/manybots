@@ -12,12 +12,12 @@
 .omnisearch-input  {
   margin-left: 10px;
 }
-
+/*
 .omnisearch-input input {
   height: 32px;
   width: 560px !important;
   padding-left: 10px;
-}
+  }*/
 
 #omnisearch-results {
   width: 573px;

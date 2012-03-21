@@ -1,4 +1,13 @@
 GIT
+  remote: git://github.com/manybots/manybots-github.git
+  revision: 77694ef44e49fa87fad097497ed86702a723b9da
+  specs:
+    manybots-github (0.0.1)
+      oauth2
+      octokit
+      rails (~> 3.2.1)
+
+GIT
   remote: git://github.com/manybots/manybots-gmail.git
   revision: 390c80c54e866019adc51bea6404af40a7b40612
   specs:
@@ -16,6 +25,17 @@ GIT
       gmail_xoauth (>= 0.3.0)
       mail (>= 2.2.1)
       mime (>= 0.1)
+
+GIT
+  remote: git://github.com/webcracy/octokit.git
+  revision: 23a177cc9a9c4820315217c496e7948c89033c60
+  specs:
+    octokit (1.0.0)
+      addressable (~> 2.2)
+      faraday (~> 0.7)
+      faraday_middleware (~> 0.8)
+      hashie (~> 1.2)
+      multi_json (~> 1.0)
 
 GIT
   remote: http://github.com/webcracy/oauth-plugin.git
@@ -88,6 +108,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.2.0)
+    commonjs (0.2.5)
     daemons (1.1.8)
     devise (1.5.3)
       bcrypt-ruby (~> 3.0)
@@ -101,9 +122,12 @@ GEM
       addressable (~> 2.2)
       multipart-post (~> 1.1)
       rack (~> 1.1)
+    faraday_middleware (0.8.5)
+      faraday (>= 0.7.4, < 0.9)
     gmail_xoauth (0.3.0)
       oauth (>= 0.3.6)
     haml (3.1.4)
+    hashie (1.2.0)
     hike (1.2.1)
     i18n (0.6.0)
     journey (1.0.3)
@@ -111,7 +135,12 @@ GEM
       railties (>= 3.2.0, < 5.0)
       thor (~> 0.14)
     json (1.6.5)
-    mail (2.4.4)
+    less (2.0.11)
+      commonjs (~> 0.2.0)
+      therubyracer (~> 0.9.9)
+    less-rails (2.1.8)
+      actionpack (>= 3.1)
+      less (~> 2.0.7)
     libv8 (3.3.10.4)
     mail (2.4.3)
       i18n (>= 0.4.0)
@@ -192,6 +221,10 @@ GEM
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
+    twitter-bootstrap-rails (2.0.4)
+      actionpack (>= 3.1)
+      less-rails (~> 2.1.8)
+      railties (>= 3.1)
     tzinfo (0.3.32)
     uglifier (1.2.3)
       execjs (>= 0.3.0)
@@ -216,9 +249,11 @@ DEPENDENCIES
   gmail!
   haml
   jquery-rails
+  manybots-github!
   manybots-gmail!
   oauth
   oauth-plugin!
+  octokit (= 1.0.0)!
   pg
   rails (= 3.2.2)
   resque!
@@ -228,5 +263,6 @@ DEPENDENCIES
   sass-rails (~> 3.2.3)
   sqlite3
   thin
+  twitter-bootstrap-rails
   uglifier (>= 1.0.3)
   will_paginate (= 3.0.3)
