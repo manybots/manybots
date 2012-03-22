@@ -22,7 +22,7 @@ class CalendarController < ApplicationController
   def yesterday
     @start_date = Time.now.beginning_of_day - 1.day
     @finish_date = @start_date.end_of_day
-    
+    @apps = ClientApplication.where(is_public: true)
     if params[:what].nil? or params[:what] == 'activities'
       @items = current_user.activities.between(@start_date, @finish_date).timeline
     elsif params[:what] == 'notifications'
@@ -41,6 +41,7 @@ class CalendarController < ApplicationController
   def tomorrow
     @start_date = Time.now.beginning_of_day + 1.day
     @finish_date = @start_date.end_of_day
+    @apps = ClientApplication.where(is_public: true)
     @items = current_user.predictions.between(@start_date, @finish_date).timeline
     respond_to do |format|
       format.html {}
@@ -52,7 +53,7 @@ class CalendarController < ApplicationController
   def today
     @start_date = Time.now.beginning_of_day
     @finish_date = @start_date.end_of_day
-    
+    @apps = ClientApplication.where(is_public: true)
     if params[:what].nil? or params[:what] == 'activities'
       @items = current_user.activities.between(@start_date, @finish_date).timeline
     elsif params[:what] == 'notifications'

@@ -43,7 +43,9 @@
               %li{style: "display:inline;margin: 10px; padding:10px;font-size:#{10 + aggregations.size}px;"}
                 = link_to "#{group.name}", aggregation_path(group.id)
               
-        
+%aside.sec-content
+  = render partial: 'apps_box'
+
 #target.main-content
   = render :partial => 'notifications/notification'
 
