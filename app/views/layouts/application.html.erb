@@ -16,15 +16,17 @@
   <%= csrf_meta_tags %>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
+  <!-- temporary jquery loading until inline JS is eliminated! -->
+  <script src="/assets/jquery.js?body=1" type="text/javascript"></script>
 </head>
 <body>
-  <%- if signed_in?(:user) %>
+  <%- if user_signed_in? %>
     <%= render :partial => 'layouts/light_header' %>
   <%- else -%>
-    <%= render :partial => 'layouts/classic_header' %>
+    <%= render :partial => 'layouts/marketing_header' %>
   <%- end -%>
       
-  <div class="container-fluid">
+  <div class="container-fluid sticky-wrapper">
 
     <div class="row">
     <%- if user_signed_in? -%>
@@ -35,29 +37,47 @@
         <%= yield %>
       </div><!-- body span Logged In -->
     <%- else -%>
-      <div class="span12 division">
+      <div class="division">
         <%= yield %>
       </div><!-- body span Marketing -->
     <%- end -%>
-  </div><!-- body row -->
-  <hr>
-  <div class="footer">
-    <div class="row">
-      <ul>
-      <li class="span2">&nbsp;</li>
-      <li class="span2"><a href="/" title="Home">Home</a></li>
-      <li class="span2"><a href="https://www.manybots.com" title="Manybots.com">Manybots.com</a></li>
-      <li class="span2"><a href="http://blog.manybots.com" title="Blog">Manybots Blog</a></li>
-      <li class="span2"><a href="http://twitter.com/manybots" title="Manybots on Twitter">Manybots on Twitter</a></li>
-      <li class="span2"><a href="http://facebook.com/manybots" title="Manybots on Facebook">Manybots on Facebook</a></li>
-    </ul>
-    </div>
-    <div class="row">
-      <p>&nbsp;</p>
-      <p class="quiet span10 offset2 center" style="text-align: center;">(c) Copyright 2010-2012 Manybots IT, Lda.</p>
-    </div>
-  </div>
+    </div><!-- body row -->
+    
+    
+    <div class="sticky-push"></div>
+    
 </div><!-- /container -->
+
+    <div class="sticky-footer">
+      <hr style="margin:0;padding:8px">
+      <div class="row">
+        <ul>
+        <%- if user_signed_in? -%>
+        <li class="span2">&nbsp;</li>
+        <li class="span2"><a href="/" title="Home">Home</a></li>
+        <li class="span2"><a href="https://www.manybots.com" title="Manybots.com">Manybots.com</a></li>
+        <li class="span2"><a href="http://blog.manybots.com" title="Blog">Manybots Blog</a></li>
+        <li class="span2"><a href="http://twitter.com/manybots" title="Manybots on Twitter">Manybots on Twitter</a></li>
+        <li class="span2"><a href="http://facebook.com/manybots" title="Manybots on Facebook">Manybots on Facebook</a></li>
+        <%- else -%>
+        <ul class="center">
+          <li class="footer-item"><a class="quiet" href="/" title="Home">Home</a></li>
+          <li class="footer-item"><a class="quiet" href="/tos" title="Terms of Service">Terms of Service</a></li>
+          <li class="footer-item"><a class="quiet" href="/privacy" title="Privacy Policy">Privacy</a></li>
+          <li class="footer-item"><a class="quiet" href="/contact" title="Contact">Contact</a></li>
+          <li class="footer-item"><a class="quiet" href="http://blog.manybots.com" title="Blog">Blog</a></li>
+        </ul>
+        <%- end -%>
+        </ul>
+      </div>
+      <div class="row">
+        <%- if user_signed_in? -%>
+        <div class="quiet center">Copyright &copy; 2010-2012 Manybots IT, Lda.</div>
+        <%- else -%>
+        <div class="quiet center">Copyright &copy; 2010-2012 Manybots IT, Lda.</div>
+        <%- end -%>
+      </div>
+  </div><!-- /footer -->
 
 <!-- <script type="text/javascript" charset="utf-8">
     var newWindow = '';

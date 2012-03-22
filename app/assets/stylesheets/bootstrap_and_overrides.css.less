@@ -1,5 +1,4 @@
 @import "twitter/bootstrap/bootstrap";
-body{padding-top: 70px;}
 @import "twitter/bootstrap/responsive";
 
 // Set the correct sprite paths
@@ -27,6 +26,26 @@ body{padding-top: 70px;}
 @navbarLinkColorHover: #017F8B;
 @navbarText: #666;
 
+html, body {
+height: 100%;
+}
+.sticky-wrapper {
+box-sizing: border-box;
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+padding-top: 70px;
+min-height: 100%;
+height: auto !important;
+height: 100%;
+margin: 0 auto -58px; /* the bottom margin is the negative value of the footers height */
+}
+.sticky-footer, .sticky-push {
+box-sizing: border-box;
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+	height: 58px; /* .push must be the same height as .footer */
+}
+
 .navbar .brand {
 text-rendering: optimizeLegibility;
 line-height: 30px;
@@ -42,11 +61,21 @@ border-top: 4px solid black !important;
 .dropdown.open .dropdown-toggle {
 color: #1A4F68 !important;
 }
+.header-search {
+display: inline-block;
+float: left;
+}
 .navbar-search {
 float:none;
 }
+.header-links {
+display: inline-block;
+float: right;
+margin: 14px 0 0 0;
+}
 .navbar .nav {
 float:right;
+margin: 0;
 }
 .navbar .nav > li > a {
 padding: 7px 15px;
@@ -54,6 +83,12 @@ padding: 7px 15px;
 .search-query {border-radius: 7px;}
 ul {
 list-style: none;
+margin:0;
+padding:0;
+}
+.footer-item {
+display: inline-block;
+margin: 3px 12px;
 }
 .dropdown-menu {
 min-width: initial;
