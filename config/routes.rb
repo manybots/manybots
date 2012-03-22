@@ -1,5 +1,7 @@
 ManybotsLocal::Application.routes.draw do
     
+  mount ManybotsWeather::Engine => "/manybots-weather"
+
   devise_for :users do
     get "/login" => "devise/sessions#new"
     get "/logout" => "devise/sessions#destroy"

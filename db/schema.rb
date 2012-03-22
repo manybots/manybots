@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120315155900) do
+ActiveRecord::Schema.define(:version => 20120321214401) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -154,6 +154,18 @@ ActiveRecord::Schema.define(:version => 20120315155900) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "manybots_weather_locations", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "code"
+    t.string   "name"
+    t.string   "lat"
+    t.string   "long"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "manybots_weather_locations", ["user_id"], :name => "index_manybots_weather_locations_on_user_id"
 
   create_table "notifications", :force => true do |t|
     t.integer  "user_id"

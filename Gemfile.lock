@@ -9,6 +9,14 @@ GIT
       rails (~> 3.2.1)
 
 GIT
+  remote: git://github.com/manybots/manybots-weather.git
+  revision: 5da6d05a05176a7af21e789fc5755e21021957bd
+  specs:
+    manybots-weather (0.0.1)
+      jquery-rails
+      rails (~> 3.2.2)
+
+GIT
   remote: git://github.com/webcracy/gmail.git
   revision: 687bb4077a3b1a3caacdd7c069df01582e651d18
   specs:
@@ -126,7 +134,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime (0.1)
-    mime-types (1.17.2)
+    mime-types (1.18)
     multi_json (1.1.0)
     multipart-post (1.1.5)
     nokogiri (1.5.2)
@@ -231,6 +239,7 @@ DEPENDENCIES
   haml
   jquery-rails
   manybots-gmail!
+  manybots-weather!
   oauth
   oauth-plugin!
   pg
