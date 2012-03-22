@@ -1,0 +1,25 @@
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <hgroup><a class="brand" href="/" title="Manybots">Manybots</a></hgroup>
+      <ul class="nav">
+        <% if current_user -%>
+        <li class="mn-item <%= current_tab?(:notifications)%>">
+    		  <a href="/notifications" title="Notifications">Notifications</a>
+    		</li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="/account" title="Settings">Settings</a></li> 
+      		  <li><a href="/logout" title="Logout">Logout</a></li> 
+          </ul>
+        </li>
+        <% else -%>
+      		<li class="mn-item <%= current_tab?(:controller => :sessions, :action => :new)%>">
+      		  <a href="/login" title="Login">Login</a>
+      		</li>
+    		<% end -%>
+      </ul>
+    </div>
+  </div>
+</div>
