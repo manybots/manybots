@@ -2,7 +2,7 @@ class WelcomeController < ApplicationController
   def index
     if user_signed_in?
       if current_user.name.present?
-        redirect_to '/calendar/today'
+        redirect_to '/calendar/today/notifications'
       else
         flash[:notice] = "Almost there. Please complete your profile before continuing."
         redirect_to '/account'

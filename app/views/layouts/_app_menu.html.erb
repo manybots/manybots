@@ -1,6 +1,6 @@
 <div id="app-menu" class="clearfix" style="width: 150px; float:left; display:block; margin-right: 10px;">
   <ul class="app-nav">
-    <li><a href="/calendar/today" class="<%= current_tab?(:controller => 'calendar', :action => 'today')%>">Today</a></li>
+    <li><a href="/calendar/today/notifications" class="<%= current_tab?(:controller => 'calendar', :action => 'today')%>">Today</a></li>
     <li><a href="/calendar/tomorrow" class="<%= current_tab?(:controller => 'calendar', :action => 'tomorrow')%>">Tomorrow</a></li>
     <li><a href="/calendar/yesterday" class="<%= current_tab?(:controller => 'calendar', :action => 'yesterday')%>">Yesterday</a></li>
   </ul>
@@ -12,7 +12,7 @@
     <li><a href="/analytics" class="<%= current_tab?(:filters)%>">Analytics</a></li>
     <li class="last"><a href="/visualizations" class="<%= current_tab?(:visualizations)%>">Visualizations</a></li>
     <li class="last"><a href="/apps" class="<%= current_tab?([:apps, :oauth_clients])%>">Applications</a></li>
-  </ul> 
+  </ul>
   
   
   <p><h3>Library</h3></p>
