@@ -42,9 +42,9 @@ gem 'dynamic_form', :git => 'https://github.com/rails/dynamic_form.git'
 #
 # Manybots observers, visualizations and apps
 #
-
-#gem 'manybots-gmail', :git => 'git://github.com/manybots/manybots-gmail.git'
-#gem 'gmail', :git => 'git://github.com/webcracy/gmail.git'
+gem 'ore-core'
+gem 'manybots-gmail', :git => 'git://github.com/manybots/manybots-gmail.git'
+gem 'gmail', :git => 'git://github.com/webcracy/gmail.git'
 
 # gem 'manybots-github', :git => 'git://github.com/manybots/manybots-github.git'
 # gem 'octokit', '1.0.0', :git => 'git://github.com/webcracy/octokit.git'
