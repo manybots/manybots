@@ -1,7 +1,9 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.2.2'
-gem 'thin'
+
+gem "thin", "1.3.1"
+gem "eventmachine", "1.0.0.beta.4"
 
 group :development, :test do
   gem 'sqlite3'
@@ -41,8 +43,8 @@ gem 'dynamic_form', :git => 'https://github.com/rails/dynamic_form.git'
 # Manybots observers, visualizations and apps
 #
 
-gem 'manybots-gmail', :git => 'git://github.com/manybots/manybots-gmail.git'
-gem 'gmail', :git => 'git://github.com/webcracy/gmail.git'
+#gem 'manybots-gmail', :git => 'git://github.com/manybots/manybots-gmail.git'
+#gem 'gmail', :git => 'git://github.com/webcracy/gmail.git'
 
 # gem 'manybots-github', :git => 'git://github.com/manybots/manybots-github.git'
 # gem 'octokit', '1.0.0', :git => 'git://github.com/webcracy/octokit.git'
