@@ -59,7 +59,7 @@ Then you need to double check bundle install is finished. You want this to finis
 
 
 Then run
-   rails generate manybots_local:install
+   $ rails generate manybots_local:install
 
 If you see ruby.exe error about libgcc_s_sjlj-1.dll being missing. You need to download
 
@@ -68,8 +68,14 @@ If you see ruby.exe error about libgcc_s_sjlj-1.dll being missing. You need to d
 Extract the libstdc++-6.dll and libgcc_s_sjlj-1.dll into C:/RailsInstaller/Ruby1.9.3/bin
 Run the install again 
 
+Now install the migrate DB command to create all the SQLite stuff
 
+   $ bundle exec rake db:migrate
 
+Now onto the the first of the apps (the default Gmail observer - you can build more!)
+
+   $ rails generate manybots_gmail:install
+   $ bundle exec rake db:migrate
 
 To start editing code we recommend using redcar. To install just run
 
