@@ -146,3 +146,24 @@ $(document).ready(function() {
 
 var addVerb = function() {
 };
+
+var _ues = {
+host:'manybots.userecho.com',
+forum:'11374',
+lang:'en',
+tab_icon_show:false,
+tab_corner_radius:6,
+tab_font_size:18,
+tab_image_hash:'RmVlZGJhY2s%3D',
+tab_alignment:'right',
+tab_text_color:'#FFFFFF',
+tab_bg_color:'#1A4F68',
+tab_hover_color:'#017F8B'
+};
+ 
+(function() {
+    var _ue = document.createElement('script'); _ue.type = 'text/javascript'; _ue.async = true;
+    _ue.src = ('https:' == document.location.protocol ? 'https://s3.amazonaws.com/' : 'http://') + 'cdn.userecho.com/js/widget-1.4.gz.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(_ue, s);
+  })();
+ 
