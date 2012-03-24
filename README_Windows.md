@@ -1,4 +1,5 @@
 Ok, first off this is not a preferred environment to run Manybots
+It currently is not fully working. We still need to find a replacement or a fix for foreman
 
 http://railsinstaller.org/
 
