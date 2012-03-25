@@ -1,12 +1,15 @@
-<h2>Forgot your password?</h2>
+<div class="span5" style="margin:0 auto;float:none"> 
+  <h2>Forgot your password?</h2>
 
-<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
-  <%= devise_error_messages! %>
+<%= simple_form_for(resource, :url => password_path(resource_name), :html => { :method => :post, :class => "form-horizontal" }) do |f| %>
+  
+  <legend></legend>
+  <%= f.input :email %>
 
-  <p><%= f.label :email %><br />
-  <%= f.text_field :email %></p>
-
-  <p><%= f.submit "Send me reset password instructions" %></p>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary btn-large', :value => "Send me reset instructions" %>
+  </div>
 <% end %>
 
 <%= render :partial => "devise/shared/links" %>
+</div>
