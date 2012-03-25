@@ -27,7 +27,13 @@
   <%- end -%>
       
   <div class="container-fluid sticky-wrapper">
-
+  <% flash.each do |name, msg| %>
+      <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
+      <a class="close" data-dismiss="alert" href="#">&times;</a>
+      <%= msg %>
+    </div>
+    <% end %>
+    
     <div class="row">
     <%- if user_signed_in? -%>
       <div class="span2 division">
@@ -49,7 +55,7 @@
 </div><!-- /container -->
 
     <div class="sticky-footer">
-      <hr style="margin:0;padding:8px">
+      <hr style="margin:0;padding-top:8px">
       <div class="row">
         <ul>
         <%- if user_signed_in? -%>

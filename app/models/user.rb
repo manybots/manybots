@@ -12,9 +12,11 @@ class User < ActiveRecord::Base
   has_many :oauth_accounts
   
   validates_uniqueness_of :email
-  validates_presence_of :email, :on => :update
-  validates_presence_of :name, :on => :update  
-  
+  validates_presence_of :email, :name
+  validates :password, :presence => true,
+                       :confirmation => true,
+                       :on => :create
+                      
   after_update :create_first_activity
 
   devise :trackable, :database_authenticatable, :registerable,
