@@ -4,11 +4,36 @@
   %em Peter F. Drucker
   %hr
 
-  .box-content
-    %div Aggregate your digital activities from a catalogue of apps and master your digital lifestyle.
-    %div Manybots lets us collect & manage our own big data
-    %div &nbsp;
-    %img{:src => "assets/assembly-line/headless.png"}
+.box-content
+  %div.span2 &nbsp;
+  
+  #myCarousel.carousel.slide.span8
+    .carousel-inner
+      .item.active
+        %img{:src => "assets/assembly-line/illustration.png"}
+        %span
+          &nbsp;
+          %span
+            %a.btn.btn-large.btn-primary{ :href => 'users/sign_up' } Sign up
+          %span &nbsp;
+          for Updates or to request access to our Private Beta
+          
+      .item
+        %img{:src => "assets/assembly-line/illustration.png"}
+          .carousel-caption
+            %h4 Second Thumbnail label
+            %p Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+      .item
+        %img{:src => "assets/assembly-line/illustration.png"}
+          .carousel-caption
+            %h4 Third Thumbnail label
+            %p Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+    %a.left.carousel-control{"data-slide" => "prev", :href => "#myCarousel"} ‹
+    %a.right.carousel-control{"data-slide" => "next", :href => "#myCarousel"} ›
+
+  %div.span4
+    %div.welcome-bot-wrapper{:style => "height:191px"}
+      %img.welcome-bot{:src => "assets/assembly-line/headless.png"}
     %div
       %strong "The world's information is doubling every two years, with a colossal 1.8 zetabytes to be created and replicated in 2011"
       %div (the equivalent of 57.5 Billion 32 GB iPads)
@@ -17,14 +42,30 @@
     %div &nbsp;
     %div We create this data when we surf the internet, use apps, and use devices at home or on the road
     %div Businesses are rushing to leverage this data to serve their goals
+  
+  %div.span4
+    %div.welcome-bot-wrapper{:style => "height:191px"}
+      %img.welcome-bot{:src => "assets/assembly-line/partners.png"}
     %div
-      How can we each use our own big data to improve our lives?
-      %a read more
-    %div
-      &nbsp;
+      %strong "The world's information is doubling every two years, with a colossal 1.8 zetabytes to be created and replicated in 2011"
+      %div (the equivalent of 57.5 Billion 32 GB iPads)
       %div
-        %a.btn.btn-large.btn-primary{ :href => 'users/sign_up' } Sign up
-      %div &nbsp;
-      for Updates or to request access to our Private Beta
-
-
+        %em Mashable - June, 2011
+    %div &nbsp;
+    %div We create this data when we surf the internet, use apps, and use devices at home or on the road
+    %div Businesses are rushing to leverage this data to serve their goals
+    
+  %div.span4
+    %div.welcome-bot-wrapper{:style => "height:191px"}
+      %img.welcome-bot{:src => "assets/assembly-line/questionable.png"}
+    %div
+      %strong "The world's information is doubling every two years, with a colossal 1.8 zetabytes to be created and replicated in 2011"
+      %div (the equivalent of 57.5 Billion 32 GB iPads)
+      %div
+        %em Mashable - June, 2011
+    %div &nbsp;
+    %div We create this data when we surf the internet, use apps, and use devices at home or on the road
+    %div Businesses are rushing to leverage this data to serve their goals
+    
+    
+  
