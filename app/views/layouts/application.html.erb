@@ -9,40 +9,31 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="shortcut icon" href="/favicon.ico" />
   
-  <%- unless current_user -%>
-    <%= stylesheet_link_tag "application-marketing", :media => "all" %>
-  <%- else -%>
+  <%- if current_user -%>
     <%= stylesheet_link_tag "application", :media => "all" %>
+  <%- else -%>
+    <%= stylesheet_link_tag "application-marketing", :media => "all" %>
   <%- end -%>
   
-  <%- unless current_user -%>
-    <%= javascript_include_tag 'application-marketing' %>
-  <%- else -%>
+  <%- if current_user -%>
     <%= javascript_include_tag 'application' %>
+  <%- else -%>
+    <%= javascript_include_tag 'application-marketing' %>
   <%- end -%>
   
   <%= csrf_meta_tag %>
 </head>
 <body>
-  
-  <%- unless current_user -%>
-    <%= render :partial => 'layouts/classic_header' %>
-  <%- else -%>
-    <%= render :partial => 'layouts/light_header' %>
-  <%- end -%>
+  <%- if current_user -%>
+  <!-- HEADER - LOGGED IN -->
+  <%= render :partial => 'layouts/light_header' %>
 
+  <!-- BODY - LOGGED IN -->
   <div id="page">
-    <%- if current_user -%>
       <%= render :partial => 'layouts/app_menu' %>
-
       <div id="body" style="width: 800px; float:left; display:block;">
         <%= yield %>
       </div>
-    <%- else -%>
-      <div id="body">
-        <%= yield %>
-      </div>
-    <%- end -%>
     
     <div class="clear"></div>
     <div id="footer">
@@ -55,26 +46,42 @@
       </ul>
       <p class="quiet">(c) Copyright 2010-2012 Manybots IT, Lda.</p>
     </div>
-  
   </div>
+  <%- else -%>
+  <!-- HEADER - LOGGED OUT -->
+    <%= render :partial => 'layouts/marketing_header' %>
   
-  <!-- <script type="text/javascript" charset="utf-8">
-    var newWindow = '';
-    $(function() {
-      $.get('/notifications.json', function(data) {
-        var notifications = data.data.items;
-        for (var i = notifications.length - 1; i >= 0; i--){
-          $.notty({
-            content: notifications[i].title,
-            img: notifications[i].actor.image.url,
-            // timeout: 5000,
-            showTime: false
-          });
-        };
-      });
-    });
-  </script>
-
-  <script type="text/javascript" src="/javascripts/jquery.notty.js"></script> -->
+  <!-- BODY - LOGGED OUT -->
+  <div class="container-fluid sticky-wrapper">
+      <% flash.each do |name, msg| %>
+    <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
+      <a class="close" data-dismiss="alert" href="#">&times;</a>
+      <%= msg %>
+    </div>
+    <% end %>
+    
+    <div class="row">
+      <div class="division">
+        <%= yield %>
+      </div>
+    </div>
+    <div class="sticky-push"></div>
+  </div><!-- /container -->
+  <div class="sticky-footer">
+    <hr style="margin:0;padding-top:8px" />
+    <div class="row">      
+      <ul class="center">
+        <li class="footer-item"><a class="quiet" href="/" title="Home">Home</a></li>
+        <li class="footer-item"><a class="quiet" href="/tos" title="Terms of Service">Terms of Service</a></li>
+        <li class="footer-item"><a class="quiet" href="/privacy" title="Privacy Policy">Privacy</a></li>
+        <li class="footer-item"><a class="quiet" href="/contact" title="Contact">Contact</a></li>
+        <li class="footer-item"><a class="quiet" href="http://blog.manybots.com" title="Blog">Blog</a></li>
+      </ul>        
+    </div>
+    <div class="row">
+      <div class="quiet center">Copyright &copy; 2010-2012 Manybots IT, Lda.</div>
+    </div>
+  </div><!-- /footer -->
+  <%- end -%>
 </body>
 </html>
