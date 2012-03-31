@@ -8,9 +8,18 @@
 
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="shortcut icon" href="/favicon.ico" />
-  <%= stylesheet_link_tag('application') %>
-    
-  <%= javascript_include_tag 'application' %>
+  
+  <%- unless current_user -%>
+    <%= stylesheet_link_tag "application-marketing", :media => "all" %>
+  <%- else -%>
+    <%= stylesheet_link_tag "application", :media => "all" %>
+  <%- end -%>
+  
+  <%- unless current_user -%>
+    <%= javascript_include_tag 'application-marketing' %>
+  <%- else -%>
+    <%= javascript_include_tag 'application' %>
+  <%- end -%>
   
   <%= csrf_meta_tag %>
 </head>

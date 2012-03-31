@@ -1,0 +1,10 @@
+/*
+*= require plugins
+*= require font-face
+*= require colorbox
+*= require fullcalendar
+*= require_self
+*= require_tree ./twitter-bootstrap
+*= require bootstrap-datepicker
+*= require manybots.omnisearch
+*/

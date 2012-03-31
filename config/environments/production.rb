@@ -28,6 +28,9 @@ ManybotsLocal::Application.configure do
   # Don't initialize app on precompile
   config.assets.initialize_on_precompile = false
 
+  #add in the marketing precompile files
+  config.assets.precompile += %w( application-marketing.css application-marketing.js )
+  
   # See everything in the log (default is :info)
   # config.log_level = :debug
 
