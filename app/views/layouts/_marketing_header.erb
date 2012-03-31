@@ -26,9 +26,12 @@
           </ul>
         </li>
         <% else -%>
-      		<li class="mn-item <%= current_tab?(:controller => :sessions, :action => :new)%>">
-      		  <a href="/login" title="Login">Login</a>
-      		</li>
+        <li class="mn-item <%= current_tab?(:controller => :sessions, :action => :new)%>">
+          <a href="/login" title="Login">
+            <%= image_tag "assembly-line/bored-bw-small.png", :class => 'header-bot' %>
+            Login
+          </a>
+      	</li>
     		<% end -%>
         </ul>
         </div>
