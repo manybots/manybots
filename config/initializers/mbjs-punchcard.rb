@@ -5,10 +5,9 @@ if app.new_record?
   app.description = "See the time distribution of your activities."
   app.url = ManybotsServer.url + '/mbjs-punchcard/'
   app.screenshot = "#{app.url}/screenshot.png"
+  app.app_icon_url = "#{app.url}/screenshot.png"
   app.developer_name = "Manybots"
   app.developer_url = "https://www.manybots.com"
-  app.category = "Productivity"
-  app.is_public = true
-  app.is_trusted = true
+  app.category = "Lifestyle"
   app.save
 end
