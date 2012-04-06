@@ -1,5 +1,5 @@
 ManybotsLocal::Application.routes.draw do
-  
+
   match "/dashboard/day/:year/:month/:day", :to => "dashboard#day", :as => 'day'
   
   match "/collection/:id", :to => 'aggregations#filter', :as => 'collection'
@@ -43,6 +43,7 @@ ManybotsLocal::Application.routes.draw do
     member do
       get 'bundle'
       get 'activities'
+      get 'aggregates'
       get 'notifications'
       get 'predictions'
     end
@@ -70,6 +71,7 @@ ManybotsLocal::Application.routes.draw do
     collection do
       post 'filter'
       post 'bundle'
+      get 'current'
     end
   end
 

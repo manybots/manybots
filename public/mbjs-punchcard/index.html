@@ -1,0 +1,146 @@
+<html>
+<head>
+  <title>Visualize your data</title>
+  <link rel="stylesheet" href="https://www.manybots.com/stylesheets/manybots.css" type="text/css" media="screen">
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+  <script src="http://localhost:5000/javascripts/manybots.js" type="text/javascript"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.0.1/raphael-min.js" type="text/javascript">
+  </script>
+  <script type="text/javascript" src="http://g.raphaeljs.com/g.raphael.js">
+  </script>
+  
+  <script src="http://g.raphaeljs.com/g.dot.js" type="text/javascript"></script>
+  
+  <script src="http://documentcloud.github.com/underscore/underscore-min.js" type="text/javascript">
+  </script>
+  
+  <script src="punchcard.js" type="text/javascript">
+  </script>
+  
+  <script type="text/javascript">
+    
+    var loadPunchCard = function(options, limit) {
+      var config = {
+        protocol: 'http',
+        host: 'localhost:5000',
+      }
+      var client = new ManybotsClient(config);
+      var filter = options || {
+        'verbs' : 'join',
+      };
+      
+      var limit = limit || 100;
+      
+      client.getJSON('/activities/current', {'limit': limit}, function(stream) {
+        var activities = stream.data.items;
+        var count = activities.length;
+        if (count == 0) {
+          // there are no current activities in session
+          // let's display the normal interface and search results
+          $('#user-options').show();
+          client.getJSON('/activities', {'filter':filter, 'limit': limit}, function(stream) {
+            var activities = stream.data.items;
+            var count = activities.length;
+            console.log('found ' + count + ' activities');
+            if (count == 0) {
+              $('#loading').text('No results found.');
+              return false;
+            } else {
+              displayActivities(activities);
+            }
+          });
+        } else {
+          // there are current activities, let's display them
+          var filter = {};
+          $('#verbs').val(stream.filter.verb);
+          $('#objects').val(stream.filter.object);
+          $('#targets').val(stream.filter.target);
+          
+          displayActivities(activities);
+        }
+      });
+    };
+    
+    var displayActivities = function(activities) {
+      var dates = _.groupBy(activities, function(item) { 
+        var published = new Date((item.published).replace(/-/g,"/").replace(/[TZ]/g," "));
+        return published.getDay(); 
+      });
+
+      var days = {};
+
+      days.sunday = dates[0];
+      days.monday = dates[1];
+      days.tuesday = dates[2];
+      days.wednesday = dates[3];
+      days.thursday = dates[4];
+      days.friday = dates[5];
+      days.saturday = dates[6];
+      console.log(days);
+      var results = _.collect(days, function(items, day){
+        var total = [];
+        var grouped_by_hour = _.groupBy(items, function(item) {
+          var published = new Date((item.published).replace(/-/g,"/").replace(/[TZ]/g," "));
+          return published.getHours();
+        });
+        _.each(_.range(24), function(x) {
+          var this_total = grouped_by_hour[x] ? grouped_by_hour[x].length : 0;            
+          total.push(this_total);
+        });
+        return total;
+      });
+
+      $('#loading').hide();
+      punchCard(results);
+    };
+    
+    var $go = function() {
+      $('svg').remove();
+      $('#loading').show();
+      var filter = {};
+      filter.verbs = $('#verbs').val();
+      filter.objects = $('#objects').val();
+      filter.targets = $('#targets').val();
+      var limit = parseInt($('#limit').val()) || 100;
+      if (limit > 1000) {
+        alert('Limiting to 1000 latest activities.');
+        $('#limit').val('1000');
+        limit = 1000;
+      }
+      loadPunchCard(filter, limit);
+    };
+    
+    $(function() {
+      $('#user-options').hide();
+      $go();
+      
+      $('#filter').submit(function() {
+        $go();
+        return false;
+      });
+      
+    });
+  </script>
+</head>
+<body>
+  
+  <div id="filter-wrapper">
+    <form id="filter" action="#" method="get" accept-charset="utf-8">
+      <div id="user-options">
+        <label for="verbs">Verb</label><input type="text" name="verbs" value="join" id="verbs">
+        <label for="objects">Object</label><input type="text" name="objects" value="" id="objects">
+        <label for="targets">Target</label><input type="text" name="targets" value="" id="targets">
+      </div>
+      <label for="limit">Limit to </label><input type="text" name="limit" value="100" id="limit" size="4"> most recent
+      <input type="submit" name="submit" value="Load" id="submit">
+    </form>
+  </div>
+  
+  <div id="loading" style="display:none; color: #CCC;">
+    Loading, can take a few seconds if you have a lot of activities...
+  </div>
+  
+  <div id="punchcard"></div>
+</body>
+</html>

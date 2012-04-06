@@ -2,12 +2,18 @@ class VisualizationsController < ApplicationController
   before_filter :authenticate_user!
   
   def index
-    @visualizations = ClientApplication.visualizations.are_trusted
-    @my_visualizations = current_user.client_applications.where(:app_type => 'Visualization')
+    @visualizations = ClientApplication.visualizations#.are_trusted
+    # @my_visualizations = current_user.client_applications.where(:app_type => 'Visualization')
   end
   
   def show
+    if params[:aggregation_id].present?
+      session[:current_aggregation] = params[:aggregation_id] 
+    else
+      session.delete :current_aggregation
+    end
     @visualization = ClientApplication.where(:app_type => 'Visualization').where(:id => params[:id]).first
+    logger.info "SESSION #{session.inspect}"
   end
   
   def new
@@ -27,7 +33,7 @@ class VisualizationsController < ApplicationController
   end
   
   def update
-    @visualization = current_user.client_applications.find(params[:id])
+    @visualization = ClientApplication.find(params[:id])
     if @visualization.update_attributes(params[:client_application])
       flash[:notice] = "Visualization updated."
       redirect_to :action => "show", :id => @visualization.id
@@ -38,7 +44,7 @@ class VisualizationsController < ApplicationController
   
   
   def edit
-    @visualization = current_user.client_applications.find(params[:id])
+    @visualization = ClientApplication.find(params[:id])
   end
   
   def destroy

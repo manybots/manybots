@@ -1,0 +1,15 @@
+<article class="box">
+  <div class="box-content">
+    <h1 class="page-title">Objects related to <%= link_to @aggregation.name, @aggregation %></h1>
+    
+    <%- @aggregates.group_by(&:type_string).sort.each do |group, aggregates| -%>
+      <h4><%= group.capitalize %></h4>
+      <ul>
+        <%- aggregates.each do |a| -%>
+          <li><%= link_to a.name, bundle_aggregation_path(params[:id] + '&' +a.id.to_s) %></li>
+        <%- end -%>
+      </ul>
+      
+    <%- end if @aggregates.any? -%>
+  </div>
+</article>

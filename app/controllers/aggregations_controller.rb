@@ -7,6 +7,7 @@ class AggregationsController < ApplicationController
   end
   
   def show
+    @visualizations = ClientApplication.visualizations
     @aggregation = current_user.aggregations.find(params[:id])
     
     @notifications_count = @aggregation.notifications.count
@@ -14,8 +15,15 @@ class AggregationsController < ApplicationController
     
     @activities = @aggregation.activities.timeline.scoped
     
+    @activities = @activities.paginate(:page => params[:page], :per_page => 10) unless 
+        @activities.is_a? WillPaginate::Collection
+    @count = @activities.total_entries rescue(@activities.count)
+  end
+  
+  def aggregates
+    @aggregation = current_user.aggregations.find(params[:id])
+    @activities = @aggregation.activities.timeline.scoped
     @aggregates = load_aggregates
-    
     # paginate after aggregates to let aggregates deal with unscoped activities
     @activities = @activities.paginate(:page => params[:page], :per_page => 10) unless 
         @activities.is_a? WillPaginate::Collection

@@ -5,3 +5,4 @@ tmp/**/*
 .sass-cache/
 config/initializers/secret_token.rb
 config/initializers/devise.rb
+bots/*

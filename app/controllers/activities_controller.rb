@@ -46,6 +46,20 @@ class ActivitiesController < ApplicationController
     end
   end
   
+  def current
+    items = {:data => {:items => []}, :filter => {}}
+    if session[:current_aggregation].present?
+      aggregation = current_user.aggregations.find(session[:current_aggregation])
+      the_filter = [aggregation.id]
+      aggregations_sql = Aggregation.bundled_activities(current_user.id, the_filter)
+      @activities = Activity.paginate_by_sql(aggregations_sql.to_sql, :per_page => params[:limit] || 30, :page => params[:page])
+      items[:filter][aggregation.type_string.singularize] = aggregation.name
+      items[:data][:items] = @activities.collect(&:as_activity_v1_0)
+      
+    end
+    render :json => items.to_json, :callback => params[:callback].present? ? params[:callback] : false
+  end
+  
   # GET /activities
   # GET /activities.xml
   def index

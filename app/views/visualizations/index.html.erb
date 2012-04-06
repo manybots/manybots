@@ -1,13 +1,11 @@
 <div class="main-content">
   <div class="box">
     <div class="box-content">
-      <h1>Visualizations</h1>
-      <p></p>
+      <h1 class="page-title">Visualizations</h1>
 
-      <h2>My visualizations</h2>
-      <ul>
-        <%- if @my_visualizations.any? -%>
-          <%- @my_visualizations.each do |visu| -%>
+      <ul style="margin: 20px 0;">
+        <%- if @visualizations.any? -%>
+          <%- @visualizations.each do |visu| -%>
             <li class="clearfix" style="margin: 10px 0;">
               <%= image_tag visu.screenshot, :width => 128, :height => 64, :align => 'left', :style => 'margin-right: 10px;' %>
               <p style="font-weight: bold;">
@@ -19,24 +17,6 @@
           <%- end -%>
         <%- else -%>
           <li>Create your own HTML 5 visualizations of your data!</li>
-        <%- end -%>
-      </ul>
-
-      <h2>Trusted visualizations catalogue</h2>
-
-      <ul>
-        <%- if @visualizations.any? -%>
-          <%- @visualizations.each do |visu| -%>
-            <li class="clearfix" style="margin: 10px 0;">
-              <%= image_tag visu.screenshot, :width => 128, :height => 64, :align => 'left', :style => 'margin-right: 10px;' %>
-              <p style="font-weight: bold;">
-                <%= link_to visu.name, visualization_path(visu.id) %> 
-              </p>
-              <p>by <%= link_to visu.developer_name, visu.developer_url %></p>
-            </li>
-          <%- end -%>
-        <%- else -%>
-            <li>The catalogue is empty.</li>
         <%- end -%>
       </ul>
     </div>

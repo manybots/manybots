@@ -7,7 +7,7 @@
     </div>
   </article>
   
-  <article class="box">
+  <article id="visu-container" class="box">
     <header>
       <ul class="inner-tab-nav clearfix">
         <li class="current-tab">
@@ -45,16 +45,19 @@
 <aside class="sec-content">
   <article class="box">
     <div class="box-content">
-      <h4>Related</h4>
-      <%- @aggregates.group_by(&:type_string).sort.each do |group, aggregates| -%>
-        <h4><%= group.capitalize %></h4>
-        <ul>
-          <%- aggregates.each do |a| -%>
-            <li><%= link_to a.name, bundle_aggregation_path(params[:id] + '&' +a.id.to_s) %></li>
+      <h4>Visualizations</h4>
+      <ul>
+        <li><%= link_to 'Related', aggregates_aggregation_path(@aggregation.id) %></li>
+        <%- if @visualizations.any? -%>
+          <%- @visualizations.each do |visu| -%>
+            <li class="clearfix">
+              <p style="font-weight: bold;">
+                <%= link_to visu.name, visualization_path(visu.id, aggregation_id: @aggregation.id), class: 'load-inline-visu' %> 
+              </p>
+            </li>
           <%- end -%>
-        </ul>
-        
-      <%- end if @aggregates.any? -%>
+        <%- end -%>
+      </ul>
     </div>
   </article>
   
@@ -91,7 +94,13 @@
       $($link.attr('rel')).show();
       return false;
     });
+    
+    $('a.load-inline-visu').click(function() {
+      var $link = $(this);
+      var url = $link.attr('href');
+      $('#visu-container').load(url);
+      return false;
+    });
   });
-  
 </script>
 
