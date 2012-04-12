@@ -50,10 +50,8 @@
         <li><%= link_to 'Related', aggregates_aggregation_path(@aggregation.id) %></li>
         <%- if @visualizations.any? -%>
           <%- @visualizations.each do |visu| -%>
-            <li class="clearfix">
-              <p style="font-weight: bold;">
-                <%= link_to visu.name, visualization_path(visu.id, aggregation_id: @aggregation.id), class: 'load-inline-visu' %> 
-              </p>
+            <li>
+              <%= link_to visu.name, visualization_path(visu.id, aggregation_id: @aggregation.id), class: 'load-inline-visu' %> 
             </li>
           <%- end -%>
         <%- end -%>

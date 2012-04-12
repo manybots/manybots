@@ -1,0 +1,133 @@
+<html>
+<head>
+  <title>Meals visualization</title>
+  
+  <style type="text/css" media="screen">
+    body {
+      font-family: "Helvetica","Arial","Sans";
+    }
+  
+    .card dt {
+      font-size: 1.5em;
+      cursor: pointer;
+    }
+    .card dd {
+      display:none;
+    }
+    .order dt {
+      font-size: .9em;
+      line-height: 20px;
+      padding-left: 25px;
+    }
+    
+    .order ul {
+      margin-top: 5px;
+      font-size: .8em;
+    }
+    
+    dd, ul {
+      margin-left: 0px;
+    }
+    
+    .price {
+      margin-right: 10px;
+      font-size: .8em;
+      padding: 3px;
+      background-color: #ddd;
+      font-weight: bold;
+    }
+  </style>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+  <script src="http://localhost:5000/javascripts/manybots.js" type="text/javascript"></script>
+  <script src="http://documentcloud.github.com/underscore/underscore-min.js" type="text/javascript"></script>
+  <script src="strftime.js" type="text/javascript"></script>
+  
+</head>
+<body>
+  
+  <div id="loading" style="color: #CCC;">
+    Loading, can take a few seconds if you have a lot of activities...
+  </div>
+  
+  <div id="meals">
+  </div>
+  <script type="text/javascript">
+  
+    var loadMeals = function() {
+      var config = {
+        protocol: 'http',
+        host: 'localhost:5000',
+      }
+      var client = new ManybotsClient(config);
+      var limit = 100;
+      
+      client.getJSON('/activities/current', {'limit': limit}, function(stream) {
+        var activities = stream.data.items;
+        var count = activities.length;
+        if (count == 0) {
+          alert('This visualization only works for Meals.');
+        } else {
+          // display the meals
+          displayActivities(activities);
+        }
+      });
+    }
+    
+    var displayActivities = function(activities) {
+      var $meals = $('div#meals');
+      var dates = _.groupBy(activities, function(item) { 
+        var published = new Date((item.published).replace(/-/g,"/").replace(/[TZ]/g," "));
+        return published.getFullYear();
+      });
+      
+      _.each(dates, function(items, year) {
+        var $dl = $('<dl/>').addClass('card');
+        var $ul = $('<ul/>');
+        var yearTotal = 0.0;
+        _.each(items, function(item) {
+          var published = new Date((item.published).replace(/-/g,"/").replace(/[TZ]/g," "));
+          published = published.strftime('%B %d, %H:%M');
+          yearTotal += parseFloat(item.object.price.value);
+          var $li = $('<li/>');
+          var $order = {};
+          $order.dl = $('<dl/>').addClass('order');
+          $order.dt = $('<dt/>');
+          $order.dt.attr('style', 'background: url('+item.icon.url+') 0 0 no-repeat; background-size:20px 20px;');
+          $order.price_span = $('<span/>').text(item.object.price.value + ' ' + item.object.price.currency).addClass('price');
+          $order.dt.append($order.price_span);
+          $order.dt.append(published);
+          $order.dd = $('<dd/>');
+          $order.ul = $('<ul/>');
+          var products = item.object.attachments;
+          _.each(products, function(product) {
+            var $prod_li = $('<li/>').text(product.displayName + ' - ' + product.units + ' * ' + product.price.unit + ' - ' + product.price.total);
+            $order.ul.append($prod_li);
+          });
+          $order.dd.append($order.ul);
+          $order.dl.append($order.dt);
+          $order.dl.append($order.dd);
+          $li.append($order.dl);
+          $ul.append($li);
+        });
+        var $dt = $('<dt/>').text(year+': '+yearTotal.toFixed(2)+'€ in '+items.length+' meals.');
+        var $dd = $('<dd/>');
+        $dl.append($dt);
+        $dd.append($ul);
+        $dl.append($dd);
+        $meals.append($dl);
+      });
+      
+      $('#loading').hide();
+    };
+    
+    $(function() {
+      loadMeals();
+      
+      $('dl.card dt').live('click', function() {
+        $(this).siblings('dd').toggle();
+      });
+    });
+  </script>
+</body>
+</html>

@@ -52,7 +52,7 @@ class ActivitiesController < ApplicationController
       aggregation = current_user.aggregations.find(session[:current_aggregation])
       the_filter = [aggregation.id]
       aggregations_sql = Aggregation.bundled_activities(current_user.id, the_filter)
-      @activities = Activity.paginate_by_sql(aggregations_sql.to_sql, :per_page => params[:limit] || 30, :page => params[:page])
+      @activities = Activity.paginate_by_sql(aggregations_sql.to_sql, :per_page => params[:limit] || params[:per_page] || 30, :page => params[:page])
       items[:filter][aggregation.type_string.singularize] = aggregation.name
       items[:data][:items] = @activities.collect(&:as_activity_v1_0)
       
@@ -66,7 +66,7 @@ class ActivitiesController < ApplicationController
     if params[:filter].present?
       the_filter = Aggregation.find_aggregations_for_user_and_params(current_user, params[:filter], true)
       aggregations_sql = Aggregation.bundled_activities(current_user.id, the_filter)
-      @activities = Activity.paginate_by_sql(aggregations_sql.to_sql, :per_page => params[:limit] || 30, :page => params[:page])
+      @activities = Activity.paginate_by_sql(aggregations_sql.to_sql, :per_page => params[:limit] || params[:per_page] || 30, :page => params[:page])
       if params[:filter][:tags].present?
         if @activities.any?
           activities_id = @activities.collect(&:id)
