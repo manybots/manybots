@@ -86,6 +86,18 @@ class ClientApplication < ActiveRecord::Base
     end
   end
   
+  def as_provider(options={})
+    @provider ||= {
+      url: options[:url] || self.url,
+      displayName: options[:name] || self.name,
+      image: {
+        url: options[:icon_url] || self.app_icon_url
+      }
+    }
+  end
+  
+  alias_method :as_generator, :as_provider
+  
 protected
   
   def generate_keys

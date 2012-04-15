@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.2'
+gem 'rails', '3.2.3'
 gem 'thin'
 
 group :development, :test do
@@ -29,6 +29,7 @@ gem 'resque-scheduler', ">= 2.0.0.e"
 gem 'rest-client', :require => 'rest_client'
 gem 'sanitize'
 gem 'chronic'
+gem 'httparty'
 gem 'devise', '1.5.3'
 gem 'oauth'
 gem 'oauth-plugin', :git => "http://github.com/webcracy/oauth-plugin.git"
@@ -45,6 +46,16 @@ gem 'dynamic_form', :git => 'https://github.com/rails/dynamic_form.git'
 gem 'manybots-gmail', '0.0.2', :git => 'git://github.com/manybots/manybots-gmail.git'
 gem 'gmail', :git => 'git://github.com/webcracy/gmail.git'
 
-# gem 'manybots-github', :git => 'git://github.com/manybots/manybots-github.git'
-# gem 'octokit', '1.0.0', :git => 'git://github.com/webcracy/octokit.git'
+gem 'manybots-github', git: 'git://github.com/manybots/manybots-github.git'
 
+gem 'manybots-googlecalendar', :git => 'git://github.com/manybots/manybots-googlecalendar.git'
+gem 'google-api-client', :require => 'google/api_client'
+
+gem 'manybots-weather', :git => 'git://github.com/manybots/manybots-weather.git'
+
+gem 'manybots-gardener', :git => 'git://github.com/manybots/manybots-gardener.git'
+
+gem 'manybots-gmail-pizzahut', :path => '/Users/alex/code/manybots/dev/manybots-gmail-pizzahut'
+
+gem 'manybots-instagram', path: '/Users/alex/code/manybots/dev/manybots-instagram'
+gem 'instagram', :git => 'git://github.com/webcracy/instagram-ruby-gem.git'

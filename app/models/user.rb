@@ -43,6 +43,19 @@ class User < ActiveRecord::Base
     end
   end
   
+  def as_activity_actor(options={})
+    @actor ||= {
+      id: "#{ManybotsServer.url}/users/#{self.id}",
+      url: "#{ManybotsServer.url}/users/#{self.id}",
+      displayName: options[:name] || self.name || self.email,
+      objectType: 'person',
+      email: options[:email] || self.email,
+      image: {
+        url: options[:avatar_url] || self.avatar_url,
+      }
+    }
+  end
+  
   
   def active_apps
     @active_apps ||= ClientApplication.where(
