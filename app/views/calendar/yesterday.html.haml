@@ -1,5 +1,5 @@
-%section.main-content
-  %article.box
+%section
+  %article
     .box-content
       .page_header
         .altviews
@@ -43,10 +43,7 @@
               %li{style: "display:inline;margin: 10px; padding:10px;font-size:#{10 + aggregations.size}px;"}
                 = link_to "#{group.name}", aggregation_path(group.id)
               
-%aside.sec-content
-  = render partial: 'apps_box'
-
-#target.main-content
+#target.main-content{style: 'width: 100%'}
   = render :partial => 'notifications/notification'
 
 :javascript 

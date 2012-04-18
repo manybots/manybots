@@ -16,7 +16,7 @@ module ApplicationHelper
       end
     end
     if id 
-      if result == 'active' and id == params[:id]
+      if result == 'active' and id.to_s == params[:id].to_s
         result = 'active'
       else
         result = ''

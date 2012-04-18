@@ -1,4 +1,5 @@
 <div id="app-menu" class="clearfix" style="width: 150px; float:left; display:block; margin-right: 10px;">
+  
   <ul class="app-nav">
     <li><a href="/calendar/today/notifications" class="<%= current_tab?(:controller => 'calendar', :action => 'today')%>">Today</a></li>
     <li><a href="/calendar/tomorrow" class="<%= current_tab?(:controller => 'calendar', :action => 'tomorrow')%>">Tomorrow</a></li>
@@ -6,24 +7,30 @@
   </ul>
 
   <p></p>
-  
-  <h3>Lifestyle</h3>
+
   <ul class="app-nav">
     <li><a href="/analytics" class="<%= current_tab?(:filters)%>">Analytics</a></li>
-    <li class="last"><a href="/visualizations" class="<%= current_tab?(:visualizations)%>">Visualizations</a></li>
-    <li class="last"><a href="/apps" class="<%= current_tab?([:apps, :oauth_clients])%>">Applications</a></li>
+    <%- ClientApplication.visualizations.each do |visualization| -%>
+      <li><%= link_to visualization.name, "/visualizations/#{visualization.id}", class: current_tab?(:visualizations, visualization.id) %></li>
+    <%- end -%>
+    <li><%= link_to 'People', main_app.collection_path('people'), :class => current_tab?(:aggregations, 'people') %></li>
+    
+    <li><%= link_to 'Library', main_app.aggregations_path, :class => current_tab?(:aggregations) %></li>  
+    
   </ul>
+  <p style="text-align:right;"><a href="/visualizations">More views...</a></p>
+  
+  <p></p>
+  
+  <ul class="clearfix" style="padding:0;margin:0;">
+    <%- ClientApplication.where(is_public: true).each do |app| -%>
+      <li style="display:inline; margin: 0;" >
+        <a href="<%=app.url%>" title="<%= app.name %>" class="">
+        <%= image_tag app.app_icon_url, :class => 'app_icon small', :width => 32, :height => 32 -%></a>
+      </li>
+    <%- end  -%>
+  </ul>
+  <p style="text-align:right;"><a href="/apps">More apps...</a></p>
   
   
-  <p><h3>Library</h3></p>
-    <ul class="app-nav">
-      <li><%= link_to 'People', main_app.collection_path('people'), :class => current_tab?(:aggregations, 'people') %></li>
-      <li><%= link_to 'Everything', main_app.aggregations_path, :class => current_tab?(:controller => :aggregations, :action => :index) %></li>
-      <li><%= link_to 'Advanced...', '#', :onclick => "$('#advanced').toggle();return false;" %></li>
-      <ul id="advanced" style="display:none">
-        <li><%= link_to 'Verbs', main_app.collection_path('verbs'), :class => current_tab?(:aggregations, 'verbs') %></li>
-        <li><%= link_to 'Objects', main_app.collection_path('objects'), :class => current_tab?(:aggregations, 'objects') %></li>
-        <li><%= link_to 'Targets', main_app.collection_path('targets'), :class => current_tab?(:aggregations, 'targets') %></li>
-      </ul>
-    </ul>
 </div>

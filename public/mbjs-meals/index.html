@@ -66,9 +66,11 @@
         var activities = stream.data.items;
         var count = activities.length;
         if (count == 0) {
-          alert('This visualization only works for Meals.');
+          client.getJSON('/activities', {'filter': {'objectType': 'meal'}, 'limit': limit}, function(stream) {
+            activities = stream.data.items;
+            displayActivities(activities);
+          });
         } else {
-          // display the meals
           displayActivities(activities);
         }
       });

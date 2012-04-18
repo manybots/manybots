@@ -5,6 +5,15 @@
     </div>
   </div>
   
+  <%- if @activity.target.object_type == 'photo' or @activity.object.object_type == 'photo' -%>
+    <div class="box">
+      <div class="box-content">
+        <%= image_tag YAML::load(@activity.payload)[:object][:image][:url] %>
+      </div>
+    </div>
+  <%- end -%>
+  
+  
   <%- if @activity.target.object_type == 'place' or @activity.object.object_type == 'place' -%>
     <div class="box">
       <div class="box-content">
@@ -13,7 +22,6 @@
       </div>
     </div>
   <%- end -%>
-  
   
   <div class="box">
     <div class="box-content">
