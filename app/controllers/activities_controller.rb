@@ -55,7 +55,12 @@ class ActivitiesController < ApplicationController
       @activities = Activity.paginate_by_sql(aggregations_sql.to_sql, :per_page => params[:limit] || params[:per_page] || 30, :page => params[:page])
       items[:filter][aggregation.type_string.singularize] = aggregation.name
       items[:data][:items] = @activities.collect(&:as_activity_v1_0)
-      
+    elsif session[:current_aggregations].present?
+      @activities = load_bundles
+      @activities = @activities.paginate(:per_page => params[:limit] || params[:per_page] || 30, :page => params[:page]) unless 
+          @activities.is_a? WillPaginate::Collection
+      logger.info @activities.class
+      items[:data][:items] = @activities.collect(&:as_activity_v1_0)
     end
     render :json => items.to_json, :callback => params[:callback].present? ? params[:callback] : false
   end
@@ -211,5 +216,37 @@ class ActivitiesController < ApplicationController
       format.html { redirect_to(activities_url) }
       format.xml  { head :ok }
     end
+  end
+  
+protected
+
+  def match
+    if session[:current_aggregations].match '\+'
+      @match = 'reunion'
+      @match_symbol = '+'
+      params_id = session[:current_aggregations].split('+')
+    elsif session[:current_aggregations].match '&'
+      @match = 'intersection'
+      @match_symbol = '&'
+      params_id = session[:current_aggregations].split('&').collect(&:to_i).flatten
+    end
+    params_id
+  end
+
+  def load_bundles
+    params_id = match
+    @aggregations = current_user.aggregations.where(:id => params_id).to_a
+    raise ActiveRecord::RecordNotFound if @aggregations.empty?
+    
+    activities = case @match
+    when 'intersection'
+      aggregations_sql = Aggregation.bundled_activities(current_user.id, params_id)
+      Activity.paginate_by_sql(aggregations_sql.to_sql, :per_page => params[:limit] || params[:per_page] || 30, :page => params[:page])
+    else
+      current_user.activities.joins(:aggregations).where('activities_aggregations.aggregation_id' => params_id).
+      timeline.scoped
+    end
+    @params_id = params_id
+    activities
   end
 end

@@ -1,6 +1,6 @@
 <article class="box">
   <div class="box-content">
-    <h1 class="page-title">Objects related to <%= link_to @aggregation.name, @aggregation %></h1>
+    <h1 class="page-title">Related objects</h1>
     
     <%- @aggregates.group_by(&:type_string).sort.each do |group, aggregates| -%>
       <h4><%= group.capitalize %></h4>

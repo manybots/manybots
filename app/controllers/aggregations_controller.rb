@@ -74,6 +74,7 @@ class AggregationsController < ApplicationController
   end
   
   def bundle
+    @visualizations = ClientApplication.visualizations
     @activities = load_bundles
     logger.info @activities.class
     @aggregates = load_aggregates
@@ -83,6 +84,16 @@ class AggregationsController < ApplicationController
     
     @count = @activities.total_entries rescue(@activities.count)
     render
+  end
+  
+  def bundle_aggregates
+    @activities = load_bundles
+    logger.info @activities.class
+    @aggregates = load_aggregates
+    @activities = @activities.paginate(:page => params[:page], :per_page => 10) unless 
+        @activities.is_a? WillPaginate::Collection
+    logger.info @activities.class
+    render 'aggregates'
   end
   
   def destroy

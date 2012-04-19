@@ -7,11 +7,23 @@ class VisualizationsController < ApplicationController
   end
   
   def show
+    @inline = false
     if params[:aggregation_id].present?
+      @inline = true
+      session.delete :current_aggregations
       session[:current_aggregation] = params[:aggregation_id] 
     else
       session.delete :current_aggregation
     end
+    
+    if params[:bundle_id].present?
+      @inline = true
+      session.delete :current_aggregation
+      session[:current_aggregations] = CGI.unescape params[:bundle_id] 
+    else
+      session.delete :current_aggregations
+    end
+    
     @visualization = ClientApplication.where(:app_type => 'Visualization').where(:id => params[:id]).first
     logger.info "SESSION #{session.inspect}"
   end

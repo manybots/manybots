@@ -1,4 +1,4 @@
-<%- unless params[:aggregation_id].present? -%>
+<%- unless @inline -%>
   <h4 id="visualization-header" class="page-title">
     <%= @visualization.name %>
     <span class="meta">by <%= link_to @visualization.developer_name, @visualization.developer_url %></span>
