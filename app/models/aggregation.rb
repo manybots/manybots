@@ -4,6 +4,22 @@ class Aggregation < ActiveRecord::Base
   has_and_belongs_to_many :notifications
   has_and_belongs_to_many :predictions
   
+  def self.match(aggregation_params)
+    if aggregation_params.match '\+'
+      @match = 'reunion'
+      @match_symbol = '+'
+      params_id = aggregation_params.split('+').collect(&:to_i).flatten
+    elsif aggregation_params.match '&'
+      @match = 'intersection'
+      @match_symbol = '&'
+      params_id = aggregation_params.split('&').collect(&:to_i).flatten
+    else
+      params_id = [aggregation_params]
+    end
+    self.where(id: params_id)
+  end
+  
+  
   def self.bundled_activities(user_id, aggregation_ids)
     a0 = Arel::Table.new(:activities_aggregations)
     bundles = []
@@ -33,7 +49,7 @@ class Aggregation < ActiveRecord::Base
   def self.recalculate_totals!
     Aggregation.find_each do |ag|
       ag.update_attribute :total, (ag.activities.count + ag.notifications.count)
-      ag.destroy if ag.total == 0
+      ag.destroy if ag.total <= 0
     end
   end
   
@@ -307,9 +323,4 @@ class Aggregation < ActiveRecord::Base
   end
   ## End add all aggregations
   
-  
-  private
-  
-    def aggregate_people_for_activity(activity)
-    end
-end
+  end

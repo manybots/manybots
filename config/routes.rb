@@ -31,7 +31,12 @@ ManybotsLocal::Application.routes.draw do
     end
   end
 
-  resources :visualizations
+  resources :visualizations do
+    member do
+      post 'install'
+      post 'uninstall'
+    end
+  end
   resources :contacts do 
     collection do
       get 'botshop'

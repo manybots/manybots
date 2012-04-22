@@ -689,3 +689,34 @@ ul.visualization-list li {
   display: inline;
   padding-right: 20px;
 }
+
+.success-icon {
+  background: url(/assets/icons/fugue-icons-1.7.2/tick-circle.png) 0 0 no-repeat;
+  padding-left: 20px;
+}
+
+.failure-icon {
+  background: url(/assets/icons/fugue-icons-1.7.2/cross-circle.png) 0 0 no-repeat;
+  padding-left: 20px;
+}
+
+.library-icon {
+  background: url(/assets/icons/fugue-icons-1.7.2/book-brown.png) 0 0 no-repeat;
+  padding-left: 20px;
+  font-weight: bold;
+}
+
+.menu-icon {
+  background: url(/assets/icons/fugue-icons-1.7.2/layout-select-sidebar.png) 0 0 no-repeat;
+  padding-left: 20px;
+  font-weight: bold;
+  padding-right: 5px;
+}
+
+.visu-obj-target {
+  text-transform: uppercase;
+  background-color: #ddd;
+  padding: 3px;
+  font-size: 10px;
+  font-weight: bold;
+}

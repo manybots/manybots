@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user: 
+  client_application: 
+  in_menu: false
+  in_library: false
+  is_default: false
+
+two:
+  user: 
+  client_application: 
+  in_menu: false
+  in_library: false
+  is_default: false

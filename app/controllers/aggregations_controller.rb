@@ -7,16 +7,17 @@ class AggregationsController < ApplicationController
   end
   
   def show
-    @visualizations = ClientApplication.visualizations
-    @aggregation = current_user.aggregations.find(params[:id])
+    @aggregations = current_user.aggregations.match(params[:id])
+    @aggregation = @aggregations.first
+    @visualizations = load_related_apps(@aggregations)
     
-    @notifications_count = @aggregation.notifications.count
-    @predictions_count = @aggregation.predictions.count
+    @notifications_count = @aggregation.notifications.count #rescue(0)
+    @predictions_count = @aggregation.predictions.count #rescue(0)
     
-    @activities = @aggregation.activities.timeline.scoped
     
-    @activities = @activities.paginate(:page => params[:page], :per_page => 10) unless 
-        @activities.is_a? WillPaginate::Collection
+    aggregations_sql = Aggregation.bundled_activities(current_user.id, @aggregations.collect(&:id))
+    @activities = Activity.paginate_by_sql(aggregations_sql.to_sql, :per_page => 10, :page => params[:page])
+
     @count = @activities.total_entries rescue(@activities.count)
   end
   
@@ -24,10 +25,6 @@ class AggregationsController < ApplicationController
     @aggregation = current_user.aggregations.find(params[:id])
     @activities = @aggregation.activities.timeline.scoped
     @aggregates = load_aggregates
-    # paginate after aggregates to let aggregates deal with unscoped activities
-    @activities = @activities.paginate(:page => params[:page], :per_page => 10) unless 
-        @activities.is_a? WillPaginate::Collection
-    @count = @activities.total_entries rescue(@activities.count)
   end
   
   def filter
@@ -74,10 +71,10 @@ class AggregationsController < ApplicationController
   end
   
   def bundle
-    @visualizations = ClientApplication.visualizations
     @activities = load_bundles
     logger.info @activities.class
     @aggregates = load_aggregates
+    @visualizations = load_related_apps(@aggregations)
     @activities = @activities.paginate(:page => params[:page], :per_page => 10) unless 
         @activities.is_a? WillPaginate::Collection
     logger.info @activities.class
@@ -90,9 +87,6 @@ class AggregationsController < ApplicationController
     @activities = load_bundles
     logger.info @activities.class
     @aggregates = load_aggregates
-    @activities = @activities.paginate(:page => params[:page], :per_page => 10) unless 
-        @activities.is_a? WillPaginate::Collection
-    logger.info @activities.class
     render 'aggregates'
   end
   
@@ -149,6 +143,18 @@ class AggregationsController < ApplicationController
           where('"aggregations".id NOT IN (?)', params[:id].split(@match_symbol)).
           uniq        
       end
+    end
+    
+    def load_related_apps(aggregations)
+      visualizations = current_user.installed_applications.in_library.collect(&:client_application)
+      aggregates = Aggregation.aggregates_for_intersection(aggregations.collect(&:id))
+      related = aggregates.collect(&:name)
+      apps = visualizations.collect {|v|
+        v if v.target_objects.split(',').collect do |target|
+          true if related.include?(target) or v.target_objects == 'all' or aggregations.collect(&:name).include? target
+        end.include? true
+      }
+      apps.uniq.compact
     end
   
 end

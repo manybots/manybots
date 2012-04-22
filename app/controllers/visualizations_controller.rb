@@ -2,8 +2,28 @@ class VisualizationsController < ApplicationController
   before_filter :authenticate_user!
   
   def index
-    @visualizations = ClientApplication.visualizations#.are_trusted
-    # @my_visualizations = current_user.client_applications.where(:app_type => 'Visualization')
+    VisualizationApp.load_all
+    @installed_applications = current_user.installed_applications
+    @visualizations = ClientApplication.visualizations
+  end
+  
+  def install
+    installed = InstalledApplication.find_or_initialize_by_user_id_and_client_application_id(current_user.id, params[:id])
+    if installed.new_record?
+      installed.in_library = installed.client_application.in_library
+      installed.in_menu = installed.client_application.in_menu
+      installed.is_default = false
+      installed.save
+      redirect_to visualization_path(installed.client_application.id), notice: "#{installed.client_application.name} installed."
+    else
+      redirect_to visualizations_path, alert: 'View was already installed.'
+    end
+  end
+  
+  def uninstall
+    installed = InstalledApplication.find_or_initialize_by_user_id_and_client_application_id(current_user.id, params[:id])
+    installed.destroy
+    redirect_to visualizations_path, notice: "#{installed.client_application.name} uninstalled."
   end
   
   def show
@@ -56,11 +76,12 @@ class VisualizationsController < ApplicationController
   
   
   def edit
-    @visualization = ClientApplication.find(params[:id])
+    @installed_application = InstalledApplication.find_by_user_id_and_client_application_id(current_user.id, params[:id])
+    @visualization = @installed_application.client_application
   end
   
   def destroy
-    @visualization = current_user.client_applications.find(params[:id])
+    @visualization = ClientApplication.find(params[:id])
     @visualization.destroy
     redirect_to visualizations_path, :notice => 'Visualization deleted.'
   end

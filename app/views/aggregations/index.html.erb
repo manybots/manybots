@@ -1,20 +1,17 @@
-<section class="main-content">
-  <article class="box">
-    <div class="box-content">      
-      <h1 class="page-title">Aggregations</h1>
-      
-      <p style="font-size:30px;"><%= @aggregations.count %> aggregations</p>
-    </div>
-  </article>
-  
-  <article class="box">
-    <div class="box-content">      
-      <h3>Activities</h3>
-      <ol>
-        <%- for aggregation in @aggregations -%>
-          <li><%= aggregation.type_string %>: <%= link_to aggregation.name, aggregation %> (<%= aggregation.total %>)</li>
-        <%- end -%>
-      </ol>
-    </div>
-  </article>
-</section>
+
+<h1 class="page-title" style="">
+  Library
+  <span class="meta">
+    <%= @aggregations.size %> objects
+  </span>      
+</h1>
+
+<article class="box">
+  <div class="box-content">
+    <ol>
+      <%- for aggregation in @aggregations -%>
+        <li><%= aggregation.type_string %>: <%= link_to aggregation.name, aggregation %> (<%= aggregation.total %>)</li>
+      <%- end -%>
+    </ol>
+  </div>
+</article>

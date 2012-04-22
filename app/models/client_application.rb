@@ -98,6 +98,10 @@ class ClientApplication < ActiveRecord::Base
   
   alias_method :as_generator, :as_provider
   
+  def installed_by_user?(this_user_id)
+    InstalledApplication.exists? user_id: this_user_id, client_application_id:self.id
+  end
+  
 protected
   
   def generate_keys

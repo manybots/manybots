@@ -1,0 +1,22 @@
+{
+   "name": "Punch Card",
+   "nickname": "mbjs-punchcard",
+   "version": "0.0.1",
+   "description": "See the time distribution of your activities.",
+   "developer": {
+     "name": "Manybots",
+     "url": "https://www.manybots.com"
+   },
+   "category": "Analytics",
+   "display": {
+     "library": true,
+     "menu": true,
+     "objects": "all"
+   },
+   "repositories": [
+       {
+           "type": "git",
+           "url": "https://github.com/manybots/mbjs-punchard" 
+       }
+   ]
+}

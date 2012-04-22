@@ -1,0 +1,22 @@
+{
+   "name": "Meal Money",
+   "nickname": "mbjs-meals",
+   "version": "0.0.1",
+   "description": "See how much money you spend on meals",
+   "developer": {
+     "name": "Manybots",
+     "url": "https://www.manybots.com"
+   },
+   "category": "Lifestyle",
+   "display": {
+     "menu": true,
+     "library": true,
+     "objects": ["meal"]
+   },
+   "repositories": [
+       {
+           "type": "git",
+           "url": "https://github.com/manybots/mbjs-meals" 
+       }
+   ]
+}

@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
   has_many :bundles, :dependent => :destroy
   has_many :aggregations, :dependent => :destroy
   has_many :oauth_accounts
+
+  has_many :installed_applications
   
   validates_uniqueness_of :email
   validates_presence_of :email, :on => :update

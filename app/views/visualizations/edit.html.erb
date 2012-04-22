@@ -1,9 +1,39 @@
-<div class="main-content">
-  <div class="box">
-    <div class="box-content">
-      <h1>Manage visualization</h1>
-      <%= render :partial => 'form' %>
-      <p><%= link_to 'Delete visualization', visualization_path(@visualization), :method => :delete, :confirm => 'Are you sure? There is no undo.' %></p>
-    </div> 
+<div class="clearfix">
+  <div style="float:left;">
+    <%= image_tag @visualization.screenshot, :width => 340, :style => 'margin: 0 60px 0 0px;' %>
+  </div>
+
+  <div class="">
+    <h4 class="special-title">
+      <%= link_to @visualization.name, visualization_path(@visualization.id) %> 
+      <span class="meta">
+        by <%= link_to @visualization.developer_name, @visualization.developer_url %>
+      </span>
+    </h4>
+
+
+    <p><%= @visualization.description %></p>
+    <p style="">
+      <span style="text-transform: uppercase;padding-right: 10px; font-size: 9px;">
+        Display
+      </span>
+      <%- if @visualization.in_menu? -%>
+        <span class="menu-icon">Menu</span>
+      <%- end -%>
+      <%- if @visualization.in_library? -%>
+        <span class="library-icon">Library</span>
+      <%- end -%>
+      <br>
+      <span style="text-transform: uppercase;padding-right: 10px; font-size: 9px;">
+        Objects
+      </span>
+      <%- @visualization.target_objects.split(',').each do |obj| -%>
+        <span class="visu-obj-target"><%= obj %></span>
+      <%- end if @visualization.target_objects -%>                  
+    </p>
+
+    <p>
+      <%= link_to 'Uninstall', uninstall_visualization_path(@visualization.id), method: 'post', confirm: 'Are you sure?' %>
+    </p>
   </div>
 </div>

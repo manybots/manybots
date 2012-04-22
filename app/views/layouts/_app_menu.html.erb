@@ -10,7 +10,7 @@
 
   <ul class="app-nav">
     <li><a href="/analytics" class="<%= current_tab?(:filters)%>">Analytics</a></li>
-    <%- ClientApplication.visualizations.each do |visualization| -%>
+    <%- current_user.installed_applications.in_menu.collect(&:client_application).each do |visualization| -%>
       <li><%= link_to visualization.name, "/visualizations/#{visualization.id}", class: current_tab?(:visualizations, visualization.id) %></li>
     <%- end -%>
     <li><%= link_to 'People', main_app.collection_path('people'), :class => current_tab?(:aggregations, 'people') %></li>
