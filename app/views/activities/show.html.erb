@@ -5,7 +5,7 @@
     </div>
   </div>
   
-  <%- if @activity.target.object_type == 'photo' or @activity.object.object_type == 'photo' -%>
+  <%- if @activity.object.object_type == 'photo' or (@activity.target and @activity.target.object_type == 'photo')-%>
     <div class="box">
       <div class="box-content">
         <%= image_tag YAML::load(@activity.payload)[:object][:image][:url] %>
@@ -14,10 +14,10 @@
   <%- end -%>
   
   
-  <%- if @activity.target.object_type == 'place' or @activity.object.object_type == 'place' -%>
+  <%- if @activity.object.object_type == 'place' or (@activity.target and @activity.target.object_type == 'place')-%>
     <div class="box">
       <div class="box-content">
-        <% geo = YAML::load(@activity.payload)[:target][:position] %>
+        <% geo = YAML::load(@activity.payload)[:target][:position] rescue(YAML::load(@activity.payload)[:object][:position])%>
         <%= image_tag("http://maps.googleapis.com/maps/api/staticmap?center=#{CGI.escape geo}&zoom=14&size=400x200&sensor=false&markers=color:red#{CGI.escape "|label=P|#{geo}"}") %>
       </div>
     </div>
