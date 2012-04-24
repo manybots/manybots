@@ -12,10 +12,10 @@
         <%- if @visualizations.any? -%>
           <%- @visualizations.each do |visu| -%>
             <li class="clearfix" style="margin: 12px 0; padding: 10px 0; border-bottom: 1px solid #ddd">
-              <div style="float:left;">
+              <div style="float:left;width: 400px;" class="clearfix">
                 <%= image_tag visu.screenshot, :width => 340, :style => 'margin: 0 60px 0 10px;' %>
               </div>
-              <div class="">
+              <div style="float:left;width: 400px;" class="clearfix">
                 <h4 class="special-title">
                   <%= link_to visu.name, visualization_path(visu.id) %> 
                   <span class="meta">
@@ -23,7 +23,7 @@
                   </span>
                 </h4>
                 <p><%= visu.description %></p>
-                <p style="">
+                <p style="clearfix">
                   <span style="text-transform: uppercase;padding-right: 10px; font-size: 9px;">
                     Display
                   </span>
