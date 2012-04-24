@@ -119,7 +119,7 @@ class Aggregation < ActiveRecord::Base
     results = []
     
     queries.each do |query|
-      this = Aggregation.where(user_id: user.id).where(name:query).first
+      this = Aggregation.where(user_id: user.id).where(object_type: "Activity").where(name:query).first
       results.push this if this
     end
     if return_ids == false
@@ -226,7 +226,7 @@ class Aggregation < ActiveRecord::Base
   
     ## Add aggregation of target 
     if target_type
-      ag = user.aggregations.find_or_initialize_by_name_and_type_string(target_type, 'targets')
+      ag = user.aggregations.find_or_initialize_by_name_and_type_string(target_type, 'objects')
       if ag.new_record?
         ag.total = 1
         ag.object_type = obj.class.to_s
