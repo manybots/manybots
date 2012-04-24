@@ -57,7 +57,7 @@ Linux users, or users wanting to specify a JS runtime, might need to edit the Ge
 ```
  # gem 'therubyracer'
 ```
-Checkout this [section of the Rails Guide](http://guides.rubyonrails.org/getting_started.html#starting-up-the-web-server) for more information.
+Check out this [section of the Rails Guide](http://guides.rubyonrails.org/getting_started.html#starting-up-the-web-server) for more information.
 
 
 Then install the basic Manybots stuff:
@@ -119,18 +119,22 @@ Manybots is based on Ruby on Rails. At this very early stage of release, please 
 
 Tech Overview:
 
-- Ruby on Rails 3.2.2
+- Ruby on Rails 3.2.3
 - sqlite3 database in development, expects postgres in production (this might change rapidly)
 - Redis database for workers (Resque gem used to manage workers)
 - API request data formatted in Activity Streams (JSON)
 
 Requirements: 
 
+Please make sure you're able to run a basic Ruby on Rails application on your system first.
+
 - Ruby 1.9.2
 - latest Rubygems
 - git
 - sqlite 3
 - redis
+- Bundler gem (gem install bundler)
+- foreman gem (gem install foreman)
 
 Warnings: 
 
