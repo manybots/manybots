@@ -7,9 +7,9 @@ group :development, :test do
   gem 'sqlite3'
 end
 
-group :production do
-  gem 'pg'
-end
+# group :production do
+#   gem 'pg'
+# end
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -39,12 +39,6 @@ gem 'haml'
 gem 'builder'
 gem 'dynamic_form', :git => 'https://github.com/rails/dynamic_form.git'
 
-#
-# Manybots observers, visualizations and apps
-#
-
-gem 'manybots-gmail', '0.0.2', :git => 'git://github.com/manybots/manybots-gmail.git'
-gem 'gmail', :git => 'git://github.com/webcracy/gmail.git'
-
-# gem 'manybots-github', git: 'git://github.com/manybots/manybots-github.git'
-
+Dir.glob(File.join(File.dirname(__FILE__), "Botfile")) do |gemfile|
+  eval(IO.read(gemfile), binding)
+end

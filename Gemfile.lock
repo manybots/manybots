@@ -9,16 +9,6 @@ GIT
       rails (~> 3.2.1)
 
 GIT
-  remote: git://github.com/webcracy/gmail.git
-  revision: d9d681bda7162332ba52cfd70d5424af04d7d166
-  specs:
-    gmail (0.4.0)
-      gmail_xoauth (>= 0.3.0)
-      mail (>= 2.2.1)
-      mime (>= 0.1)
-      ore-core (~> 0.1.5)
-
-GIT
   remote: http://github.com/webcracy/oauth-plugin.git
   revision: fc197d77405e47f9f5d2d7d795a195d4a5f1aa0b
   specs:
@@ -44,6 +34,14 @@ GIT
   specs:
     dynamic_form (1.0.0)
       rails (>= 3.0.0)
+
+PATH
+  remote: /Users/alex/code/gem-dev/gmail
+  specs:
+    gmail (0.4.0)
+      gmail_xoauth (>= 0.3.0)
+      mail (>= 2.2.1)
+      mime (>= 0.1)
 
 GEM
   remote: http://rubygems.org/
@@ -131,9 +129,7 @@ GEM
       faraday (~> 0.7)
       httpauth (~> 0.1)
       multi_json (~> 1.3)
-    ore-core (0.1.5)
     orm_adapter (0.0.7)
-    pg (0.13.2)
     polyglot (0.3.3)
     rack (1.4.1)
     rack-cache (1.2)
@@ -227,7 +223,6 @@ DEPENDENCIES
   manybots-gmail (= 0.0.2)!
   oauth
   oauth-plugin!
-  pg
   rails (= 3.2.3)
   rails_autolink
   resque!
