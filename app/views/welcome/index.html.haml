@@ -1,8 +1,8 @@
 .center{:style => 'text-align: center'}
   %h1{:style => 'font-family: Helvetica, Arial, Sans; font-size: 40px; text-align: center;margin-bottom:5px;'}
     Welcome to your Manybots
-  %p
-    %span.highlight Aggregate your digital activities from a catalogue of apps and master your digital lifestyle.
+  %p Aggregate your digital activities from a catalogue of apps and master your digital lifestyle.
+
 
 .box
   .box-content.clearfix
@@ -10,11 +10,8 @@
     #signup.card
     #login.card
     
-    :javascript
-      $(function() {
-        $('#signup').load('/users/sign_up');
-        $('#login').load('/login');
-      });
-    
-
-
+:javascript
+$(function() {
+  $('#signup').load('/users/sign_up');
+  $('#login').load('/login');
+});

@@ -1,6 +1,8 @@
 //= require jquery
 //= require jquery-ui
 //= require jquery_ujs
+//= require twitter/bootstrap
+//= require bootstrap-datepicker
 //= require jquery.colorbox
 //= require jquery.qtip-1.0.0-rc3.min
 //= require jquery.tableofcontents.min
@@ -130,4 +132,19 @@ $(document).ready(function() {
 });
 
 var addVerb = function() {
+};
+
+/* User Echo */
+var _ues = {
+host:'manybots.userecho.com',
+forum:'11374',
+lang:'en',
+tab_icon_show:false,
+tab_corner_radius:6,
+tab_font_size:18,
+tab_image_hash:'RmVlZGJhY2s%3D',
+tab_alignment:'right',
+tab_text_color:'#FFFFFF',
+tab_bg_color:'#1A4F68',
+tab_hover_color:'#017F8B'
 };
