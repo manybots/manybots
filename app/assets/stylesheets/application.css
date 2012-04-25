@@ -8,3 +8,166 @@
 *= require bootstrap-datepicker
 *= require manybots.omnisearch
 */
+
+
+/* Activities */
+
+ul#activities {
+  padding: 0;
+  margin: 0;
+  list-style:none;
+}
+
+img.activity-icon {
+	border:1px solid #ccc;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+	box-shadow: 0px 1px 3px #ccc;
+
+}
+
+ul#activities li {
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.activity.wrapper {
+  width: 650px;
+  padding-bottom: 15px;
+}
+
+.activity.avatar {
+  float:left;
+  width: 50px;
+}
+
+.activity.content {
+  float: left;
+  width: 450px;
+}
+.activity.title {
+  font-size: 1.1em;
+  margin-bottom: 3px;
+}
+
+.activity.footer {
+  margin: 3px 0;
+}
+
+.activity.object {
+  margin-bottom: 3px;
+}
+
+.activity.via {
+  line-height: 32px;
+  font-size: 12px;
+  padding-left: 36px;
+}
+
+.activity.tag {font-size: 14px; background: url('icons/tag_orange.png') 0 0 no-repeat; padding-left: 18px; line-height: 16px; font-weight: normal;}
+.activity.tag a  {font-size: 12px;}
+
+.pagination {
+  text-align: right;
+  margin-bottom: 5px;
+}
+
+/* Filters */
+
+.filters {
+  /*border: 1px gray solid;*/
+  padding: 10px;
+  background-color: whiteSmoke;
+  margin-bottom: 20px;
+}
+
+.filters p {
+  margin: 0;
+}
+
+.filters span.name {
+  padding: 0 5px;
+}
+
+.filters ul {
+  list-style: none;
+}
+
+.selected {
+  background-color: yellow;
+}
+
+/* CALENDARS */
+
+#loading {
+	background: url(icons/ajax-loader.gif) 0 0 no-repeat;
+	padding-left: 20px;
+	line-height: 16px;
+}
+
+.calendar.icon {font-size: 14px; background: url('icons/calendar_view_month.png') 0 0 no-repeat; padding-left: 18px; line-height: 16px; font-weight: normal;}
+
+a.show.calendar {
+  font-size: 12px;
+}
+
+#calendar h2, #campaign_calendar h2, .quarter.calendar h2 {
+  margin: 0;
+}
+
+#calendar .fc-header, 
+#campaign_calendar .fc-header, 
+.quarter.calendar .fc-header {
+  margin: 0;
+  height: 65px;
+}
+#calendar .fc-header td, 
+#campaign_calendar .fc-header td,
+#calendar-1 .fc-header td,
+#calendar-2 .fc-header td, 
+#calendar-3 .fc-header td {
+  border: 0;
+}
+
+.quarter.calendar td.fc-header-right table,
+.quarter.calendar td.fc-header-left table, {
+  margin-bottom: 0;
+}
+
+/* Apps */
+
+ul.apps {
+  padding: 0;
+  margin: 0;
+}
+
+li.client_application h4{
+  margin: 0;
+  padding: 0;
+}
+li.client_application h4 a{
+  color: black;
+}
+
+li.client_application {
+  padding: 0;
+  list-style: none;
+  color: #666;
+  font-size: .9em;
+  width: auto;
+}
+
+li.client_application.resource {
+  list-style: outside;
+}
+
+li.client_application.resource h4 {
+  margin: 0;
+  padding: 0;
+}
+
+li.client_application.resource p{
+  margin: 0;
+  padding:0;
+}
