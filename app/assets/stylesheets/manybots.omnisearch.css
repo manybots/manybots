@@ -15,12 +15,12 @@
 
 .omnisearch-input input {
   height: 32px;
-  width: 560px !important;
-  padding-left: 10px;
+  width: 350px !important;
+  /*padding-left: 10px;*/
 }
 
 #omnisearch-results {
-  width: 573px;
+  width: 370px;
   padding: 0;
   position: absolute;
   z-index: 1000;
