@@ -1,54 +1,25 @@
-<div class="clearfix" style="margin-top: 0; padding-top: 0;">
+<div>
+  <div style="width:100%;height:50px;">
+    <h1 style="float:left;">Search Results for <span class="btn btn-large btn-default"><%=@aggregation.name %></span></h1>
+    <p style="float:right;" title="Delete all the found activities">
+      <%= link_to 'Delete', @aggregation, :method => :delete, :confirm => "Are you sure? All items in '#{@aggregation.name}' will be deleted. There is no undo possible!", :class=>"btn btn-danger" %>
+    </p>
+  </div>
+  <h4 class="meta">
+    <%= @aggregation.total %> result<%= @aggregation.total>1 ? "s":"" %>
+    <%#= @aggregation.type_string %>
+  </h4>      
   
-  <h1 class="page-title" style="float:left;">
-    <%= @aggregation.name %> 
-    <span class="meta">
-      <%= @aggregation.total %> items
-      <%#= @aggregation.type_string %>
-    </span>      
-  </h1>
-  <p style="margin-left: 20px; float:left;" class="meta">
-    <%= link_to 'Delete', @aggregation, :method => :delete, :confirm => "Are you sure? All items in '#{@aggregation.name}' will be deleted. There is no undo possible!" %>
-  </p>
 </div>
 
-<div class="clearfix">
-  <ul class="visualization-list">
-    <li><span style="font-weight: bold;">View:</span></li>
-    <li>
-      <%= link_to 'Stream', '#', class: 'load-default-visu' %>
-    </li>
-    <li style="display:inline;">
-      <%= link_to 'Drill Down', aggregates_aggregation_path(@aggregation.id), class: 'load-inline-visu' %>
-    </li>
-    <%- if @visualizations.any? -%>
-      <%- @visualizations.each do |visu| -%>
-        <li style="display:inline;">
-          <%= link_to visu.name, visualization_path(visu.id, aggregation_id: @aggregation.id), class: 'load-inline-visu' %> 
-        </li>
-      <%- end -%>
-    <%- end -%>
-  </ul>
-  
-</div>
-    
-<article id="visu-container" class="clearfix">
-</article>
+<%= render :partial => 'aggregations/visualization_list' %>
 
 <div id="default-visu" class="box clearfix">
-  <header>
-    <ul class="inner-tab-nav clearfix">
-      <li class="current-tab">
-        <h3><%= link_to "Activities (#{@count})", '#activities', :rel => '#activities' %></h3>
-      </li>
-      <li>
-        <h3><%= link_to "Notifications (#{@notifications_count})", '#notifications', :rel => '#notifications' %></h3>
-      </li>
-      <li>
-        <h3><%= link_to "Predictions (#{@predictions_count})", '#predictions', :rel => '#predictions' %></h3>
-      </li>
-    </ul>
-  </header>
+  <span style="font-weight: bold;">Types:</span>
+  <%= link_to "#{@count} activities", '#activities', :rel => '#activities' %>,
+  <%= link_to "#{@notifications_count} notifications ", '#notifications', :rel => '#notifications' %>,
+  <%= link_to "#{@predictions_count} predictions ", '#predictions', :rel => '#predictions' %>
+      
   <div class="box-content"> 
     <div id="activities">
       <%= render :partial => 'activities/activities' %>
@@ -66,7 +37,8 @@
 
 <script type="text/javascript" charset="utf-8">
   $(function() {
-    $('a.load-default-visu').addClass('highlight');
+    clickedclass="disabled";
+    $('a.load-default-visu').addClass(clickedclass);
     
     var target = $('#template');
     target.hide();
@@ -95,7 +67,7 @@
     $('a.load-inline-visu').click(function() {
       $('#default-visu').hide();
       resetHighlight();
-      $(this).addClass('highlight');
+      $(this).addClass(clickedclass);
       var $link = $(this);
       var url = $link.attr('href');
       $('#visu-container').load(url);
@@ -106,14 +78,14 @@
     $('a.load-default-visu').click(function() {
       $('#visu-container').html('');
       resetHighlight();
-      $(this).addClass('highlight');
+      $(this).addClass(clickedclass);
       $('#default-visu').show();
       return false;
     });
     
     function resetHighlight() {
-      $('a.load-default-visu').removeClass('highlight');
-      $('a.load-inline-visu').removeClass('highlight');
+      $('a.load-default-visu').removeClass(clickedclass);
+      $('a.load-inline-visu').removeClass(clickedclass);
     }
   });
 </script>

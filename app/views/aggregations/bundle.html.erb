@@ -1,45 +1,25 @@
-
-<article class="clearfix">
-  <h1 class="page-title" style="float:left;">
+<div>
+  <h1>Search Results for
     <%= raw @aggregations.collect {|aggregation| -%>
-      <%- link_to aggregation.name, aggregation -%>
+      <%- link_to aggregation.name, aggregation, :class => "btn btn-large btn-default" -%>
     <%- }.to_a.to_sentence -%>
-    <span class="meta">
-      <%= @count %> activities
-    </span>
   </h1>
-</article>
-
-<div class="clearfix">
-  <ul class="visualization-list">
-    <li><span style="font-weight: bold;">View:</span></li>
-    <li>
-      <%= link_to 'Stream', '#', class: 'load-default-visu' %>
-    </li>
-    <li style="display:inline;">
-      <%= link_to 'Drill Down', bundle_aggregates_aggregation_path(params[:id]), class: 'load-inline-visu' %>
-    </li>
-    <%- if @visualizations#.any? -%>
-      <%- @visualizations.each do |visu| -%>
-        <li style="display:inline;">
-          <%= link_to visu.name, visualization_path(visu.id, bundle_id: CGI.escape(params[:id])), class: 'load-inline-visu' %> 
-        </li>
-      <%- end -%>
-    <%- end -%>
-  </ul>
-
+  <h4 class="meta">
+  <%= @count %> result<%= @count>1 ? "s":"" %>
+    <%#= @aggregation.type_string %>
+  </h4>      
 </div>
 
-<div id="visu-container"></div>
-  
-<article id="default-visu" class="box">
-  <div class="box-content">      
-    <h3>Activities</h3>
-    <%= render :partial => 'activities/activities' %>
-    
-    <%= will_paginate @activities %>
+<%= render :partial => 'aggregations/visualization_list' %>
+
+<div id="default-visu" class="box clearfix">    
+  <div class="box-content"> 
+    <div id="activities">
+      <%= render :partial => 'activities/activities' %>
+      <%= will_paginate @activities %>
+    </div>
   </div>
-</article>
+</div>
 
 <script type="text/javascript" charset="utf-8">
   $(function() {
