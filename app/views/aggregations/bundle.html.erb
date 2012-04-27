@@ -23,12 +23,13 @@
 
 <script type="text/javascript" charset="utf-8">
   $(function() {
-    $('a.load-default-visu').addClass('highlight');
+    clickedclass="disabled";
+    $('a.load-default-visu').addClass(clickedclass);
     
     $('a.load-inline-visu').click(function() {
       $('#default-visu').hide();
       resetHighlight();
-      $(this).addClass('highlight');
+      $(this).addClass(clickedclass);
       var $link = $(this);
       var url = $link.attr('href');
       $('#visu-container').load(url);
@@ -39,14 +40,14 @@
     $('a.load-default-visu').click(function() {
       $('#visu-container').html('');
       resetHighlight();
-      $(this).addClass('highlight');
+      $(this).addClass(clickedclass);
       $('#default-visu').show();
       return false;
     });
     
     function resetHighlight() {
-      $('a.load-default-visu').removeClass('highlight');
-      $('a.load-inline-visu').removeClass('highlight');
+      $('a.load-default-visu').removeClass(clickedclass);
+      $('a.load-inline-visu').removeClass(clickedclass);
     }
   });
 </script>
