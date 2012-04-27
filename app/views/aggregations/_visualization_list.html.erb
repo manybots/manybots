@@ -2,10 +2,14 @@
 <div class="visualization-list">
   <span style="font-weight: bold;">Views:</span>
   <%= link_to 'Stream', '#', class: 'load-default-visu btn btn-info' %>
-  <%= link_to 'Drill Down', bundle_aggregates_aggregation_path(params[:id]), class: 'load-inline-visu  btn btn-info' %>
+  <%= link_to 'Drill Down', @aggregation ?  aggregates_aggregation_path(@aggregation.id) : bundle_aggregates_aggregation_path(params[:id]) , class: 'load-inline-visu  btn btn-info' %>
   <%- if @visualizations.any? -%>
     <%- @visualizations.each do |visu| -%>
-        <%= link_to visu.name, visualization_path(visu.id, bundle_id: CGI.escape(params[:id])), class: 'load-inline-visu btn btn-info' %> 
+      <% if @aggregation %>
+        <%= link_to visu.name, visualization_path(visu.id,  aggregation_id: @aggregation.id) , class: 'load-inline-visu btn btn-info' %> 
+      <% else %>
+        <%= link_to visu.name, visualization_path(visu.id,  bundle_id: CGI.escape(params[:id])), class: 'load-inline-visu btn btn-info' %> 
+      <% end %>
     <%- end -%>
   <%- end -%>
 </div>
