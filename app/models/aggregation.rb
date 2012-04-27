@@ -119,7 +119,7 @@ class Aggregation < ActiveRecord::Base
     results = []
     
     queries.each do |query|
-      this = Aggregation.where(user_id: user.id).where(object_type: "Activity").where(name:query).first
+      this = Aggregation.where(user_id: user.id).where(object_type: ["Activity", "Person"]).where(name:query).first
       results.push this if this
     end
     if return_ids == false

@@ -319,10 +319,10 @@ class Activity < ActiveRecord::Base
         result.push this
       end
     else
-      keys = @raw_payload[what_for].keys - self.standard_payload_keys(what_for)
+      keys = @raw_payload[what_for.to_s].keys - self.standard_payload_keys(what_for)
       keys.each do |key|
         this = {}
-        this[key.to_sym] = @raw_payload[what_for][key]
+        this[key.to_sym] = @raw_payload[what_for.to_s][key]
         result.push this
       end
     end
