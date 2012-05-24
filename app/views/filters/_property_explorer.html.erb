@@ -3,7 +3,7 @@
   <h4>Verbs</h4>
   <ul class="tags">
     <% target_cloud(@verbs, ['tag1', 'tag2', 'tag3', 'tag4']) do |tag, count, css_class| %>
-      <li><%= link_to name_only(tag), analytics_path(params_trick(:verbs, tag.to_s, params)), :class => "#{css_class}", :title => "#{name_only(tag)}: #{pluralize count, 'activity'}"%></li>
+      <li><%= link_to name_only(tag), analytics_path(params_trick(:verbs, tag.to_s, params)), :class => "#{css_class} label label-info", :title => "#{name_only(tag)}: #{pluralize count, 'activity'}"%></li>
     <% end %>
   </ul>
 </article>
@@ -15,7 +15,7 @@
   <h4>Objects</h4>
   <ul class="tags">
     <% target_cloud(@objects, ['tag1', 'tag2', 'tag3', 'tag4']) do |tag, count, css_class| %>
-      <li><%= link_to name_only(tag), analytics_path(params_trick(:objects, tag.to_s, params)), :class => "#{css_class}", :title => "#{name_only(tag)}: #{pluralize count, 'activity'}"%></li>
+      <li><%= link_to name_only(tag), analytics_path(params_trick(:objects, tag.to_s, params)), :class => "#{css_class} label label-info", :title => "#{name_only(tag)}: #{pluralize count, 'activity'}"%></li>
     <% end %>
   </ul>
 </article>
@@ -26,7 +26,7 @@
   <h4>Targets</h4>
   <ul class="tags">
     <% target_cloud(@targets, ['tag1', 'tag2', 'tag3', 'tag4']) do |tag, count, css_class| %>
-      <li><%= link_to name_only(tag), analytics_path(params_trick(:targets, tag.to_s, params)), :class => "#{css_class}", :title => "#{name_only(tag)}: #{pluralize count, 'activity'}"%></li>
+      <li><%= link_to name_only(tag), analytics_path(params_trick(:targets, tag.to_s, params)), :class => "#{css_class} label label-info", :title => "#{name_only(tag)}: #{pluralize count, 'activity'}"%></li>
     <% end %>
   </ul>
 </article>
@@ -37,7 +37,7 @@
   <h4>Target Values</h4>
   <ul class="tags">
     <% target_cloud(@target_values, ['tag1', 'tag2', 'tag3', 'tag4']) do |tag,count, css_class| %>
-      <li><%= link_to tag, analytics_path(params_trick(:target_values, tag.to_s, params)), :class => "#{css_class}", :title => "#{tag}: #{pluralize count, 'activity'}"%></li>
+      <li><%= link_to tag, analytics_path(params_trick(:target_values, tag.to_s, params)), :class => "#{css_class} label label-info", :title => "#{tag}: #{pluralize count, 'activity'}"%></li>
     <% end %>
   </ul>
 </article>
@@ -48,7 +48,7 @@
   <h4>Tags</h4>
   <ul class="tags">
     <% tag_cloud(@tags, ['tag1', 'tag2', 'tag3', 'tag4']) do |tag, css_class| %>
-      <li><%= link_to tag.to_s, analytics_path(params_trick(:tags, tag.to_s, params)), :class => "#{css_class} art"%></li>
+      <li><%= link_to tag.to_s, analytics_path(params_trick(:tags, tag.to_s, params)), :class => "#{css_class} art label label-info"%></li>
     <% end %>
   </ul>
 </article>

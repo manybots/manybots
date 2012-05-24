@@ -1,55 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>
     <%= @page_title ? "#{@page_title} - " : ''  %>
     <%= ManybotsServer.server_name %>
   </title>
 
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+  <![endif]-->
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="shortcut icon" href="/favicon.ico" />
-  <%= stylesheet_link_tag('application') %>
-    
-  <%= javascript_include_tag 'application' %>
   
-  <%= csrf_meta_tag %>
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= csrf_meta_tags %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- temporary jquery loading until inline JS is eliminated! -->
+  <script src="/assets/jquery.js?body=1" type="text/javascript"></script>
 </head>
 <body>
-  
-  <%- unless current_user -%>
-    <%= render :partial => 'layouts/classic_header' %>
-  <%- else -%>
+  <%- if user_signed_in? %>
     <%= render :partial => 'layouts/light_header' %>
+  <%- else -%>
+    <%= render :partial => 'layouts/marketing_header' %>
   <%- end -%>
-
-  <div id="page">
-    <%- if current_user -%>
-      <%= render :partial => 'layouts/app_menu' %>
-
-      <div id="body" style="width: 800px; float:left; display:block;">
-        <%= yield %>
-      </div>
-    <%- else -%>
-      <div id="body">
-        <%= yield %>
-      </div>
-    <%- end -%>
-    
-    <div class="clear"></div>
-    <div id="footer">
-      <ul class="tabs">
-        <li><a href="/" title="Home">Home</a></li>
-        <li><a href="https://www.manybots.com" title="Manybots.com">Manybots.com</a></li>
-        <li><a href="http://blog.manybots.com" title="Blog">Manybots Blog</a></li>
-        <li><a href="http://twitter.com/manybots" title="Manybots on Twitter">Manybots on Twitter</a></li>
-        <li><a href="http://facebook.com/manybots" title="Manybots on Facebook">Manybots on Facebook</a></li>
-      </ul>
-      <p class="quiet">(c) Copyright 2010-2012 Manybots IT, Lda.</p>
+      
+  <div class="container sticky-wrapper">
+  <% flash.each do |name, msg| %>
+      <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
+      <a class="close" data-dismiss="alert" href="#">&times;</a>
+      <%= msg %>
     </div>
-  
-  </div>
-  
-  <!-- <script type="text/javascript" charset="utf-8">
+    <% end %>
+    
+    <div class="row">
+    <%- if user_signed_in? -%>
+      <div class="span2 division">
+        <%= render :partial => 'layouts/app_menu' %>
+      </div><!-- sidebar span Logged In -->
+      <div class="span10 division">
+        <%= yield %>
+      </div><!-- body span Logged In -->
+    <%- else -%>
+      <div class="division">
+        <%= yield %>
+      </div><!-- body span Marketing -->
+    <%- end -%>
+    </div><!-- body row -->
+    
+    
+    <div class="sticky-push"></div>
+    
+</div><!-- /container -->
+
+    <div class="sticky-footer">
+      <hr style="margin:0;padding-top:8px">
+      
+      <div class="container">
+      <div class="row">
+        <div class="span2 offset1"><a href="/" title="Home">Home</a></div>
+        <div class="span2"><a href="https://www.manybots.com" title="Manybots.com">Manybots.com</a></div>
+        <div class="span2"><a href="http://blog.manybots.com" title="Blog">Manybots Blog</a></div>
+        <div class="span2"><a href="http://twitter.com/manybots" title="Manybots on Twitter">Manybots on Twitter</a></div>
+        <div class="span2"><a href="http://facebook.com/manybots" title="Manybots on Facebook">Manybots on Facebook</a></div>
+      </div>
+      <div class="row">
+        <div class="quiet center">Copyright &copy; 2010-2012 Manybots IT, Lda.</div>
+      </div>
+    </div>
+  </div><!-- /footer -->
+
+<!-- <script type="text/javascript" charset="utf-8">
     var newWindow = '';
     $(function() {
       $.get('/notifications.json', function(data) {
@@ -67,5 +89,7 @@
   </script>
 
   <script type="text/javascript" src="/javascripts/jquery.notty.js"></script> -->
+  
+  <%= javascript_include_tag 'application' %>
 </body>
 </html>

@@ -6,7 +6,7 @@
       <h4><%= group.capitalize %></h4>
       <ul>
         <%- aggregates.each do |a| -%>
-          <li><%= link_to a.name, bundle_aggregation_path(params[:id] + '&' +a.id.to_s) %></li>
+          <li style="display:inline;"><%= link_to a.name, bundle_aggregation_path(params[:id] + '&' +a.id.to_s), :class => "label label-info" %></li>
         <%- end -%>
       </ul>
       

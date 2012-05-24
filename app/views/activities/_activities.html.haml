@@ -1,39 +1,14 @@
-%table{:valign => "top"}
-  %tbody
-    -@activities.group_by {|activity| activity.posted_time.to_date}.each_pair do |key, activities|
-      %thead
-        %tr
-          %th{:colspan=>5}
-            = l key, :format => :long
-      - activities.each do |activity|
-        %tr
-          %td
-            - unless activity.service_provider_icon.blank?
-              %img.activity-icon{:align => "center", :src=> activity.service_provider_icon, :width => "32px", :height => "32px"}
-            = link_to(activity.service_provider_name, activity.service_provider_uri)
-          
-            / = link_to image_tag(gravatar_url_for(activity.user.email), :width => '40px', :height => '40px', :align => "middle"), account_path
-          %td
-            %strong= raw activity.title
-            %p
-            .activity.tags
-              - params[:tags] = [] if params[:tags].nil?
-              - for tag in activity.tags
-                %span.activity.tag
-                  = link_to tag.name, activities_path(params_trick(:tags, tag.name, params)), :class => active_param?(:tags, tag.name, params)
-          
-          %td
-            %a{:href => activities_path(params_trick(:verbs, activity.verb, params)), :class => active_param?(:verbs, activity.verb, params)}
-              %abbr{:title => activity.verb}= activity.verb_title
-            %a{:href => activities_path(params_trick(:objects, activity.object.object_type, params)), :class => active_param?(:objects, activity.object.object_type, params)}
-              %abbr{:title => activity.object.object_type }= activity.object.object_type.split('/').last.upcase
-            - if activity.target.present?
-              %a{:href => activities_path(params_trick(:targets, activity.target.object_type, params)), :class => active_param?(:targets, activity.target.object_type, params)}
-                %abbr{:title => activity.target.object_type}= activity.target.object_type.split('/').last.upcase
-          
-          %td= link_to activity.posted_time.strftime('%Hh%M on %d %B %Y'), activity
-          %td 
-            via
-            - if activity.stream_favicon_url.present?
-              %img{:align => "center", :src=> activity.stream_favicon_url, :width => "32px", :height => "32px"}
-            = link_to(activity.generator_title, activity.generator_url)
+-@activities.group_by {|activity| activity.posted_time.to_date}.each_pair do |key, activities|
+  %br
+  %h2
+    = l key, :format => :long
+  -activities.each do |activity|
+    %hr{:style=>"margin:10px 0;"}
+    .manybots-item
+      = activity.title.html_safe
+      %br
+      %span{ :title=>activity.posted_time, :class=>"quiet" }
+        = time_ago_in_words(activity.posted_time)
+        ago
+  
+  %hr{:style=>"margin:10px 0;"}

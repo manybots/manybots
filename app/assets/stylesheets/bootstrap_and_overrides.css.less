@@ -1,0 +1,248 @@
+@import "twitter/bootstrap/bootstrap";
+@import "twitter/bootstrap/responsive";
+
+// Set the correct sprite paths
+@iconSpritePath: asset-path('twitter/bootstrap/glyphicons-halflings.png');
+@iconWhiteSpritePath: asset-path('twitter/bootstrap/glyphicons-halflings-white.png');
+
+// Your custom LESS stylesheets goes here
+//
+// Since bootstrap was imported above you have access to its mixins which
+// you may use and inherit here
+//
+// If you'd like to override bootstrap's own variables, you can do so here as well
+// See http://twitter.github.com/bootstrap/less.html for their names and documentation
+//
+// Example:
+// @linkColor: #ff0000;
+
+.graylinks a, .graylinks a:hover, .graylinks a:visited {
+  color: gray;
+}
+iframe {
+  border:none;
+}
+.show-grid [class*="span"] {
+background-color: #EEE;
+text-align: center;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
+min-height: 30px;
+line-height: 30px;
+}
+
+
+@navbarBackground: #F1F0EF;
+@navbarBackgroundHighlight: #FFFFFF;
+@navbarLinkColor: #1A4F68;
+@navbarLinkColorHover: #017F8B;
+@navbarText: #666;
+
+@linkColor: #1A4F68;
+@linkColorHover: #017F8B;
+
+html, body {
+height: 100%;
+}
+.caro-text, .block-text {
+font-family: 'PerspectiveSansRegular', Arial, Helvetica, sans-serif !important;
+}
+p {
+font-family: 'PerspectiveSansRegular', Arial, Helvetica, sans-serif !important;
+}
+
+h1,h2 {
+font-family: 'PerspectiveSansRegular', Arial, Helvetica, sans-serif !important;
+color: #426873;
+font-weight: 400;
+}
+
+/*start rounded lists*/
+ol {
+  counter-reset: li; /* Initiate a counter */
+  list-style: none; /* Remove default numbering */
+  *list-style: decimal; /* Keep using default numbering for IE6/7 */
+  font: 15px 'trebuchet MS', 'lucida sans';
+  padding: 0;
+  margin-bottom: 2em;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+ol ol{
+  margin: 0 0 0 2em; /* Add some left margin for inner lists */
+}
+
+.rounded-list a{
+        position: relative;
+        display: block;
+        padding: .4em .4em .4em 2em;
+        *padding: .4em;
+        margin: .5em 0;
+        color: #444;
+        text-decoration: none;
+        border-radius: .3em;
+        transition: all .3s ease-out;
+}
+
+.rounded-list a:hover{
+        background: #eee;
+}
+
+.rounded-list a:hover:before{
+    transform: rotate(360deg);
+}
+
+.rounded-list a:before{
+        content: counter(li);
+        counter-increment: li;
+        position: absolute;
+        left: -1.3em;
+        top: 50%;
+        margin-top: -1.3em;
+        background: #abbcc6;
+        height: 2em;
+        width: 2em;
+        line-height: 2em;
+        border: .3em solid #fff;
+        text-align: center;
+        font-weight: bold;
+        border-radius: 2em;
+        transition: all .3s ease-out;
+}
+/*end rounded lists*/
+.sticky-wrapper {
+box-sizing: border-box;
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+padding-top: 70px;
+padding-bottom: 15px;
+min-height: 100%;
+height: auto !important;
+height: 100%;
+margin: 0 auto -80px; /* the bottom margin is the negative value of the footers height */
+}
+.sticky-footer, .sticky-push {
+box-sizing: border-box;
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+	height: 80px; /* .push must be the same height as .footer */
+}
+
+.navbar .brand {
+text-rendering: optimizeLegibility;
+line-height: 30px;
+font-size: 39px !important;
+font-family: 'PerspectiveSansBold', Arial, Helvetica, sans-serif !important;
+color: #555 !important;
+text-shadow: 0px 1px 0px white;
+padding: 24px 40px 0px 20px;
+}
+.navbar .caret {
+border-top: 4px solid black !important;
+}
+.dropdown.open .dropdown-toggle {
+color: #1A4F68 !important;
+}
+.header-search {
+display: inline-block;
+float: left;
+margin-bottom: 7px;
+}
+.navbar-search {
+float:none;
+}
+.header-links {
+display: inline-block;
+float: right;
+}
+.navbar .nav {
+float:right;
+margin: 0;
+padding-top: 13px;
+}
+.navbar .nav > li > a {
+display: inline-block;
+font-family: 'PerspectiveSansBold', Arial, Helvetica, sans-serif !important;
+font-size: 1.2em;
+padding-top: 15px;
+color: #444;
+text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
+}
+.navbar .nav .active > a, .navbar .nav .active > a:hover {
+text-decoration: none;
+background-color: inherit;
+}
+.header-bot {
+  height: 25px;
+  padding-bottom: 11px;
+  padding-right: 5px;
+}
+.search-query {border-radius: 7px;}
+ul {
+list-style: none;
+margin:0;
+padding:0;
+}
+.footer-item {
+display: inline-block;
+margin: 3px 12px;
+}
+.dropdown-menu {
+min-width: initial;
+}
+.division {
+margin-top: 32px;
+}
+.mb-date {
+min-width: initial;  
+padding: 1px;
+height: 17px;
+width: 56px;
+margin-bottom: 10px;
+cursor: pointer;
+}
+.filter-label {
+  padding: 2px 8px;
+  margin-right: 4px;
+  margin-bottom: 4px;
+}
+.filter-add {
+margin-top: 15px;
+}
+.center {text-align:center;}
+.quiet {color:#aaa;}
+
+.splash-header {
+margin-left: -20px;
+margin-bottom: 40px;
+}
+.value-priv {
+display: block;
+}
+.welcome-bot-wrapper {
+height: 191px;
+display: block;
+position: relative;
+width: 100%;
+}
+.welcome-bot-wrapper a {
+position: absolute;
+bottom: 0;
+width: 100%;
+text-align: center;
+}
+#user_avatar {
+  min-height:80px;
+}
+.pagination  {
+  margin: 0 auto;
+}
+.pagination a, .pagination em, .pagination span {
+float: left;
+padding: 0 18px;
+line-height: 34px;
+text-decoration: none;
+border: 1px solid #DDD;
+border-left-width: 0;
+}
+.next_page { border-right-width: 0 !important; }

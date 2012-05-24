@@ -1,36 +1,35 @@
-<div id="app-menu" class="clearfix" style="width: 150px; float:left; display:block; margin-right: 10px;">
-  
+<nav>
   <ul class="app-nav">
+    <li class="tcenter">
+      <a href="/calendar/today/notifications">
+        <img id="user_avatar" src="<%= gravatar_url_for(current_user.email)%>" alt="avatar" title="<%= current_user.name %>" width="80" height="80"/>
+      </a>
+    </li>
+    
+    <hr class="minimal-hr" style="padding:2px;margin:2px;">
+    
     <li><a href="/calendar/today/notifications" class="<%= current_tab?(:controller => 'calendar', :action => 'today')%>">Today</a></li>
     <li><a href="/calendar/tomorrow" class="<%= current_tab?(:controller => 'calendar', :action => 'tomorrow')%>">Tomorrow</a></li>
     <li><a href="/calendar/yesterday" class="<%= current_tab?(:controller => 'calendar', :action => 'yesterday')%>">Yesterday</a></li>
-  </ul>
-
-  <p></p>
-
-  <ul class="app-nav">
+    
+    <hr class="minimal-hr" style="padding:2px;margin:2px;;">
+    
     <li><a href="/analytics" class="<%= current_tab?(:filters)%>">Analytics</a></li>
     <%- current_user.installed_applications.in_menu.collect(&:client_application).each do |visualization| -%>
-      <li><%= link_to visualization.name, "/visualizations/#{visualization.id}", class: current_tab?(:visualizations, visualization.id) %></li>
+    <li><%= link_to visualization.name, "/visualizations/#{visualization.id}", class: current_tab?(:visualizations, visualization.id) %></li>
     <%- end -%>
     <li><%= link_to 'People', main_app.collection_path('people'), :class => current_tab?(:aggregations, 'people') %></li>
-    
     <li><%= link_to 'Library', main_app.aggregations_path, :class => current_tab?(:aggregations) %></li>  
     
-  </ul>
-  <p style="text-align:right;"><a href="/visualizations">More views...</a></p>
-  
-  <p></p>
-  
-  <ul class="clearfix" style="padding:0;margin:0;">
+    <p style="text-align:right;"><a href="/visualizations">More views...</a></p>
+    <hr class="minimal-hr" style="padding:2px;margin:2px;">
+    
     <%- ClientApplication.where(is_public: true).each do |app| -%>
       <li style="display:inline; margin: 0;" >
         <a href="<%=app.url%>" title="<%= app.name %>" class="">
         <%= image_tag app.app_icon_url, :class => 'app_icon small', :width => 32, :height => 32 -%></a>
       </li>
     <%- end  -%>
-  </ul>
-  <p style="text-align:right;"><a href="/apps">More apps...</a></p>
-  
-  
-</div>
+    <p style="text-align:right;"><a href="/apps">More apps...</a></p>
+  </ul> 
+</nav>
