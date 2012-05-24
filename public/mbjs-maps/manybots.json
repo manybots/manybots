@@ -1,0 +1,22 @@
+{
+   "name": "Map Player",
+   "nickname": "mbjs-maps",
+   "version": "0.0.1",
+   "description": "Travel through space and time! Browse through your geo-tagged info on a map (photos, checkins, statuses, etc.).",
+   "developer": {
+      "name": "Manybots",
+      "url": "https://github.com/manybots/mbjs-maps"
+   },
+   "category": "Lifestyle",
+   "display": {
+      "library": true,
+      "menu": true,
+      "objects": ["place"]
+   },
+   "repositories": [
+       {
+         "type": "git",
+         "url": "https://github.com/manybots/mbjs-maps"
+       }
+   ]
+}

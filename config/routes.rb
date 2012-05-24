@@ -1,5 +1,29 @@
 ManybotsLocal::Application.routes.draw do
-  
+
+  mount ManybotsFoursquare::Engine => "/manybots-foursquare"
+
+  mount ManybotsInstagram::Engine => "/manybots-instagram"
+
+  mount ManybotsGmailPizzahut::Engine => "/manybots-gmail-pizzahut"
+
+  mount ManybotsGardener::Engine => "/manybots-gardener"
+
+  mount ManybotsWeather::Engine => "/manybots-weather"
+
+  mount ManybotsGithub::Engine => "/manybots-github"
+
+  mount ManybotsGooglecalendar::Engine => "/manybots-googlecalendar"
+
+  mount ManybotsGmail::Engine => "/manybots-gmail"
+
+  devise_for :users do
+    get "/login" => "devise/sessions#new"
+    get "/logout" => "devise/sessions#destroy"
+    get "/account" => "devise/registrations#edit"
+    get "/account/password" => "dashboard#password"
+    post "/account/update_password" => "dashboard#update_password"
+  end
+
   match "/dashboard/day/:year/:month/:day", :to => "dashboard#day", :as => 'day'
   
   match "/collection/:id", :to => 'aggregations#filter', :as => 'collection'
@@ -7,6 +31,8 @@ ManybotsLocal::Application.routes.draw do
   match 'analytics', :to => 'filters#new', :as => 'analytics'
   
   match 'reset_api_token', :to => 'dashboard#reset_user_token', :as => 'reset_api_token'
+  
+  resources :items
   
   resources :predictions
   

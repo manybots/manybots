@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120307171320) do
+ActiveRecord::Schema.define(:version => 20120421100722) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -127,6 +127,9 @@ ActiveRecord::Schema.define(:version => 20120307171320) do
     t.boolean  "is_trusted",                   :default => false
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
+    t.string   "target_objects"
+    t.boolean  "in_library"
+    t.boolean  "in_menu"
   end
 
   add_index "client_applications", ["key"], :name => "index_client_applications_on_key", :unique => true
@@ -142,6 +145,84 @@ ActiveRecord::Schema.define(:version => 20120307171320) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
+
+  create_table "installed_applications", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "client_application_id"
+    t.boolean  "in_menu",               :default => false
+    t.boolean  "in_library",            :default => false
+    t.boolean  "is_default",            :default => false
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
+  end
+
+  add_index "installed_applications", ["client_application_id"], :name => "index_installed_applications_on_client_application_id"
+  add_index "installed_applications", ["user_id"], :name => "index_installed_applications_on_user_id"
+
+  create_table "manybots_github_commits", :force => true do |t|
+    t.integer  "repository_id"
+    t.text     "message"
+    t.string   "sha"
+    t.text     "payload"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "manybots_github_commits", ["repository_id"], :name => "index_manybots_github_commits_on_repository_id"
+
+  create_table "manybots_github_repositories", :force => true do |t|
+    t.integer  "oauth_account_id"
+    t.string   "slug"
+    t.integer  "remote_id"
+    t.text     "payload"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  create_table "manybots_gmail_emails", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "address"
+    t.integer  "muid"
+    t.text     "people"
+    t.text     "subject"
+    t.string   "tags"
+    t.datetime "sent_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "manybots_gmail_pizzahut_meals", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "email_order_id"
+    t.datetime "ordered_at"
+    t.text     "payload"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "manybots_googlecalendar_events", :force => true do |t|
+    t.integer  "oauth_account_id"
+    t.string   "remote_id"
+    t.datetime "remote_created_at"
+    t.datetime "remote_updated_at"
+    t.text     "payload"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  add_index "manybots_googlecalendar_events", ["oauth_account_id"], :name => "index_manybots_googlecalendar_events_on_oauth_account_id"
+
+  create_table "manybots_weather_locations", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "code"
+    t.string   "name"
+    t.string   "lat"
+    t.string   "long"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "manybots_weather_locations", ["user_id"], :name => "index_manybots_weather_locations_on_user_id"
 
   create_table "notifications", :force => true do |t|
     t.integer  "user_id"

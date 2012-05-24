@@ -1,0 +1,22 @@
+{
+   "name": "Photos",
+   "nickname": "mbjs-photos",
+   "version": "0.0.1",
+   "description": "See your photos :)",
+   "developer": {
+     "name": "Manybots",
+     "url": "https://www.manybots.com"
+   },
+   "category": "Lifestyle",
+   "display": {
+     "menu": true,
+     "library": true,
+     "objects": ["photo"]
+   },
+   "repositories": [
+       {
+           "type": "git",
+           "url": "https://github.com/manybots/mbjs-photos" 
+       }
+   ]
+}

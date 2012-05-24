@@ -1,0 +1,72 @@
+<html>
+<head>
+  <title>Photos visualization</title>
+  
+  <style type="text/css" media="screen">
+    body {
+      font-family: "Helvetica","Arial","Sans";
+      text-align:center;
+      background-color: #000;
+    }
+    
+    img {
+      margin: 20px 0;
+    }
+  
+  </style>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+  <script src="http://localhost:5000/javascripts/manybots.js" type="text/javascript"></script>
+  <script src="http://documentcloud.github.com/underscore/underscore-min.js" type="text/javascript"></script>
+  
+</head>
+<body>
+  
+  <div id="loading" style="color: #CCC;">
+    Loading, can take a few seconds if you have a lot of activities...
+  </div>
+  
+  <div id="photos">
+  </div>
+  <script type="text/javascript">
+  
+    var loadPhotos = function() {
+      var config = {
+        protocol: 'http',
+        host: 'localhost:5000',
+      }
+      var client = new ManybotsClient(config);
+      var limit = 100;
+      
+      client.getJSON('/activities/current', {'limit': limit}, function(stream) {
+        var activities = stream.data.items;
+        var count = activities.length;
+        if (count == 0) {
+          client.getJSON('/activities', {'filter': {'object':'photo'}, 'limit': limit}, function(stream) {
+            var activities = stream.data.items;
+            displayActivities(activities);
+          });
+        } else {
+          // display the photos
+          displayActivities(activities);
+        }
+      });
+    }
+    
+    var displayActivities = function(activities) {
+      var $photos = $('div#photos');
+      _.each(activities, function(item) {
+        var imgUrl = item.object.image.url;
+        var $img = $('<img/>').attr('src', imgUrl);
+        $photos.append($img);
+      });
+      $('#loading').hide();
+    };
+      
+    $(function() {
+      window.location.hash = '#photos';
+      loadPhotos();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Map Player</title>
+  
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+  <style type="text/css" media="screen">
+    body {
+      font-family: "Helvetica","Arial","Sans";
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    .infoWindow {
+      text-align:center;
+    }
+    .infoWindow h5{
+      line-height: 16px;
+      background-size: 16px;
+      font-size: 12px;
+      color: #333;
+      text-align:left;
+      padding-left: 24px;
+    }
+    #controls a, 
+    #controls a:visited {
+      color: #000;
+      text-decoration: none;
+    }
+    #map_canvas {
+      height: 50%;
+    }
+    
+    #controls {
+      text-align:center;
+    }
+    
+    #controls a {
+      padding: 10px;
+    }
+
+    @media print {
+      html, body {
+        height: auto;
+      }
+
+      #map_canvas {
+        height: 650px;
+      }
+      
+    }
+  </style>
+  
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+  <script src="strftime.js" type="text/javascript"></script>
+  <script src="/assets/jquery.js" type="text/javascript"></script>
+  <script src="/javascripts/manybots.js" type="text/javascript"></script>
+  <script src="http://documentcloud.github.com/underscore/underscore-min.js" type="text/javascript">
+  </script>
+
+  
+    
+  <script type="text/javascript">
+    var map, openInfoWindow, markers, player;
+    var currentMarker = -1;
+    
+    function setFocusOnPlayer() {
+        var iframe = $("#controls");
+        iframe.focus();
+    }
+    
+
+    function loadMap(places) {
+      // turn each place into a Google Maps LatLng object
+      markers = _.collect(places, function(activity) {
+        var activityPosition;
+        if (activity.object.objectType == 'place') {
+          activityPosition = activity.object.position.split(' ');
+        } else if (activity.target && activity.target.objectType == 'place') {
+          activityPosition = activity.target.position.split(' ');
+        };
+        var mapsLatLng = new google.maps.LatLng(parseFloat(activityPosition[0]), parseFloat(activityPosition[1]));
+        var published = new Date((activity.published).replace(/-/g,"/").replace(/[TZ]/g," "));
+        published_string = published.strftime('%I:%M%P on %a, %b %d %Y')
+        var infowindow = new google.maps.InfoWindow({
+          content: '<div class="infoWindow">' + activity.title + activity.content + 
+          '<h5 style="background:url('+(activity.icon.url || activity.provider.image.url)+') 0 0 no-repeat;">'+published_string+'</h5>'+
+          '</div>'
+        });
+        var marker = new google.maps.Marker({
+          position: mapsLatLng,
+          map: map
+        });
+        google.maps.event.addListener(marker, 'click', function() {
+          if (openInfoWindow)
+            openInfoWindow.close();
+          map.panTo(marker.position);
+          infowindow.open(map,marker);
+          openInfoWindow = infowindow;
+        });
+        return marker;
+      });
+      
+      loadPlayer();
+    }
+    
+    var loadPlayer = function() {
+      map.setCenter(markers[0].position);
+      map.setZoom(12);
+      $('a.play-previous').click();
+    };
+    
+    var loadPlaces = function() {
+      var config = {
+        protocol: 'http',
+        host: 'localhost:5000',
+      }
+      var client = new ManybotsClient(config);
+      var limit = 1000;
+      
+      client.getJSON('/activities/current', {'limit': limit}, function(stream) {
+        var activities = stream.data.items;
+        var count = activities.length;
+        if (count == 0) {
+          client.getJSON('/items', {'filter': {'objectType':'place'}, 'limit': limit}, function(stream) {
+            var activities = stream.data.items;
+            displayActivities(activities);
+          });
+        } else {
+          displayActivities(activities);
+        }
+      });
+    }
+    
+    var displayActivities = function(activities) {
+      var places = _.collect(activities, function(activity) {
+        if (activity.object.objectType == 'place' || (activity.target && activity.target.objectType == 'place'))
+          return activity;
+      });
+      loadMap(_.compact(places));
+    };
+      
+    function initialize() {
+      var myOptions = {
+        zoom: 4,
+        mapTypeId: google.maps.MapTypeId.HYBRID
+      }
+      map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+      loadPlaces();
+    }
+    
+    $(function() {
+      setTimeout(setFocusOnPlayer, 100);
+      $('a.play-previous').click(function() {
+        currentMarker ++;
+        if (currentMarker >= markers.length)
+          currentMarker = 0;
+        var nextMarker = markers[currentMarker];        
+        google.maps.event.trigger(nextMarker, 'click');
+        google.maps.event.trigger(nextMarker, 'click');
+        return false;
+      });
+      $('a.play-next').click(function() {
+        currentMarker --;
+        if (currentMarker < 0)
+          currentMarker = markers.length - 1;
+        var nextMarker = markers[currentMarker];        
+        google.maps.event.trigger(nextMarker, 'click');
+        google.maps.event.trigger(nextMarker, 'click');
+        return false;
+      });
+      
+      $('body').keydown(function(event) {
+        if (event.which == 39) {
+          $('a.play-next').click();
+          event.preventDefault();
+        } else if (event.which == 37) {
+          $('a.play-previous').click();
+          event.preventDefault();
+        } else if (event.which == 13) {
+          if (markers)
+            google.maps.event.trigger(markers[currentMarker], 'click');
+          event.preventDefault();
+        } else if (event.which == 27) {
+          if (openInfoWindow)
+            openInfoWindow.close();
+          event.preventDefault();
+        }
+      });
+    });  
+  </script>
+</head>
+<body onload="initialize()">
+  <div id="map_canvas"></div>
+  <p id="controls">
+    <a href="#" class="play-previous"> ← Previous</a>
+    <a href="#" class="play-next">Next ➝</a>
+  </p>
+</body>
+</html>

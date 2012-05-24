@@ -1,0 +1,105 @@
+<html>
+<head>
+  <title>Chart visualization</title>
+  
+  <style type="text/css" media="screen">
+    body {
+      font-family: "Helvetica","Arial","Sans";
+    }
+    
+    body {
+      margin: 0;
+    }
+  
+  </style>
+  
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+  <script src="http://localhost:5000/javascripts/manybots.js" type="text/javascript"></script>
+  <script src="http://documentcloud.github.com/underscore/underscore-min.js" type="text/javascript"></script>
+  
+</head>
+<body>
+  
+  <div id="loading" style="color: #CCC;">
+    Loading, can take a few seconds if you have a lot of activities...
+  </div>
+  
+  <div id="chart">
+  </div>
+  <script type="text/javascript">  
+  
+    var loadActivities = function() {
+            
+      var config = {
+        protocol: 'http',
+        host: 'localhost:5000',
+      }
+      var client = new ManybotsClient(config);
+      var limit = 100;
+      
+      client.getJSON('/activities/current', {'limit': limit}, function(stream) {
+        var activities = stream.data.items;
+        var count = activities.length;
+        if (count == 0) {
+          client.getJSON('/activities', {'limit': limit}, function(stream) {
+            var activities = stream.data.items;
+            displayActivities(activities);
+          });
+        } else {
+          displayActivities(activities);
+        }
+      });
+    }
+    
+    var displayActivities = function(activities) {
+      drawChart(activities);
+      function drawChart(activities) {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Date');
+        data.addColumn('number', 'Activities'); 
+        
+        var dates = _.groupBy(activities, function(item) { 
+          var published = new Date((item.published).replace(/-/g,"/").replace(/[TZ]/g," "));
+          return published.setHours(0,0,0,0);
+        });
+        
+        var results = _.collect(dates, function(items, date){
+          var thisDate = new Date(date);
+          return [thisDate.toDateString(), items.length];
+        });
+        
+        data.addRows(results.reverse()); 
+        
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
+        chart.draw(data, {width: 750, height: 340, title: 'TO BE DEFINED',
+          hAxis: {title: 'Date'}, legend: 'none'
+        });
+        google.visualization.events.addListener(chart, 'select', selectHandler);
+
+
+        function selectHandler(e) {
+          var selection = chart.getSelection();
+          var date = '';
+          for (var i = 0; i < selection.length; i++) {
+            var item = selection[i];
+            if (item.row != null && item.column != null) {
+               date = data.getFormattedValue(item.row, 0);
+            }
+          }
+          var year = date.split('-')[0];
+          var month = date.split('-')[1];
+          var day = date.split('-')[2];
+          window.location = '/calendar/day/' + year + '/'+month+'/'+day;
+        };
+      };  
+            
+      $('#loading').hide();
+    };
+    
+    google.load('visualization', '1', {'packages':['corechart']});
+    google.setOnLoadCallback(loadActivities);
+      
+  </script>
+</body>
+</html>

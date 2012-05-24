@@ -7,6 +7,10 @@ group :development, :test do
   gem 'sqlite3'
 end
 
+gem 'mongo_mapper'
+gem 'bson_ext'
+gem 'oj'
+
 # group :production do
 #   gem 'pg'
 # end
@@ -17,7 +21,7 @@ group :assets do
   gem 'sass-rails', "  ~> 3.2.3"
   gem 'coffee-rails', "~> 3.2.1"  
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer'
+  gem 'therubyracer'
   gem 'uglifier', '>= 1.0.3'
 end
 
@@ -26,6 +30,7 @@ gem 'jquery-rails'
 gem 'rails_autolink'
 gem 'resque', :require => "resque/server", :git => "http://github.com/webcracy/resque.git"
 gem 'resque-scheduler', ">= 2.0.0.e"
+gem 'ohm'
 gem 'rest-client', :require => 'rest_client'
 gem 'sanitize'
 gem 'chronic'

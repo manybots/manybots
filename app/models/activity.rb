@@ -85,7 +85,8 @@ class Activity < ActiveRecord::Base
   validates_uniqueness_of :url_id, :scope => [:user_id, :client_application_id], :allow_nil => true, :allow_blank => true
   
   after_create  :add_aggregation!
-  after_create  :create_prediction
+  after_create  :create_item
+  after_create  :create_prediction  
   before_destroy :remove_aggregation!
 
   accepts_nested_attributes_for :actor, :object, :target, :reject_if => proc { |p| p['url_id'].blank? }, :allow_destroy => true
@@ -328,10 +329,19 @@ class Activity < ActiveRecord::Base
     end
     result
   end
+  
+  def as_item
+    a = self.as_json
+    a[:uid] = a[:id]
+    a[:sql_id] = self.id
+    a.delete :id
+    a.merge :itemType => 'Activity'
+  end
     
   def as_activity_v1_0
     a = {
       :user_id => self.user_id,
+      :client_application_id => self.client_application_id,
       :id => url_for(self),
       :url => url_for(self),
       :title => self.title,
@@ -467,6 +477,10 @@ class Activity < ActiveRecord::Base
       prediction = self.predictions.new_from_json_v1_0(pred, User.find(self.user_id), self.client_application_id)
       prediction.save
     end
+  end
+  
+  def create_item
+    Item.create self.as_item
   end
   
   private
