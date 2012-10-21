@@ -6,7 +6,7 @@
   </span>      
 </h1>
 
-<article class="box">
+<!-- <article class="box">
   <div class="box-content">
     <ol>
       <%- for aggregation in @aggregations -%>
@@ -14,4 +14,39 @@
       <%- end -%>
     </ol>
   </div>
-</article>
+</article> -->
+<div class="clearfix">
+<ul id="drilldown" style="display:block;" class="clearfix">
+  <%- @aggregations.group_by(&:type_string).sort.each do |group, aggregates| -%>
+    <li class="drilldown-type-container">
+      <ul class="drilldown-type-suggestions">
+        <%- aggregates.each_with_index do |a, index| -%>
+          <li id="<%= a.id %>-drilldown-suggestion" class="drilldown-suggestion <%= 'hide' if index > 4 %>">
+            <%= link_to a.name, a%>
+          </li>
+          <%- if index == 4 and aggregates.length > 5 %>
+            <li id="show-more-<%= group %>" class="drilldown-suggestion show-more">
+              <a href="#" rel="show-more-<%= group %>" class="drilldown-show-more">Show all (<%= aggregates.length %>) ↓</a>
+            </li>
+          <%- end  -%>
+        <%- end -%>
+      </ul>
+      <div class="drilldown-type"><%= group.capitalize %></div>
+    </li>
+  <%- end if @aggregations.any? -%>
+</ul>
+</div>
+
+<p></p>
+
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    $('.drilldown-show-more').click(function() {
+      var $parent = $(this).parent();
+      $parent.text('Loading...');
+      $parent.siblings().show();
+      $parent.hide();
+      return false;
+    });
+  });
+</script>

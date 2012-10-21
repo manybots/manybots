@@ -1,0 +1,53 @@
+.clearfix
+  %article.standard-list-item
+    = image_tag @person.avatar_url
+    %h3.page-title= @person.name
+    %p.small 
+      %strong Aliases: 
+      = @person.names.to_sentence
+    %dl.dl-horizontal
+      - for email in @person.emails
+        %dt.icon-replace.ir-email
+          Email
+        %dd
+          = email
+
+%p.clearfix
+
+%h2 Highjacks
+- for person in @person.highjacks
+  .box.clearfix
+    %article.standard-list-item.box-content
+      = image_tag person.avatar_url
+      %h3= person.name
+      %dl.dl-horizontal
+        - for email in person.emails
+          %dt.icon-replace.ir-email
+            Email
+          %dd
+            = email
+      %p
+        = link_to 'Details', person
+      %p.button.delete.medium{style: 'float: left;height: 33px;width: 100px;' }
+        = link_to "Release", release_person_path(person, highjacker_id: @person.id), method: 'post', confirm: 'Are you sure?'
+  
+%p.clearfix
+
+%h2 Possible duplicates
+- for person in (@person.duplicates - @person.highjacks)
+  .box.clearfix
+    %article.standard-list-item.box-content
+      = image_tag person.avatar_url
+      %h3= person.name
+      %dl.dl-horizontal
+        - for email in person.emails
+          %dt.icon-replace.ir-email
+            Email
+          %dd
+            = email
+      %p
+        = link_to 'Details', person
+      %p.button.save.medium{style: 'float: left;height: 33px;width: 100px;' }
+        = link_to "Highjack", highjack_person_path(person, highjacker_id: @person.id), method: 'post', confirm: 'Are you sure?'
+  
+  

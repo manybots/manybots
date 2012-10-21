@@ -1,0 +1,18 @@
+%h1.page-title
+  People
+  
+- for person in @people
+  .box.clearfix
+    %article.standard-list-item.box-content
+      = image_tag person.avatar_url
+      %h3= person.name
+      %dl.dl-horizontal
+        - for email in person.emails
+          %dt.icon-replace.ir-email
+            Email
+          %dd
+            = email
+      %p= link_to 'Details', person
+
+.clearfix
+  = will_paginate @people

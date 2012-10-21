@@ -1,12 +1,28 @@
 ManybotsLocal::Application.routes.draw do
-  
+
   match "/dashboard/day/:year/:month/:day", :to => "dashboard#day", :as => 'day'
+  match "/agenda", :to => "calendar#today", :as => 'agenda'
   
   match "/collection/:id", :to => 'aggregations#filter', :as => 'collection'
   
   match 'analytics', :to => 'filters#new', :as => 'analytics'
   
   match 'reset_api_token', :to => 'dashboard#reset_user_token', :as => 'reset_api_token'
+  
+  resources :items
+  
+  resources :people do
+    member do
+      post 'highjack'
+      post 'release'
+    end
+  end
+  
+  resources :library, :controller => :aggregations do
+    collection do 
+      get 'autocomplete'
+    end
+  end
   
   resources :predictions
   

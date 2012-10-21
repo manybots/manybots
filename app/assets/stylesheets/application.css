@@ -110,12 +110,36 @@ ul.app-nav li {
 
 ul.app-nav li a {
   display: block;
-  font-size: 14px;
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 5px;
+  color: #1A4F68;
 }
 
 ul.app-nav li a.active {
   background-color: #fff;
+  text-shadow: 0 -1px 0px #fff;
+  border: 1px solid #ddd;  
+}
+
+.app-menu-small-link {
+  font-style: italic;
+  font-weight: bold;
+  margin: 3px 0 20px 0 !important;
+}
+.app-menu-small-link a {
+  font-size: .8em;
+  text-transform: uppercase;
+  color: #1A4F68;
+  padding-left: 5px;
+}
+
+.app-menu-small-link a.active{
+  background-color: #fff;
+  text-shadow: 0 -1px 0px #fff;
+  border: 1px solid #ddd;  
   padding: 5px;
+  width: 100%;
 }
 
 .container {
@@ -700,6 +724,21 @@ ul.visualization-list li {
   padding-left: 20px;
 }
 
+.menu-agenda-icon {
+  background: url(/assets/icons/fugue-icons-1.7.2/calendar-day.png) 3px 6px no-repeat;
+  padding-left: 25px !important;
+}
+
+.menu-people-icon {
+  background: url(/assets/icons/fugue-icons-1.7.2/users.png) 3px 7px no-repeat;
+  padding-left: 25px !important;
+}
+
+.menu-library-icon {
+  background: url(/assets/icons/fugue-icons-1.7.2/book-open.png) 3px 7px no-repeat;
+  padding-left: 25px !important;
+}
+
 .library-icon {
   background: url(/assets/icons/fugue-icons-1.7.2/book-brown.png) 0 0 no-repeat;
   padding-left: 20px;
@@ -720,3 +759,90 @@ ul.visualization-list li {
   font-size: 10px;
   font-weight: bold;
 }
+
+#drilldown {
+  background-color: #fafafa;
+  border: 1px solid #bbb;
+  display: none;
+  font: 12px/14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  text-shadow: 0 0 0 white;
+/*  top: 5px;*/
+  width: 579px;
+  z-index: 1000;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  -khtml-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  -khtml-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
+  #drilldown .drilldown-type-container {
+    border-top: 1px solid #ddd; }
+    #drilldown .drilldown-type-container:first-child {
+      border-top: none; }
+  #drilldown .drilldown-type-suggestions {
+    border-left: 1px solid #ddd;
+    float: right;
+    list-style: none;
+    padding: 5px 0;
+    width: 490px;
+    letter-spacing: 0.5px; }
+  #drilldown .drilldown-suggestion {
+    color: #111;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 13px;
+    padding: 5px 0 6px 12px;
+    text-decoration: none; }
+    #drilldown .drilldown-suggestion.focus {
+      color: white;
+      margin-left: -1px;
+      margin-right: -1px;
+      padding-left: 13px;
+      position: relative;
+      text-shadow: 0 1px 1px #32629b;
+      z-index: 1;
+      -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      -khtml-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      -ms-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      -o-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      background: #545454;
+      background: -moz-linear-gradient(top, #545454 0, #444444 100%);
+      background: -webkit-gradient(linear, 0 0, 0 100%, from(#545454), to(#444444));
+      -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#545454,endColorstr=#444444)";
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#545454,endColorstr=#444444); }
+  #drilldown .drilldown-type {
+    background-color: white;
+    color: #333;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    margin-right: 490px;
+    padding: 10px 10px 0 10px;
+    text-align: right;
+    text-transform: capitalize;
+    vertical-align: top;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+    zoom: 1; }
+    #drilldown .drilldown-type:before, #drilldown .drilldown-type:after {
+      content: "";
+      display: table; }
+    #drilldown .drilldown-type:after {
+      clear: both; }

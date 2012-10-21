@@ -6,13 +6,6 @@
           %span.calendar.icon 
             %a.show.calendar{:href => '/calendar'} Calendar
         %h1.page-title Tomorrow
-
-      .clearfix
-        %p
-        
-        %p{style: 'font-size:1.8em;font-weight:bold;'} 
-          What you
-          %span.highlight might just end up doing
   
   - if @items.first.methods.include? :aggregations
     .box
@@ -32,5 +25,8 @@
   $(function() {
     var target = $('#template');
     target.hide();
+    
+    
+    
     Notification.listAll('/calendar/tomorrow/#{params[:what] || 'activities'}', target);
   });

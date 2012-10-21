@@ -4,6 +4,39 @@ class Aggregation < ActiveRecord::Base
   has_and_belongs_to_many :notifications
   has_and_belongs_to_many :predictions
   
+  after_save :load_into_soulmate
+  after_destroy :remove_from_soulmate
+
+  def load_into_soulmate
+    generic_loader = Soulmate::Loader.new("aggregation:#{self.user_id}")
+    generic_loader.add("term" => self.name, "id" => self.id, "score" => self.total, "data" => {"aggregation_type" => self.type_string})
+    specific_loader = Soulmate::Loader.new("aggregation:#{self.type_string}:#{self.user_id}")
+    specific_loader.add("term" => self.name, "id" => self.id, "score" => self.total, "data" => {"aggregation_type" => self.type_string})
+  end
+  
+  def remove_from_soulmate
+    generic_loader = Soulmate::Loader.new("aggregation:#{self.user_id}")
+    generic_loader.remove("term" => self.name, "id" => self.id, "score" => self.total, "data" => {"aggregation_type" => self.type_string})
+    specific_loader = Soulmate::Loader.new("aggregation:#{self.type_string}:#{self.user_id}")
+    specific_loader.remove("term" => self.name, "id" => self.id, "score" => self.total, "data" => {"aggregation_type" => self.type_string})
+  end
+  
+  def self.autocomplete(user, term, aggregation_type=nil)
+    if aggregation_type.is_a? String
+      aggregation_type = aggregation_type.downcase
+    elsif aggregation_type.is_a? Array
+      aggregation_type = aggregation_type.first.downcase
+    else
+      aggregation_type = nil
+    end
+    aggregation = aggregation_type.present? ? "aggregation:#{aggregation_type}:#{user.id}" : "aggregation:#{user.id}"
+    matches = Soulmate::Matcher.new(aggregation).matches_for_term(term)
+    results = {
+      term: term,
+      results: matches.group_by {|m| m['data']['aggregation_type'].capitalize }
+    }
+  end
+  
   def self.match(aggregation_params)
     if aggregation_params.match '\+'
       @match = 'reunion'
@@ -323,4 +356,4 @@ class Aggregation < ActiveRecord::Base
   end
   ## End add all aggregations
   
-  end
+end

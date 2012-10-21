@@ -5,44 +5,33 @@
         .altviews
           %span.calendar.icon 
             %a.show.calendar{:href => '/calendar'} Calendar
-        %h1.page-title Today
+            
+        %h1.page-title
+          = @start_date.strftime('%a, %d %b %Y')
+          %span
+            - yesterday = (@start_date - 1.day).to_date
+            %span.meta= link_to "<< Previous", "/calendar/day/#{yesterday.year}/#{yesterday.month}/#{yesterday.day}"
+          %span
+            - tomorrow = (@start_date + 1.day).to_date
+            %span.meta= link_to "Next >>", "/calendar/day/#{tomorrow.year}/#{tomorrow.month}/#{tomorrow.day}"
+          
 
-      .clearfix
-        %p
-        
-        %p{style: 'font-size:1.8em;font-weight:bold;'} 
-          %span< What
-          - if params[:what].nil? or params[:what] == 'activities'
-            %span.highlight<
-              you did
-          - else
-            ~ link_to 'you did', '/calendar/today'
-          %span<>,
-          - if params[:what] == 'notifications'
-            &nbsp;
-            %span.highlight<> should know
-          - else
-            %span<>
-              &nbsp;
-              = link_to 'should know', '/calendar/today/notifications'
-          %span<>, and
-          - if params[:what] == 'predictions'
-            &nbsp;
-            %span.highlight<> predicted
-          - else
-            %span
-              = link_to 'predicted', '/calendar/today/predictions'
-  
   - if @items.first.methods.include? :aggregations
-    .box
-      .box-content
-        %ul{style: 'padding:0;margin: 0;'}
-        
-          - @items.collect(&:aggregations).flatten.group_by{|a| a}.sort.each do |group, aggregations|
-            - if group.name.present?
-              %li{style: "display:inline;margin: 10px; padding:10px;font-size:#{10 + aggregations.size}px;"}
-                = link_to "#{group.name}", aggregation_path(group.id)
-
+    - aggregations = @items.collect(&:aggregations).flatten.compact.group_by(&:type_string)
+    #filter-content.filter-content.grey.rounded.dropdown-container
+      %dl
+        - aggregations.sort.each do |ag_type, ags|
+          %dt
+            = ag_type.capitalize
+          %dd 
+            %ul.filter-group
+              %li.capsule.dropdown
+                %a.expandable.dropdown-button{href: '#', title: ag_type}
+                  %span= "All (#{ags.uniq.length})"
+                %ul.filter-option.hide
+                  - ags.group_by{|a| a}.sort.each do |app, repeats|
+                    %li
+                      = link_to "#{app.name} (#{repeats.length})", '#', class: "doSort #{ag_type}", rel: "#{app.name}"
 
 #target.main-content{style: 'width: 100%'}
   = render :partial => 'notifications/notification'
@@ -52,5 +41,15 @@
   $(function() {
     var target = $('#template');
     target.hide();
+    
+    $('.doSort').click(function() {
+      
+    });
+    
+    var filter = {
+      'verb': $('#verbs').val(),
+      'objectType': $('#objects').val()
+    };
+    
     Notification.listAll('/calendar/today/#{params[:what] || 'activities'}', target);
   });

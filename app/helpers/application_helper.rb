@@ -30,7 +30,7 @@ module ApplicationHelper
   end
   
   
-  def gravatar_url_for(email, options = {})      
+  def gravatar_url_for(email, options = {})
     url_for("https://secure.gravatar.com/avatar/" + Digest::MD5.hexdigest(email))
   end
   

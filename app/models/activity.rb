@@ -85,10 +85,20 @@ class Activity < ActiveRecord::Base
   validates_uniqueness_of :url_id, :scope => [:user_id, :client_application_id], :allow_nil => true, :allow_blank => true
   
   after_create  :add_aggregation!
-  after_create  :create_prediction
+  after_create  :create_prediction  
   before_destroy :remove_aggregation!
+  
+  after_create  :create_item
+  after_destroy :destroy_item
 
   accepts_nested_attributes_for :actor, :object, :target, :reject_if => proc { |p| p['url_id'].blank? }, :allow_destroy => true
+  
+  def self.try_faster_payload!
+    find_each do |act|
+      act.json_payload = act.as_json.to_json
+      act.save
+    end
+  end
   
   def self.between(start, finish)
     if start and finish
@@ -328,10 +338,19 @@ class Activity < ActiveRecord::Base
     end
     result
   end
+  
+  def as_item
+    a = self.as_json
+    a[:uid] = a.delete :id
+    a[:sql_id] = self.id
+    a[:itemType] = 'Activity'
+    a
+  end
     
   def as_activity_v1_0
     a = {
       :user_id => self.user_id,
+      :client_application_id => self.client_application_id,
       :id => url_for(self),
       :url => url_for(self),
       :title => self.title,
@@ -375,7 +394,6 @@ class Activity < ActiveRecord::Base
       }
     }
     
-
     self.exotic_payload(:activity).each do |pair|
       a.merge! pair
     end if self.payload
@@ -468,6 +486,15 @@ class Activity < ActiveRecord::Base
       prediction.save
     end
   end
+  
+  def create_item
+    Item.create self.as_item
+  end
+  
+  def destroy_item
+    Item.where(sql_id: self.id).first.destroy
+  end
+  
   
   private
       

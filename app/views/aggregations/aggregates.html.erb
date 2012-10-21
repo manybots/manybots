@@ -2,14 +2,37 @@
   <div class="box-content">
     <h1 class="page-title">Related objects</h1>
     
-    <%- @aggregates.group_by(&:type_string).sort.each do |group, aggregates| -%>
-      <h4><%= group.capitalize %></h4>
-      <ul>
-        <%- aggregates.each do |a| -%>
-          <li><%= link_to a.name, bundle_aggregation_path(params[:id] + '&' +a.id.to_s) %></li>
-        <%- end -%>
-      </ul>
-      
-    <%- end if @aggregates.any? -%>
+    
+    <ul id="drilldown" style="display: block; ">
+      <%- @aggregates.group_by(&:type_string).sort.each do |group, aggregates| -%>
+        <li class="drilldown-type-container">
+          <ul class="drilldown-type-suggestions">
+            <%- aggregates.each_with_index do |a, index| -%>
+              <li id="<%= a.id %>-drilldown-suggestion" class="drilldown-suggestion <%= 'hide' if index > 4 %>">
+                <%= link_to a.name, bundle_aggregation_path(params[:id] + '&' +a.id.to_s)%>
+              </li>
+              <%- if index == 4 and aggregates.length > 5 %>
+                <li id="show-more-<%= group %>" class="drilldown-suggestion show-more">
+                  <a href="#" rel="show-more-<%= group %>" class="drilldown-show-more">Show all (<%= aggregates.length %>) ↓</a>
+                </li>
+              <%- end  -%>
+            <%- end -%>
+          </ul>
+          <div class="drilldown-type"><%= group.capitalize %></div>
+        </li>
+      <%- end if @aggregates.any? -%>
+    </ul>    
   </div>
 </article>
+
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    $('.drilldown-show-more').click(function() {
+      var $parent = $(this).parent();
+      $parent.text('Loading...');
+      $parent.siblings().show();
+      $parent.hide();
+      return false;
+    });
+  });
+</script>

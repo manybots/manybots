@@ -61,7 +61,7 @@ Notification = {
     if (notification.provider.image)
       $content.children('p.via').children('img.generator.image').attr('src', notification.provider.image.url);
     $content.children('p.via').children('span.published').
-      html('<a href="'+notification.id+'" title="'+notification.published+'">'+prettyDate(notification.published)+'</a>');
+      html('<a href="'+notification.id+'" title="'+notification.published+'">'+ (prettyDate(notification.published) || new Date((notification.published).replace(/-/g,"/").replace(/[TZ]/g," ")) ) +'</a>');
     
     var tagList = notification.tags;
     for (var i = tagList.length - 1; i >= 0; i--){

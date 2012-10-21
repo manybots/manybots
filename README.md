@@ -1,3 +1,7 @@
+# Dev warning
+
+This MongoDB branch is in development. Don't start here. To add MongoDB to your running install, read `MONGODB-README.md`.
+
 # Manybots
 
 Manybots is the platform for your digital life. It uniquely connects all the apps and devices that power your digital lifestyle into a single place where you can explore, visualize and quantify the data from your past, present and future.

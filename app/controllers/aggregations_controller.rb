@@ -6,6 +6,10 @@ class AggregationsController < ApplicationController
     @aggregations = current_user.aggregations.order('total desc')#.limit()
   end
   
+  def autocomplete
+    render json: Aggregation.autocomplete(current_user, params['term'], params['types']), callback: (params[:callback].present? ? params[:callback] : false)
+  end
+  
   def show
     @aggregations = current_user.aggregations.match(params[:id])
     @aggregation = @aggregations.first
