@@ -1,6 +1,7 @@
 development:
   server_name: Manybots
   host: localhost:5000
+  uri_date: 2012 # change this date to reflect host ownership in accordance to RFC 4151 - http://tools.ietf.org/html/rfc4151
   url: http://localhost:5000
   schema_url: http://localhost:5000/schema
   remote_language_parsing: true
@@ -8,6 +9,7 @@ development:
 test:
   server_name: Manybots
   host: test.host
+  uri_date: 2012 # change this date to reflect host ownership in accordance to RFC 4151 - http://tools.ietf.org/html/rfc4151
   url: http://test.host
   schema_url: http://test.host/schema
   remote_language_parsing: true
@@ -15,6 +17,7 @@ test:
 production:
   server_name: Manybots
   host: localhost:5000
+  uri_date: 2012 # change this date to reflect host ownership in accordance to RFC 4151 - http://tools.ietf.org/html/rfc4151
   url: http://localhost:5000
   schema_url: http://localhost:5000/schema
   remote_language_parsing: true

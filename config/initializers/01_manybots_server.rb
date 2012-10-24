@@ -10,6 +10,7 @@ module Manybots
       @server_name = app_config[:server_name]
       @schema_url = app_config[:schema_url]
       @host = app_config[:host]
+      @uri_date = app_config[:uri_date]
       @url = app_config[:url]
       @remote_language_parsing = app_config[:remote_language_parsing] || false
       @icon_url = @url + '/icon.png'
