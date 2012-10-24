@@ -13,10 +13,5 @@
      "library": true,
      "objects": ["meal"]
    },
-   "repositories": [
-       {
-           "type": "git",
-           "url": "https://github.com/manybots/mbjs-meals" 
-       }
-   ]
+   "repositories": []
 }

@@ -593,7 +593,9 @@ a.table-options-link {
 	float:left;
 }
 
+
 .ir-email{background:url(icons/fugue-icons-1.7.2/mail.png) center center no-repeat;}
+.ir-phone{background:url(icons/fugue-icons-1.7.2/mobile-phone.png) center center no-repeat;}
 .ir-tag{background: url(icons/fugue-icons-1.7.2/tag.png) center center no-repeat;}
 
 .ir-twitter{background: url(icons/social-networks/twitter_16.png) center center no-repeat;}
