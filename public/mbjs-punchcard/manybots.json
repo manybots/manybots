@@ -16,7 +16,7 @@
    "repositories": [
        {
            "type": "git",
-           "url": "https://github.com/manybots/mbjs-punchard" 
+           "url": "https://github.com/manybots/mbjs-punchcard" 
        }
    ]
 }
