@@ -2,7 +2,7 @@ module Manybots
 
   class Server
   
-    attr_accessor :server_name, :schema_url, :host, :url, :icon_url, :remote_language_parsing
+    attr_accessor :server_name, :schema_url, :host, :url, :icon_url, :remote_language_parsing, :uri_date
   
     def initialize
       raw_config = File.read(Rails.root.to_s + "/config/manybots.yml")
