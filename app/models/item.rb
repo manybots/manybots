@@ -27,6 +27,10 @@ class Item
     where(user_id: user_id)
   }
   
+  scope :aggregation, lambda {|aggregation_id|
+    where(sql_id: Aggregation.where(id: aggregation_id).activity_ids)
+  }
+  
   scope :timeline, lambda {
     sort(published_epoch: -1)
   }
