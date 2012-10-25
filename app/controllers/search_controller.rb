@@ -19,28 +19,7 @@ class SearchController < ApplicationController
   
   def everything
     @query = CGI.unescape params[:query] || ''
-    adapter_type = ActiveRecord::Base.connection.adapter_name.downcase.to_sym
-    case adapter_type
-    when :mysql, :mysql2
-      @func = "LIKE"
-      @regexp = "#{@query}%"
-    when :sqlite
-      @func = "REGEXP"
-      @regexp = "\\b#{@query}"
-    when :postgresql, :pg2
-      @func = "~*"
-      @regexp = "\\m#{@query}"
-    else
-      throw NotImplementedError.new("Unknown adapter type '#{adapter_type}'")
-    end
-    
-    # if Rails.env.production?
-    #   @func = "~*"
-    #   @regexp = "\\m#{@query}"
-    # else
-    #   @func = "REGEXP"
-    #   @regexp = "\\b#{@query}"
-    # end
+    do_regexp_or_like(@query)
     @activities = current_user.activities.where("clean_title #{@func} ?", @regexp).timeline.limit(10)
     respond_to do |format|
       format.html {}
@@ -49,6 +28,23 @@ class SearchController < ApplicationController
   end
   
   private
+  
+    def do_regexp_or_like(query)
+      adapter_type = ActiveRecord::Base.connection.adapter_name.downcase.to_sym
+      case adapter_type
+      when :mysql, :mysql2
+        @func = "LIKE"
+        @regexp = "#{query}%"
+      when :sqlite
+        @func = "REGEXP"
+        @regexp = "\\b#{query}"
+      when :postgresql, :pg2
+        @func = "~*"
+        @regexp = "\\m#{query}"
+      else
+        throw NotImplementedError.new("Unknown adapter type '#{adapter_type}'")
+      end
+    end
     
     def do_date_search(query)
       date = Chronic.parse(query)
@@ -57,13 +53,7 @@ class SearchController < ApplicationController
     
     def do_normal_search(query)
       @query = "%#{query}%"
-      if Rails.env.production?
-        @func = "~*"
-        @regexp = "\\m#{query}"
-      else
-        @func = "REGEXP"
-        @regexp = "\\b#{query}"
-      end
+      do_regexp_or_like(query)
       @results = current_user.aggregations.where("name #{@func} ? ", @regexp).order('total DESC')
     end
     
