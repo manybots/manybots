@@ -6,6 +6,7 @@ class Person
   key :name,                    String
   key :rel,                     String
   key :aggregation_id,          Integer
+  key :activity_ids,            Array
   key :names,                   Array
   key :original_emails,         Array
   key :emails,                  Array
@@ -20,22 +21,12 @@ class Person
   scope :deduped, lambda { |user_id|
     where(user_id: user_id, highjacked: [false, nil])
   }
-  
-  def create_year_to_date_intensity
-    Intensity.calculate_for_person_and_genre self, 'current_year', nil #[(Time.now.beginning_of_year).to_i, Time.now.to_i]
-  end
-  
+    
   def duplicates
-    # conditions = {:$or => []}
-    # if emails.empty?
-    #   conditions[:$or].push({emails: all_emails})
-    # end
-    # unless phone_numbers.empty?
-    #   conditions[:$or].push({phone_numbers: all_phone_numbers})
-    # end
-    # self.class.where(conditions.merge(:id.ne => id)).all
-
-    self.class.where(emails: all_emails, :id.ne => id).all
+    (
+      self.class.where(emails: all_emails, :id.ne => id).all +
+      self.class.where(phone_numbers: all_phone_numbers, :id.ne => id).all
+    ).compact.uniq
   end
   
   def update_with_highjacks!
@@ -79,6 +70,11 @@ class Person
     self.class.find highjacked_by
   end
   
+  def calculate_global_intensity!
+    intensity = Intensity.calculate_for_person_and_genre self, 'global', nil #[(Time.now.beginning_of_year).to_i, Time.now.to_i]
+    update_attribute :intensity, intensity
+  end
+  
   def all_emails
     (original_emails + emails + highjacks.collect(&:emails)).flatten.uniq
   end
@@ -91,76 +87,100 @@ class Person
     [name, highjacks.collect(&:name)].flatten.uniq
   end
   
-  def all_activities
-    options = {
-      user_id: user_id,
-      :$or => [
-        {:'target.email' => {:$in => all_emails}, :'target.displayName' => {:$in => all_names} },
-        {:'object.email' => {:$in => all_emails}, :'object.displayName' => {:$in => all_names} },
-        {:'target.phone_number' => {:$in => all_phone_numbers}, :'target.displayName' => {:$in => all_names} },
-        {:'object.phone_number' => {:$in => all_phone_numbers}, :'object.displayName' => {:$in => all_names} },
-      ]
-    }
-    
-    unless @acts
-      @acts = []
-      @acts += Item.where({'target.objectType' => 'person'}.merge(options)).fields(:id).all.collect(&:id)
-      @acts += Item.where({'object.objectType' => 'person'}.merge(options)).fields(:id).all.collect(&:id)
-    end
-    Item.where(id: @acts)
+  def all_activity_ids
+    [activity_ids, highjacks.collect(&:activity_ids)].flatten.uniq
   end
   
+  def all_activities
+    Item.where(sql_id: all_activity_ids)
+  end
+  
+  def load_details_from_aggregation!
+    self.names = names_for_aggregation
+    self.emails = emails_for_aggregation
+    self.phone_numbers = phone_numbers_for_aggregation
+    save
+  end
+  
+  def self.new_from_aggregation(aggregation)
+    activity_ids = aggregation.activity_ids
+    return if activity_ids.empty?
+    person = new
+    person.name = aggregation.name
+    person.aggregation_id = aggregation.id
+    person.activity_ids = activity_ids
+    person.user_id = aggregation.user_id
+    person.rel = "Contact"
+    person
+  end
+  
+  def update_from_aggregation(aggregation)
+    name = aggregation.name
+    activity_ids = aggregation.activity_ids
+    save
+    load_details_from_aggregation!
+  end
+  
+  def self.create_from_aggregation(aggregation)
+    person = new_from_aggregation(aggregation)
+    return unless person
+    person.load_details_from_aggregation! 
+    person.update_attribute(:avatar_url, gravatar_url(person.emails.first)) if person.emails.any?
+    person
+  end
+    
   def self.create_all_for_user(user_id)
-    people = uniq_name_matches(user_id)
-    for person in people
-      pax = new(person)
-      pax.user_id = user_id
-      pax.rel = 'Contact'
-      pax.avatar_url = gravatar_url(pax.original_emails.first) if pax.original_emails.any?
-      pax.save
+    aggregations = Aggregation.where(user_id: user_id, type_string: 'people').all
+    for aggregation in aggregations
+      create_from_aggregation(aggregation)
+    end
+  end
+  
+  def self.calculate_intensity_for_user(user_id)
+    where(user_id: user_id).all.each do |person|
+      person.calculate_global_intensity!
     end
   end
   
   private
   
-  def self.uniq_names(user_id)
+  def names_for_aggregation
     names = []
-    names += Item.collection.distinct("target.displayName", {'target.objectType' => 'person', 'user_id' => user_id})
-    names += Item.collection.distinct("object.displayName", {'object.objectType' => 'person', 'user_id' => user_id})
-    names.compact.uniq
-    
-    # names = Aggregation.where(user_id: user_id, type_string: 'people').map do |aggregation|
-    #   {name: aggregation.name, activity_ids: aggregation.activity_ids}
-    # end
+    ['target', 'object'].each do |field|
+      names += Item.where("#{field}.objectType" => 'person', 'sql_id' => activity_ids).
+        fields(["#{field}.displayName"]).all.collect {|item|
+          item.send(field)['displayName']
+        }
+    end
+    names = names.compact.uniq
+    update_attribute :names, names
+    names
   end
   
-  def self.uniq_emails(user_id)
+  def emails_for_aggregation
     emails = []
-    emails += Item.collection.distinct("target.email", {'target.objectType' => 'person', 'user_id' => user_id})
-    emails += Item.collection.distinct("object.email", {'object.objectType' => 'person', 'user_id' => user_id})
-    emails.compact.uniq
+    ['target', 'object'].each do |field|
+      emails += Item.where("#{field}.objectType" => 'person', 'sql_id' => activity_ids).
+        fields(["#{field}.email"]).all.collect {|item|
+          item.send(field)['email']
+        }
+    end
+    emails = emails.compact.uniq
+    update_attribute :original_emails, emails
+    emails
   end
   
-  def self.uniq_phone_numbers(user_id)
+  def phone_numbers_for_aggregation
     phone_numbers = []
-    phone_numbers += Item.collection.distinct("target.phone_number", {'target.objectType' => 'person', 'user_id' => user_id})
-    phone_numbers += Item.collection.distinct("object.phone_number", {'object.objectType' => 'person', 'user_id' => user_id})
-    phone_numbers.compact.uniq
-  end
-  
-  
-  def self.emails_for_name(user_id, name)
-    emails = []
-    emails += Item.collection.distinct("target.email", {'target.objectType' => 'person', 'user_id' => user_id, 'target.displayName' => name})
-    emails += Item.collection.distinct("object.email", {'object.objectType' => 'person', 'user_id' => user_id, 'object.displayName' => name})
-    emails.compact.uniq
-  end
-  
-  def self.phone_numbers_for_name(user_id, name)
-    numbers = []
-    numbers += Item.collection.distinct("target.phone_number", {'target.objectType' => 'person', 'user_id' => user_id, 'target.displayName' => name})
-    numbers += Item.collection.distinct("object.phone_number", {'object.objectType' => 'person', 'user_id' => user_id, 'objectType.displayName' => name})
-    numbers.compact.uniq
+    ['target', 'object'].each do |field|
+      phone_numbers += Item.where("#{field}.objectType" => 'person', 'sql_id' => activity_ids).
+        fields(["#{field}.phone_number"]).all.collect {|item|
+          item.send(field)['phone_number']
+        }
+    end
+    phone_numbers = phone_numbers.compact.uniq
+    update_attribute :original_phone_numbers, phone_numbers
+    phone_numbers
   end
   
   def self.names_for_email(user_id, email)
@@ -169,29 +189,7 @@ class Person
     names += Item.collection.distinct("object.displayName", {'object.objectType' => 'person', 'user_id' => user_id, 'object.email' => email})
     names.compact.uniq
   end
-  
-  def self.uniq_name_matches(user_id)
-    names = uniq_names(user_id)
-    uniqs = names.collect do |name|
-      original_emails = emails_for_name(user_id, name)
-      original_phone_numbers = phone_numbers_for_name(user_id, name)
-      {
-        name: name,
-        original_emails: original_emails, 
-        emails: original_emails, 
-        original_phone_numbers: original_phone_numbers, 
-        phone_numbers: original_phone_numbers 
-      }
-    end
-  end
-  
-  def self.uniq_email_matches(user_id)
-    emails = uniq_emails(user_id)
-    uniqs = emails.collect do |email|
-      { email: email, names: names_for_email(user_id, email) }
-    end
-  end
-  
+
   def self.gravatar_url(email)
     gravatar_url = "https://secure.gravatar.com/avatar/"
     gravatar_url << Digest::MD5.hexdigest(email)

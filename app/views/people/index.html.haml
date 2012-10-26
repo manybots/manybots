@@ -5,7 +5,9 @@
   .box.clearfix
     %article.standard-list-item.box-content
       = image_tag person.avatar_url
-      %h3= person.name
+      %h3
+        = person.name
+        (#{person.intensity})
       %dl.dl-horizontal
         - for email in person.emails
           %dt.icon-replace.ir-email

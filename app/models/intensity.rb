@@ -62,7 +62,6 @@ class Intensity
     start_date = between.first.to_i rescue(nil)
     end_date = between.last.to_i rescue(nil)
     intensity = intensity_log.to_s == "NaN" ? 0 : intensity_log
-    person.update_attribute :intensity, intensity if save
   end
     
   def calc_volume(activities)
@@ -71,9 +70,13 @@ class Intensity
       verb = activity['verb']
       duration = activity.object[duration].to_i if object_type == 'phone-call'
       score = 0
-      score += INTENSITY_POINTS[object_type][verb] 
-      score += (duration.to_f * INTENSITY_POINTS[object_type][verb] / 100 ).to_f if duration
-      score
+      if INTENSITY_POINTS[object_type].nil?
+        score
+      else
+        score += INTENSITY_POINTS[object_type][verb]
+        score += (duration.to_f * INTENSITY_POINTS[object_type][verb] / 100 ).to_f if duration
+        score
+      end
     end.sum
     activities.count.to_f + points.to_f
   end

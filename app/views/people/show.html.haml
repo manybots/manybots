@@ -1,53 +1,66 @@
 .clearfix
   %article.standard-list-item
     = image_tag @person.avatar_url
-    %h3.page-title= @person.name
+    %h3.page-title
+      = @person.name 
+      (#{@person.intensity})
     %p.small 
       %strong Aliases: 
-      = @person.names.to_sentence
+      = (@person.names - [@person.name]).to_sentence
     %dl.dl-horizontal
       - for email in @person.emails
         %dt.icon-replace.ir-email
           Email
         %dd
           = email
+    %dl.dl-horizontal
+      - for phone_number in @person.phone_numbers
+        %dt.icon-replace.ir-phone
+          Phone
+        %dd
+          = phone_number
+    
 
 %p.clearfix
 
-%h2 Highjacks
-- for person in @person.highjacks
-  .box.clearfix
-    %article.standard-list-item.box-content
-      = image_tag person.avatar_url
-      %h3= person.name
-      %dl.dl-horizontal
-        - for email in person.emails
-          %dt.icon-replace.ir-email
-            Email
-          %dd
-            = email
-      %p
-        = link_to 'Details', person
-      %p.button.delete.medium{style: 'float: left;height: 33px;width: 100px;' }
-        = link_to "Release", release_person_path(person, highjacker_id: @person.id), method: 'post', confirm: 'Are you sure?'
+- if @person.highjacked?
+  %p 
+    Merged with 
+    = link_to @person.highjacker.name, person_path(@person.highjacked_by)
+- else
+  %h2 Merged duplicates
+  - for person in @person.highjacks
+    .box.clearfix{style: 'width: 386px; margin-right: 10px; float:left;'}
+      %article.standard-list-item.box-content
+        = image_tag person.avatar_url
+        %h3= person.name
+        %dl.dl-horizontal
+          - for email in person.emails
+            %dt.icon-replace.ir-email
+              Email
+            %dd
+              = email
+        %p
+          = link_to 'Details', person
+        %p.button.delete.medium{style: 'float: left;height: 33px;width: 100px;' }
+          = link_to "Unmerge", release_person_path(person, highjacker_id: @person.id), method: 'post', confirm: 'Are you sure?'
   
-%p.clearfix
+  %p.clearfix
 
-%h2 Possible duplicates
-- for person in (@person.duplicates - @person.highjacks)
-  .box.clearfix
-    %article.standard-list-item.box-content
-      = image_tag person.avatar_url
-      %h3= person.name
-      %dl.dl-horizontal
-        - for email in person.emails
-          %dt.icon-replace.ir-email
-            Email
-          %dd
-            = email
-      %p
-        = link_to 'Details', person
-      %p.button.save.medium{style: 'float: left;height: 33px;width: 100px;' }
-        = link_to "Highjack", highjack_person_path(person, highjacker_id: @person.id), method: 'post', confirm: 'Are you sure?'
-  
-  
+  %h2 Possible duplicates
+  - for person in (@person.duplicates - @person.highjacks)
+    - unless 1== 2#person.highjacked?
+      .box.clearfix{style: 'width: 386px; margin-right: 10px; float:left;'}
+        %article.standard-list-item.box-content
+          = image_tag person.avatar_url
+          %h3= person.name
+          %dl.dl-horizontal
+            - for email in person.emails
+              %dt.icon-replace.ir-email
+                Email
+              %dd
+                = email
+          %p
+            = link_to 'Details', person
+          %p.button.save.medium{style: 'float: left;height: 33px;width: 100px;' }
+            = link_to "Merge", highjack_person_path(person, highjacker_id: @person.id), method: 'post'
