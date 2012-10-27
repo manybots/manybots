@@ -12,6 +12,8 @@
 //= require general
 //= require_self
 //= require manybots.omnisearch
+//= require manybots_gmail/emails
+//= require manybots_gmail/gmail
 
 $(document).ready(function() {
 

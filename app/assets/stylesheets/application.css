@@ -10,6 +10,8 @@
 *= require jquery.notty
 *= require_self
 *= require manybots.omnisearch
+*= require manybots_gmail/emails
+*= require manybots_gmail/gmail
 */
 
 body {
