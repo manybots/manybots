@@ -9,6 +9,15 @@ GIT
       rails (~> 3.2.1)
 
 GIT
+  remote: git://github.com/webcracy/gmail.git
+  revision: 7e2eea41058a5323f36d29368f6678b6ce315f34
+  specs:
+    gmail (0.4.0)
+      gmail_xoauth (>= 0.3.0)
+      mail (>= 2.2.1)
+      mime (>= 0.1)
+
+GIT
   remote: http://github.com/webcracy/oauth-plugin.git
   revision: fc197d77405e47f9f5d2d7d795a195d4a5f1aa0b
   specs:
@@ -29,19 +38,18 @@ GIT
       vegas (~> 0.1.2)
 
 GIT
+  remote: https://github.com/NikoRoberts/resque-sliders.git
+  revision: 1e289b246641fa2319315fb3c644845dadfc9427
+  specs:
+    resque-sliders (0.2.0)
+      resque
+
+GIT
   remote: https://github.com/rails/dynamic_form.git
   revision: ebb03213ef8268e24c60e5e162b811d199777227
   specs:
     dynamic_form (1.0.0)
       rails (>= 3.0.0)
-
-PATH
-  remote: /Users/alex/code/gem-dev/gmail
-  specs:
-    gmail (0.4.0)
-      gmail_xoauth (>= 0.3.0)
-      mail (>= 2.2.1)
-      mime (>= 0.1)
 
 GEM
   remote: http://rubygems.org/
@@ -78,6 +86,11 @@ GEM
     addressable (2.2.7)
     arel (3.0.2)
     bcrypt-ruby (3.0.1)
+    bootstrap-datepicker-rails (0.6.24)
+      railties (>= 3.0)
+    bson (1.7.0)
+    bson_ext (1.7.0)
+      bson (~> 1.7.0)
     builder (3.0.0)
     chronic (0.6.7)
     coffee-rails (3.2.2)
@@ -87,6 +100,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.3.1)
+    commonjs (0.2.6)
+    country_select (1.0.1)
     daemons (1.1.8)
     devise (1.5.3)
       bcrypt-ruby (~> 3.0)
@@ -100,7 +115,7 @@ GEM
       addressable (~> 2.2)
       multipart-post (~> 1.1)
       rack (~> 1.1)
-    gmail_xoauth (0.3.2)
+    gmail_xoauth (0.4.1)
       oauth (>= 0.3.6)
     haml (3.1.4)
     hike (1.2.1)
@@ -111,25 +126,46 @@ GEM
     i18n (0.6.0)
     journey (1.0.3)
     jquery-rails (2.0.2)
-      railties (< 5.0, >= 3.2.0)
+      railties (>= 3.2.0, < 5.0)
       thor (~> 0.14)
     json (1.6.6)
+    less (2.2.2)
+      commonjs (~> 0.2.6)
+    less-rails (2.2.4)
+      actionpack (>= 3.1)
+      less (~> 2.2.0)
+    libv8 (3.3.10.4)
     mail (2.4.4)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime (0.1)
     mime-types (1.18)
+    mongo (1.7.0)
+      bson (~> 1.7.0)
+    mongo_mapper (0.12.0)
+      activemodel (~> 3.0)
+      activesupport (~> 3.0)
+      plucky (~> 0.5.2)
     multi_json (1.3.2)
     multi_xml (0.4.4)
     multipart-post (1.1.5)
+    nest (1.1.2)
+      redis
     nokogiri (1.5.2)
     oauth (0.4.5)
     oauth2 (0.6.1)
       faraday (~> 0.7)
       httpauth (~> 0.1)
       multi_json (~> 1.3)
+    ohm (1.2.0)
+      nest (~> 1.0)
+      redis
+      scrivener (~> 0.0.3)
+    oj (1.4.3)
     orm_adapter (0.0.7)
+    plucky (0.5.2)
+      mongo (~> 1.5)
     polyglot (0.3.3)
     rack (1.4.1)
     rack-cache (1.2)
@@ -172,21 +208,32 @@ GEM
     rufus-scheduler (2.0.16)
       tzinfo (>= 0.3.23)
     sanitize (2.0.3)
-      nokogiri (< 1.6, >= 1.4.4)
+      nokogiri (>= 1.4.4, < 1.6)
     sass (3.1.15)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
       tilt (~> 1.3)
+    scrivener (0.0.3)
+    simple_form (2.0.4)
+      actionpack (~> 3.0)
+      activemodel (~> 3.0)
     sinatra (1.3.2)
-      rack (>= 1.3.6, ~> 1.3)
+      rack (~> 1.3, >= 1.3.6)
       rack-protection (~> 1.2)
-      tilt (>= 1.3.3, ~> 1.3)
+      tilt (~> 1.3, >= 1.3.3)
+    soulmate (0.1.3)
+      multi_json (>= 1.0)
+      redis (>= 2.0)
+      sinatra (>= 1.0)
+      vegas (>= 0.1.0)
     sprockets (2.1.2)
       hike (~> 1.2)
       rack (~> 1.0)
-      tilt (!= 1.3.0, ~> 1.1)
+      tilt (~> 1.1, != 1.3.0)
     sqlite3 (1.3.6)
+    therubyracer (0.10.2)
+      libv8 (~> 3.3.10)
     thin (1.3.1)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
@@ -196,6 +243,11 @@ GEM
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
+    twitter-bootstrap-rails (2.1.4)
+      actionpack (>= 3.1)
+      less-rails (~> 2.2.3)
+      railties (>= 3.1)
+      therubyracer (>= 0.10.2)
     tzinfo (0.3.33)
     uglifier (1.2.4)
       execjs (>= 0.3.0)
@@ -211,9 +263,12 @@ PLATFORMS
 
 DEPENDENCIES
   acts-as-taggable-on (~> 2.2.2)
+  bootstrap-datepicker-rails
+  bson_ext
   builder
   chronic
   coffee-rails (~> 3.2.1)
+  country_select
   devise (= 1.5.3)
   dynamic_form!
   gmail!
@@ -221,16 +276,24 @@ DEPENDENCIES
   httparty
   jquery-rails
   manybots-gmail (= 0.0.2)!
+  mongo_mapper
   oauth
   oauth-plugin!
+  ohm
+  oj
   rails (= 3.2.3)
   rails_autolink
   resque!
-  resque-scheduler (>= 2.0.0.e)
+  resque-scheduler
+  resque-sliders!
   rest-client
   sanitize
   sass-rails (~> 3.2.3)
+  simple_form
+  soulmate
   sqlite3
+  therubyracer
   thin
+  twitter-bootstrap-rails
   uglifier (>= 1.0.3)
   will_paginate (= 3.0.3)

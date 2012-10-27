@@ -1,3 +1,3 @@
 web: bundle exec thin start -p $PORT
-worker: bundle exec rake resque:work QUEUE=*
 scheduler: bundle exec rake resque:scheduler
+workerwatcher: bundle exec kewatcher -m 8 -n 'resque:Manybots'

@@ -34,22 +34,26 @@ gem 'country_select'
 # Manybots dependencies
 gem 'jquery-rails'
 gem 'rails_autolink'
+
 gem 'resque', :require => "resque/server", :git => "http://github.com/webcracy/resque.git"
-gem 'resque-scheduler', ">= 2.0.0.e"
+gem 'resque-scheduler'
+gem 'resque-sliders', :git => "https://github.com/NikoRoberts/resque-sliders.git"
+
 gem 'soulmate'
 gem 'ohm'
 gem 'rest-client', :require => 'rest_client'
 gem 'sanitize'
 gem 'chronic'
 gem 'httparty'
+gem 'haml'
+gem 'builder'
+gem 'dynamic_form', :git => 'https://github.com/rails/dynamic_form.git'
+
 gem 'devise', '1.5.3'
 gem 'oauth'
 gem 'oauth-plugin', :git => "http://github.com/webcracy/oauth-plugin.git"
 gem 'acts-as-taggable-on', '~> 2.2.2'
 gem 'will_paginate', '3.0.3'
-gem 'haml'
-gem 'builder'
-gem 'dynamic_form', :git => 'https://github.com/rails/dynamic_form.git'
 
 Dir.glob(File.join(File.dirname(__FILE__), "Botfile")) do |gemfile|
   eval(IO.read(gemfile), binding)

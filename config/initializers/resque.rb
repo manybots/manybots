@@ -1,4 +1,7 @@
 require 'resque_scheduler'
+require 'resque/scheduler'
+require 'resque-sliders'
+require 'resque_scheduler/server'
 
 rails_root = ENV['RAILS_ROOT'] || File.dirname(__FILE__) + '/../..'
 rails_env = ENV['RAILS_ENV'] || 'development'
