@@ -164,10 +164,8 @@ class Aggregation < ActiveRecord::Base
           if ag.new_record?
             ag.total = 1
             ag.object_type = obj.class.to_s
-          else
-            ag.total += 1 if ag
+            ag.save
           end
-          ag.save
           obj.aggregations << ag if ag
         end
       end
@@ -178,10 +176,8 @@ class Aggregation < ActiveRecord::Base
         if ag.new_record?
           ag.total = 1
           ag.object_type = obj.class.to_s
-        else
-          ag.total += 1 if ag
+          ag.save
         end
-        ag.save
         obj.aggregations << ag if ag
       end
     end
@@ -195,22 +191,18 @@ class Aggregation < ActiveRecord::Base
         ag.object_type = "ClientApplication"
         ag.path = app.url
         ag.avatar_url = app.app_icon_url
-      else
-        ag.total += 1 if ag
+        ag.save
       end
-      ag.save
+      obj.aggregations << ag if ag
     end
-    obj.aggregations << ag if ag
     
     ## Add aggregation of verb 
     ag = user.aggregations.find_or_initialize_by_name_and_type_string(verb, 'verbs')
     if ag.new_record?
       ag.total = 1
       ag.object_type = obj.class.to_s
-    else
-      ag.total += 1
+      ag.save
     end
-    ag.save
     obj.aggregations << ag if ag
   
     ## Add aggregation of object 
@@ -218,10 +210,8 @@ class Aggregation < ActiveRecord::Base
     if ag.new_record?
       ag.total = 1
       ag.object_type = obj.class.to_s
-    else
-      ag.total += 1
+      ag.save
     end
-    ag.save
     obj.aggregations << ag if ag
   
     ## Add aggregation of target 
@@ -230,10 +220,8 @@ class Aggregation < ActiveRecord::Base
       if ag.new_record?
         ag.total = 1
         ag.object_type = obj.class.to_s
-      else
-        ag.total += 1
+        ag.save
       end
-      ag.save
       obj.aggregations << ag if ag
     end
 
@@ -268,10 +256,8 @@ class Aggregation < ActiveRecord::Base
               if ag.new_record?
                 ag.total = 1
                 ag.object_type = "Person"
-              else
-                ag.total += 1
+                ag.save
               end
-              ag.save
               obj.aggregations << ag
             end
           else
@@ -280,10 +266,8 @@ class Aggregation < ActiveRecord::Base
             if ag.new_record?
               ag.total = 1
               ag.object_type = "Person"
-            else
-              ag.total += 1
+              ag.save
             end
-            ag.save
             obj.aggregations << ag
           end
         end
@@ -309,10 +293,8 @@ class Aggregation < ActiveRecord::Base
           if ag.new_record?
             ag.total = 1
             ag.object_type = "Person"
-          else
-            ag.total += 1
+            ag.save
           end
-          ag.save
           obj.aggregations << ag
         end
       end
