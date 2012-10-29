@@ -2,7 +2,7 @@
 # Manybots observers, visualizations and apps
 #
 
-gem 'manybots-gmail', :git => 'git://github.com/manybots/manybots-gmail.git'
+gem 'manybots_gmail', :git => 'git://github.com/manybots/manybots-gmail.git'
 gem 'gmail', :git => 'git://github.com/webcracy/gmail.git'
 
 # gem 'manybots-github', git: 'git://github.com/manybots/manybots-github.git'

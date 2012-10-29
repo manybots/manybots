@@ -35,7 +35,7 @@ gem 'country_select'
 gem 'jquery-rails'
 gem 'rails_autolink'
 
-gem 'resque', :require => "resque/server", :git => "http://github.com/webcracy/resque.git"
+gem 'resque', :require => "resque/server", :git => "https://github.com/webcracy/resque.git"
 gem 'resque-scheduler'
 gem 'resque-sliders', :git => "https://github.com/NikoRoberts/resque-sliders.git"
 
